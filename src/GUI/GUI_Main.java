@@ -21,7 +21,7 @@ public class GUI_Main extends JFrame implements ActionListener {
 	private DefaultListModel files_model;
 	
 	
-	public GUI_Main() {
+	public GUI_Main(String currentUser) {
 		super("P2P File Transfer");
 		this.setSize(700, 500);
 		this.setLocationRelativeTo(null);
@@ -32,7 +32,7 @@ public class GUI_Main extends JFrame implements ActionListener {
 			}
 		});
 		JList	userJList, fileJList,transferJList;
-		JTable transferJTable;
+		P2PJTable transferJTable;
 		String col[] = {"Source","Destination","File Name", "Progress", "Status"};
 		user_model = new DefaultListModel<>();
 		files_model = new DefaultListModel<>();		
@@ -46,7 +46,7 @@ public class GUI_Main extends JFrame implements ActionListener {
 		files_model.addElement("happy");
 		userJList	= new JList(user_model);
 		fileJList	= new JList(files_model);
-		transferJTable = new JTable(transfer_model);
+		transferJTable = new P2PJTable(transfer_model);
 
 		TableColumn col_aux = transferJTable.getColumnModel().getColumn(3);
 		col_aux.setCellRenderer(new ProgressCellRenderer());
@@ -57,9 +57,6 @@ public class GUI_Main extends JFrame implements ActionListener {
 		fileJPanel.setLayout(new BoxLayout(fileJPanel, BoxLayout.PAGE_AXIS)); // 1 row, any number of columns
 		transferJPanel.setLayout(new BoxLayout(transferJPanel, BoxLayout.PAGE_AXIS));
 		userJPanel.setLayout(new BoxLayout(userJPanel, BoxLayout.PAGE_AXIS));
-		JLabel fileJLable = new JLabel("Available Files");
-		JLabel userJLable = new JLabel("Users");		
-		JLabel transferJLable = new JLabel("Ongoing transfers");
 		fileJPanel.setMinimumSize(new Dimension(defaultJFrameWidth*3/4, defaultJFrameHeight/2-30));
 		transferJPanel.setMinimumSize(new Dimension(defaultJFrameWidth*3/4, defaultJFrameHeight/2-30));
 		userJPanel.setMinimumSize(new Dimension(defaultJFrameWidth/4-30,defaultJFrameHeight));
@@ -67,17 +64,18 @@ public class GUI_Main extends JFrame implements ActionListener {
 		JSplitPane horizJSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, vertJSplitPane, userJPanel);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(horizJSplitPane,BorderLayout.CENTER);
-		fileJPanel.add(fileJLable);
+		fileJPanel.add(new JLabel("Hello "+currentUser));
+		fileJPanel.add(new JLabel("Available Files"));
 		fileJPanel.add(new JScrollPane(fileJList,v,h));
-		userJPanel.add(userJLable);
+		userJPanel.add(new JLabel("Users"));
 		userJPanel.add(new JScrollPane(userJList,v,h));
-		transferJPanel.add(transferJLable);
+		transferJPanel.add(new JLabel("Ongoing transfers"));
 		transferJPanel.add(new JScrollPane(transferJTable,v,h));
 		this.setVisible(true);
 	}
 	
 	public static void main(String[] args) {
-		new GUI_Main();
+		new GUI_Main("Eu");
 		  }
 
 	@Override
