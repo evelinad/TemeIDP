@@ -49,5 +49,13 @@ public class P2PJTable extends JTable {
 		super(dm, cm, sm);
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	@Override  
+    public void changeSelection(int rowIndex, int columnIndex,  
+            boolean toggle, boolean extend)
+	{  
+        super.changeSelection(rowIndex, columnIndex, true, false);  
+    }  
 
 }

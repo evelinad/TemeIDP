@@ -31,7 +31,7 @@ public class GUI_Main extends JFrame implements ActionListener {
 				System.exit(0);
 			}
 		});
-		JList	userJList, fileJList,transferJList;
+		JList	userJList, fileJList;
 		P2PJTable transferJTable;
 		String col[] = {"Source","Destination","File Name", "Progress", "Status"};
 		user_model = new DefaultListModel<>();
@@ -99,15 +99,54 @@ public class GUI_Main extends JFrame implements ActionListener {
 		fileJPanel.add(operationJPanel);
 		fileJPanel.add(fileJPanelLabels2);
 		fileJPanel.add(new JScrollPane(fileJList,v,h));
+		
+		JLabel statusJLabel = new JLabel("Work in progress...");
+		getContentPane().add(statusJLabel, BorderLayout.SOUTH);
 		userJPanel.add(new JLabel("Users"));
 		userJPanel.add(new JScrollPane(userJList,v,h));
 		JPanel transferJPanelLabels = new JPanel(new GridLayout(1,1));
 		transferJPanelLabels.add(new JLabel("Ongoing transfers"));				
 		transferJPanel.add(transferJPanelLabels);
+		//transferJPanel.add(new JScrollPane(transferJTable,v,h));
+		
+		
+		JPanel buttonsJPanel = new JPanel();
+		transferJPanel.add(buttonsJPanel);
+		JButton startJButton = new JButton("Start");
+		startJButton.setToolTipText("Start file transfer");
+		JButton stopJButton = new JButton("Stop");
+		stopJButton.setToolTipText("Stop transferring (Closes connection, download will start from scratch)");
+		JButton pauseJButton = new JButton("Pause");
+		pauseJButton.setToolTipText("Pause download maintaining connection");
+		JButton resumeJButton = new JButton("Resume");
+		resumeJButton.setToolTipText("Resume paused download");
+		buttonsJPanel.add(startJButton);
+		buttonsJPanel.add(stopJButton);
+		buttonsJPanel.add(resumeJButton);
+		buttonsJPanel.add(pauseJButton);
 		transferJPanel.add(new JScrollPane(transferJTable,v,h));
 		
+		//PUSH THE BUTTON!
+		ImageIcon myIcon = new ImageIcon(GUI_Main.class.getResource("/GUI/Play1Normal.png"));
+		Image myImage = myIcon.getImage();
+		Image scaledImage = myImage.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);
+		startJButton.setIcon(new ImageIcon(scaledImage));
+		myIcon = new ImageIcon(GUI_Main.class.getResource("/GUI/Stop1NormalBlue.png"));
+		myImage = myIcon.getImage();
+		scaledImage = myImage.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);
+		stopJButton.setIcon(new ImageIcon(scaledImage));
+		myIcon = new ImageIcon(GUI_Main.class.getResource("/GUI/StepForwardNormalBlue.png"));
+		myImage = myIcon.getImage();
+		scaledImage = myImage.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);
+		resumeJButton.setIcon(new ImageIcon(scaledImage));
+		myIcon = new ImageIcon(GUI_Main.class.getResource("/GUI/Pause.png"));
+		myImage = myIcon.getImage();
+		scaledImage = myImage.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);
+		pauseJButton.setIcon(new ImageIcon(scaledImage));
 		
 		this.setVisible(true);
+		
+		transferJTable.setRowSelectionAllowed(true);
 	}
 	
 	public static void main(String[] args) {
