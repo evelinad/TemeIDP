@@ -64,13 +64,49 @@ public class GUI_Main extends JFrame implements ActionListener {
 		JSplitPane horizJSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, vertJSplitPane, userJPanel);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(horizJSplitPane,BorderLayout.CENTER);
-		fileJPanel.add(new JLabel("Hello "+currentUser));
-		fileJPanel.add(new JLabel("Available Files"));
+		JRadioButton sendJRadioButton = new JRadioButton("Send file");
+		JRadioButton receiveJRadioButton = new JRadioButton("Receive file");
+		sendJRadioButton.setSelected(true);
+		JPanel operationJPanel = new JPanel(new GridLayout(0,2));
+		operationJPanel.add(sendJRadioButton);
+		operationJPanel.add(receiveJRadioButton);
+		ButtonGroup buttonGroup = new ButtonGroup();
+		buttonGroup.add(sendJRadioButton);
+		buttonGroup.add(receiveJRadioButton);
+		sendJRadioButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("ma ta");
+				
+			}
+		});
+		receiveJRadioButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("ma ta");
+			}
+		});
+		JPanel fileJPanelLabels = new JPanel(new GridLayout(2,0));
+		fileJPanelLabels.add(new JLabel("Hello "+currentUser));
+		fileJPanelLabels.add(new JLabel("Select current operation"));
+		JPanel fileJPanelLabels2 = new JPanel(new GridLayout(1,0));
+		fileJPanelLabels2.add(new JLabel("Available files"));
+		fileJPanel.add(fileJPanelLabels);
+		fileJPanel.add(operationJPanel);
+		fileJPanel.add(fileJPanelLabels2);
 		fileJPanel.add(new JScrollPane(fileJList,v,h));
 		userJPanel.add(new JLabel("Users"));
 		userJPanel.add(new JScrollPane(userJList,v,h));
-		transferJPanel.add(new JLabel("Ongoing transfers"));
+		JPanel transferJPanelLabels = new JPanel(new GridLayout(1,1));
+		transferJPanelLabels.add(new JLabel("Ongoing transfers"));				
+		transferJPanel.add(transferJPanelLabels);
 		transferJPanel.add(new JScrollPane(transferJTable,v,h));
+		
+		
 		this.setVisible(true);
 	}
 	
