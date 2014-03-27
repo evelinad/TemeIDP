@@ -95,7 +95,7 @@ public class GUI_Main extends JFrame implements ActionListener {
 	}
 	
 	public static void main(String[] args) {
-		
+		new GUI_Main();
 		  }
 
 	@Override

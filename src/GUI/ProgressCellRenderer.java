@@ -37,7 +37,7 @@ public class ProgressCellRenderer extends JProgressBar implements
 			setValue(progress);
 			setString(val);
 		}
-		return null;
+		return this;
 	}
 
 	
