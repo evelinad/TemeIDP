@@ -14,11 +14,11 @@ public class GUI_Main extends JFrame implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = -8118352433755008641L;
-	private JTable transfers;
-	private DefaultTableModel table_model;
-	private DefaultListModel user_model = new DefaultListModel<>();
-	private DefaultListModel files_model = new DefaultListModel<>();
-	private String col[] = {"Source","Destination","File Name", "Progress", "Status"};
+	private int defaultJFrameHeight = 500;
+	private int defaultJFrameWidth = 700;
+	private DefaultTableModel transfer_model;
+	private DefaultListModel user_model;
+	private DefaultListModel files_model;
 	
 	
 	public GUI_Main() {
@@ -31,66 +31,48 @@ public class GUI_Main extends JFrame implements ActionListener {
 				System.exit(0);
 			}
 		});
+		JList	userJList, fileJList,transferJList;
+		JTable transferJTable;
+		String col[] = {"Source","Destination","File Name", "Progress", "Status"};
+		user_model = new DefaultListModel<>();
+		files_model = new DefaultListModel<>();		
+		transfer_model = new DefaultTableModel(col, 0);
+		transfer_model.addRow(new Object[]{"me","you","happy","20%","Sending..."} );
+		int v=ScrollPaneConstants. VERTICAL_SCROLLBAR_AS_NEEDED;
+		int h=ScrollPaneConstants. HORIZONTAL_SCROLLBAR_AS_NEEDED;	
 		
 		user_model.addElement("me");
 		user_model.addElement("you");
 		files_model.addElement("happy");
-		
-		
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] {497, 224};
-		gridBagLayout.rowHeights = new int[] {233, 212, 20};
-		gridBagLayout.columnWeights = new double[]{1.0, 1.0};
-		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0};
-		getContentPane().setLayout(gridBagLayout);
-		
-		JList files = new JList(files_model);
-		GridBagConstraints gbc_files = new GridBagConstraints();
-		gbc_files.insets = new Insets(0, 0, 5, 5);
-		gbc_files.fill = GridBagConstraints.BOTH;
-		gbc_files.gridx = 0;
-		gbc_files.gridy = 0;
-		getContentPane().add(files, gbc_files);
-		
-		JList users = new JList(user_model);
-		GridBagConstraints gbc_users = new GridBagConstraints();
-		gbc_users.gridheight = 2;
-		gbc_users.insets = new Insets(0, 0, 5, 0);
-		gbc_users.fill = GridBagConstraints.BOTH;
-		gbc_users.gridx = 1;
-		gbc_users.gridy = 0;
-		getContentPane().add(users, gbc_users);
-		
-		table_model = new DefaultTableModel(col, 0);
-		
-		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 1;
-		getContentPane().add(panel, gbc_panel);
-		panel.setLayout(new BorderLayout(0, 0));
-				
-		transfers = new JTable(table_model);
-		table_model.addRow(new Object[]{"me","you","happy","20%","Sending..."} );
-		
-		TableColumn col_aux = transfers.getColumnModel().getColumn(3);
+		userJList	= new JList(user_model);
+		fileJList	= new JList(files_model);
+		transferJTable = new JTable(transfer_model);
+
+		TableColumn col_aux = transferJTable.getColumnModel().getColumn(3);
 		col_aux.setCellRenderer(new ProgressCellRenderer());
-
-		JScrollPane scrollPane = new JScrollPane(transfers);
-		panel.add(scrollPane);
 		
-		JLabel lblWorkInProgress = new JLabel("Work in progress...");
-		GridBagConstraints gbc_lblWorkInProgress = new GridBagConstraints();
-		gbc_lblWorkInProgress.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblWorkInProgress.gridwidth = 2;
-		gbc_lblWorkInProgress.insets = new Insets(0, 0, 0, 5);
-		gbc_lblWorkInProgress.gridx = 0;
-		gbc_lblWorkInProgress.gridy = 2;
-		getContentPane().add(lblWorkInProgress, gbc_lblWorkInProgress);
-		
-
+		JPanel fileJPanel = new JPanel();
+		JPanel transferJPanel = new JPanel();
+		JPanel userJPanel = new JPanel();
+		fileJPanel.setLayout(new BoxLayout(fileJPanel, BoxLayout.PAGE_AXIS)); // 1 row, any number of columns
+		transferJPanel.setLayout(new BoxLayout(transferJPanel, BoxLayout.PAGE_AXIS));
+		userJPanel.setLayout(new BoxLayout(userJPanel, BoxLayout.PAGE_AXIS));
+		JLabel fileJLable = new JLabel("Available Files");
+		JLabel userJLable = new JLabel("Users");		
+		JLabel transferJLable = new JLabel("Ongoing transfers");
+		fileJPanel.setMinimumSize(new Dimension(defaultJFrameWidth*3/4, defaultJFrameHeight/2-30));
+		transferJPanel.setMinimumSize(new Dimension(defaultJFrameWidth*3/4, defaultJFrameHeight/2-30));
+		userJPanel.setMinimumSize(new Dimension(defaultJFrameWidth/4-30,defaultJFrameHeight));
+		JSplitPane vertJSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,fileJPanel,transferJPanel);
+		JSplitPane horizJSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, vertJSplitPane, userJPanel);
+		getContentPane().setLayout(new BorderLayout());
+		getContentPane().add(horizJSplitPane,BorderLayout.CENTER);
+		fileJPanel.add(fileJLable);
+		fileJPanel.add(new JScrollPane(fileJList,v,h));
+		userJPanel.add(userJLable);
+		userJPanel.add(new JScrollPane(userJList,v,h));
+		transferJPanel.add(transferJLable);
+		transferJPanel.add(new JScrollPane(transferJTable,v,h));
 		this.setVisible(true);
 	}
 	
