@@ -138,7 +138,6 @@ public class GUI_Main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO de inserat in JTable 
 				
-				
 			}
 		};
 		addJButton.addActionListener(addButtonListener);
