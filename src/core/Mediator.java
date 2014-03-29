@@ -3,6 +3,7 @@ package core;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
+import javax.swing.table.DefaultTableModel;
 
 import com.sun.org.apache.xml.internal.serializer.ToUnknownStream;
 
@@ -23,7 +24,7 @@ public class Mediator {
 	private DefaultListModel user_model;
 	private DefaultListModel files_model;
 	private TransferManager transferManager;
-	private P2PJTable transfer_model;
+	private DefaultTableModel transfer_model;
 	public Mediator() {
 		// TODO Auto-generated constructor stub
 		stateMgr = new StateManager(this);
@@ -72,28 +73,32 @@ public class Mediator {
 		
 	}
 	
-	public void setTransferModel(DefaultListModel dm)
+	public void setTransferModel(DefaultTableModel dm)
 	{
-		
+		this.transfer_model = dm;
 	}
 	
 	public void stopSelectedTransfer()
 	{
 		transferManager.stop();
+		transfer_model.setValueAt("Stopped", transferManager.getSelectedTransfer(), 4);
 	}
 	public void startSelectedTransfer()
 	{
 		transferManager.start();
+		transfer_model.setValueAt(transferManager.getTransferType(), transferManager.getSelectedTransfer(), 4);
 	}
 	
 	public void resumeSelectedTransfer()
 	{
 		transferManager.resume();
+		transfer_model.setValueAt(transferManager.getTransferType(), transferManager.getSelectedTransfer(), 4);
 	}
 	
 	public void pauseSelectedTransfer()
 	{
 		transferManager.pause();
+		transfer_model.setValueAt("Stopped", transferManager.getSelectedTransfer(), 4);
 	}
 	public void updateTransferSelectedUser(String user)
 	{
@@ -108,7 +113,7 @@ public class Mediator {
 
 	public void doTransfer()
 	{
-		transferManager.addNewTransfer(stateMgr.getFromValue(), stateMgr.getToValue(), stateMgr.getFileValue());
+		transferManager.addNewTransfer(stateMgr.getFromValue(), stateMgr.getToValue(), stateMgr.getFileValue(), 0);
 }
 	
 	public void setToValue(String to)
@@ -135,5 +140,10 @@ public class Mediator {
 		stateMgr.setReceiveState();
 		
 	}
+	
+	public void updateProgress(int progress, int row) {
+		transfer_model.setValueAt(progress, row, 3);
+	}
+	
 
 }

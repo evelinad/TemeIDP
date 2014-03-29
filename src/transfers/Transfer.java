@@ -1,31 +1,60 @@
 package transfers;
 
-import javax.swing.SwingWorker;
+import java.util.Random;
+
+import core.Mediator;
 
 //SwingWorker<Integer, Integer>
-public class Transfer implements TransferStatusConstans{
+public class Transfer extends Thread implements TransferStatusConstans{
 
-	String file;
-	String toUser;
-	String fromUser;
-	int status;
-	int progress;
+	private String file;
+	private String toUser;
+	private String fromUser;
+	private Mediator med;
+	private int index;
+	private String type;
+	/**
+	 * 0 - stopped;
+	 * 1 - downloading;
+	 * 2 - paused;
+	 * 3 - completed;
+	 */
+	private int status;
+	private int progress;
 	
-	public Transfer(String file,String fromUser,String toUser) {
+	public Transfer(String file,String fromUser,String toUser, Mediator med, int type) {
 			this.file = file;
 			this.toUser = toUser;
 			this.fromUser = fromUser;
 			status = STARTED;
+			this.med = med;
+			if (type == DOWNLOAD)
+				this.type = new String("Downloading");
+			else
+				this.type = new String("Uploading");
 			
 	}
 	
 	public void updateProgress(int unit)
 	{
-		progress+=unit;
+		progress += unit;
+		if (progress >= 100)
+		{
+			progress = 100;
+			status = COMPLETED;
+		}
+		med.updateProgress(progress, index);
 	}
 	public void updateStatus(int status)
 	{
 		this.status = status;
+	}
+	
+	public boolean isCompleted() {
+		if (progress == 100) {
+			return true;
+		}
+		return false;
 	}
 	
 	public int getProgress()
@@ -36,4 +65,26 @@ public class Transfer implements TransferStatusConstans{
 	{
 		return this.status;
 	}	
+	
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
+	public String getType()
+	{
+		return type;
+	}
+
+	@Override
+	public void run() {
+		// TODO Actually do something
+		Random rand = new Random();
+		while(true)
+		{
+			if (status == ACTIVE) {
+				updateProgress(rand.nextInt(5));
+			}
+		}
+		
+	}
 }
