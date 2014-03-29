@@ -178,14 +178,11 @@ public class GUI_Main extends JFrame {
 				((Command)e.getSource()).execute();
 			}
 		};
-		JButton addJButton = new JButton("Add new operation");
-		addJButton.addActionListener(buttonListener);
 		JPanel fileJPanelLabels = new JPanel(new GridLayout(2,0));
 		fileJPanelLabels.add(new JLabel("Hello "+currentUser));
 		fileJPanelLabels.add(new JLabel("Select current operation"));
 		
 		JPanel fileJPanelLabels2 = new JPanel(new GridLayout(2,0));
-		fileJPanelLabels2.add(addJButton);	
 		fileJPanelLabels2.add(new JLabel("Available files"));
 		fileJPanel.add(fileJPanelLabels);
 		fileJPanel.add(operationJPanel);
