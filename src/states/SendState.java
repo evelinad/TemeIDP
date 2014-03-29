@@ -7,6 +7,7 @@ public class SendState extends State{
 	public SendState(Mediator med) {
 		// TODO Auto-generated constructor stub
 		super(med);
+		type = 1;
 	}
 
 	@Override

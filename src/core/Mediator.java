@@ -78,6 +78,11 @@ public class Mediator {
 		this.transfer_model = dm;
 	}
 	
+	public void setSelectedTransfer(int index)
+	{
+		transferManager.setSelectedTransfer(index);
+	}
+	
 	public void stopSelectedTransfer()
 	{
 		transferManager.stop();
@@ -98,7 +103,7 @@ public class Mediator {
 	public void pauseSelectedTransfer()
 	{
 		transferManager.pause();
-		transfer_model.setValueAt("Stopped", transferManager.getSelectedTransfer(), 4);
+		transfer_model.setValueAt("Paused", transferManager.getSelectedTransfer(), 4);
 	}
 	public void updateTransferSelectedUser(String user)
 	{
@@ -113,8 +118,23 @@ public class Mediator {
 
 	public void doTransfer()
 	{
-		transferManager.addNewTransfer(stateMgr.getFromValue(), stateMgr.getToValue(), stateMgr.getFileValue(), 0);
-}
+		int type = stateMgr.getCurrentState().getType();
+		transferManager.addNewTransfer(stateMgr.getFromValue(), stateMgr.getToValue(), stateMgr.getFileValue(), type);
+		if (type == 0)
+			transfer_model.addRow(new Object[] {
+									stateMgr.getFromValue(),
+									stateMgr.getToValue(),
+									stateMgr.getFileValue(),
+									"0%",
+									"Downloading"});
+		else
+			transfer_model.addRow(new Object[] {
+									stateMgr.getFromValue(),
+									stateMgr.getToValue(),
+									stateMgr.getFileValue(),
+									"0%",
+									"Uploading"});
+	}
 	
 	public void setToValue(String to)
 	{

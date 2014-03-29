@@ -12,12 +12,17 @@ public class Transfer extends Thread implements TransferStatusConstans{
 	private String fromUser;
 	private Mediator med;
 	private int index;
+	/**
+	 * 0 - Download; 
+	 * 1 - Upload; 
+	 */
 	private String type;
 	/**
-	 * 0 - stopped;
-	 * 1 - downloading;
+	 * 0 - started;
+	 * 1 - active;
 	 * 2 - paused;
-	 * 3 - completed;
+	 * 3 - stopped;
+	 * 4 - completed;
 	 */
 	private int status;
 	private int progress;

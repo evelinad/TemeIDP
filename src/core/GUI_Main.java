@@ -44,7 +44,7 @@ public class GUI_Main extends JFrame {
 			}
 		});
 		final JList	userJList, fileJList;
-		P2PJTable transferJTable;
+		final P2PJTable transferJTable;
 		String col[] = {"Source","Destination","File Name", "Progress", "Status"};
 		med = new Mediator();
 		user_model = new DefaultListModel<>();
@@ -53,11 +53,12 @@ public class GUI_Main extends JFrame {
 		med.setUserModel(user_model);
 		med.setCurrentUser("user1");
 		transfer_model = new DefaultTableModel(col, 0);
-		transfer_model.addRow(new Object[]{"me","you","happy","20%","Sending..."} );
+		med.setTransferModel(transfer_model);
+		/*transfer_model.addRow(new Object[]{"me","you","happy","20%","Sending..."} );*/
 		int v=ScrollPaneConstants. VERTICAL_SCROLLBAR_AS_NEEDED;
 		int h=ScrollPaneConstants. HORIZONTAL_SCROLLBAR_AS_NEEDED;	
 		
-		files_model.addElement("happy");
+		/*files_model.addElement("happy");*/
 		userJList	= new JList(user_model);
 		fileJList	= new JList(files_model);
 		transferJTable = new P2PJTable(transfer_model);
@@ -211,6 +212,41 @@ public class GUI_Main extends JFrame {
 		this.setVisible(true);
 		
 		transferJTable.setRowSelectionAllowed(true);
+		transferJTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		MouseListener tableMouseListener = new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				med.setSelectedTransfer(transferJTable.getSelectedRow());
+			}
+		};
+		transferJTable.addMouseListener(tableMouseListener);
+		/*transfer_model.addRow(new Object[] {"1","2","3","69%","Ma-ta"});*/
 	}
 	
 	public static void main(String[] args) {
