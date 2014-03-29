@@ -28,8 +28,7 @@ public class TransferManager implements TransferStatusConstans{
 			return false;
 		transfer.setIndex(transfers.size());
 		transfers.add(transfer);
-		transfer.start();
-		transfer.updateStatus(ACTIVE);
+		transfer.updateStatus(STARTED);
 		return true;
 	}
 	public void setSelectedTransfer(int index)
@@ -50,9 +49,9 @@ public class TransferManager implements TransferStatusConstans{
 	public String start()
 	{
 		if(selectedTransfer >= 0
-				&& (transfers.get(selectedTransfer).getStatus() == STARTED
-				|| transfers.get(selectedTransfer).getStatus() == STOPPED))
+				&& transfers.get(selectedTransfer).getStatus() == STARTED)
 		{
+			transfers.get(selectedTransfer).start();
 			transfers.get(selectedTransfer).updateStatus(ACTIVE);
 			return transfers.get(selectedTransfer).getType();
 		}

@@ -156,7 +156,9 @@ public class GUI_Main extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-
+				fileJList.clearSelection();
+				userJList.clearSelection();
+				files_model.clear();
 				((Command)e.getSource()).execute();
 				
 			}
@@ -176,6 +178,8 @@ public class GUI_Main extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO de inserat in JTable 
+				fileJList.clearSelection();
+				userJList.clearSelection();				
 				((Command)e.getSource()).execute();
 			}
 		};
@@ -199,11 +203,11 @@ public class GUI_Main extends JFrame {
 		transferJPanel.add(transferJPanelLabels);
 		JPanel buttonsJPanel = new JPanel();
 		transferJPanel.add(buttonsJPanel);
-		AddButton addButton = new AddButton("Add",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/core/AddIcon.png")));
-		StartButton startButton = new StartButton("Start",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/core/Play1Normal.png")));
-		StopButton stopButton = new StopButton("Stop",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/core/Stop1NormalBlue.png")));
-		PauseButton pauseButton = new PauseButton("Pause",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/core/Pause.png")));
-		ResumeButton resumeButton = new ResumeButton("Resume",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/core/StepForwardNormalBlue.png")));
+		AddButton addButton = new AddButton("Add",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/res/AddIcon.png")));
+		StartButton startButton = new StartButton("Start",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/res/Play1Normal.png")));
+		StopButton stopButton = new StopButton("Stop",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/res/Stop1NormalBlue.png")));
+		PauseButton pauseButton = new PauseButton("Pause",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/res/Pause.png")));
+		ResumeButton resumeButton = new ResumeButton("Resume",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/res/StepForwardNormalBlue.png")));
 		buttonsJPanel.add(addButton);
 		buttonsJPanel.add(startButton);
 		buttonsJPanel.add(stopButton);

@@ -124,14 +124,14 @@ public class Mediator {
 									stateMgr.getToValue(),
 									stateMgr.getFileValue(),
 									"0%",
-									"Downloading"});
+									"Pending"});
 		else
 			transfer_model.addRow(new Object[] {
 									stateMgr.getFromValue(),
 									stateMgr.getToValue(),
 									stateMgr.getFileValue(),
 									"0%",
-									"Uploading"});
+									"Pending"});
 	}
 	
 	public void setToValue(String to)
