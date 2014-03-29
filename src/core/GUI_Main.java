@@ -8,13 +8,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import buttons.PauseButton;
 import buttons.ResumeButton;
+import buttons.AddButton;
 import buttons.StartButton;
 import buttons.StopButton;
 import radiobuttons.ReceiveRadioButton;
@@ -199,10 +198,12 @@ public class GUI_Main extends JFrame {
 		transferJPanel.add(transferJPanelLabels);
 		JPanel buttonsJPanel = new JPanel();
 		transferJPanel.add(buttonsJPanel);
+		AddButton addButton = new AddButton("Add",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/core/AddIcon.png")));
 		StartButton startButton = new StartButton("Start",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/core/Play1Normal.png")));
 		StopButton stopButton = new StopButton("Stop",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/core/Stop1NormalBlue.png")));
 		PauseButton pauseButton = new PauseButton("Pause",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/core/Pause.png")));
 		ResumeButton resumeButton = new ResumeButton("Resume",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/core/StepForwardNormalBlue.png")));
+		buttonsJPanel.add(addButton);
 		buttonsJPanel.add(startButton);
 		buttonsJPanel.add(stopButton);
 		buttonsJPanel.add(resumeButton);

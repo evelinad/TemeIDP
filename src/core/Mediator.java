@@ -1,19 +1,11 @@
 package core;
 
-import java.util.ArrayList;
-
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
-import com.sun.org.apache.xml.internal.serializer.ToUnknownStream;
+import com.sun.corba.se.spi.orbutil.fsm.State;
 
-import radiobuttons.ReceiveRadioButton;
-import radiobuttons.SendRadioButton;
-import states.ReceiveState;
-import states.SendState;
 import states.StateManager;
-import tables.P2PJTable;
-import transfers.Transfer;
 import transfers.TransferManager;
 import users.User;
 
@@ -85,25 +77,27 @@ public class Mediator {
 	
 	public void stopSelectedTransfer()
 	{
-		transferManager.stop();
-		transfer_model.setValueAt("Stopped", transferManager.getSelectedTransfer(), 4);
+		if (transferManager.stop())
+			transfer_model.setValueAt("Stopped", transferManager.getSelectedTransfer(), 4);
 	}
 	public void startSelectedTransfer()
 	{
-		transferManager.start();
-		transfer_model.setValueAt(transferManager.getTransferType(), transferManager.getSelectedTransfer(), 4);
+		String type = transferManager.start();
+		if (type != null)
+			transfer_model.setValueAt(transferManager.getTransferType(), transferManager.getSelectedTransfer(), 4);
 	}
 	
 	public void resumeSelectedTransfer()
 	{
-		transferManager.resume();
-		transfer_model.setValueAt(transferManager.getTransferType(), transferManager.getSelectedTransfer(), 4);
+		String type = transferManager.resume();
+		if (type != null)
+			transfer_model.setValueAt(type, transferManager.getSelectedTransfer(), 4);
 	}
 	
 	public void pauseSelectedTransfer()
 	{
-		transferManager.pause();
-		transfer_model.setValueAt("Paused", transferManager.getSelectedTransfer(), 4);
+		if (transferManager.pause())
+			transfer_model.setValueAt("Paused", transferManager.getSelectedTransfer(), 4);
 	}
 	public void updateTransferSelectedUser(String user)
 	{
@@ -118,8 +112,12 @@ public class Mediator {
 
 	public void doTransfer()
 	{
-		int type = stateMgr.getCurrentState().getType();
-		transferManager.addNewTransfer(stateMgr.getFromValue(), stateMgr.getToValue(), stateMgr.getFileValue(), type);
+		states.State currentState = stateMgr.getCurrentState();
+		if (currentState ==  null)
+			return;
+		int type = currentState.getType();
+		if (!(transferManager.addNewTransfer(stateMgr.getFromValue(), stateMgr.getToValue(), stateMgr.getFileValue(), type)))
+			return;
 		if (type == 0)
 			transfer_model.addRow(new Object[] {
 									stateMgr.getFromValue(),
@@ -162,7 +160,7 @@ public class Mediator {
 	}
 	
 	public void updateProgress(int progress, int row) {
-		transfer_model.setValueAt(progress, row, 3);
+		transfer_model.setValueAt(Integer.toString(progress) + '%', row, 3);
 	}
 	
 

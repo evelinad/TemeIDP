@@ -25,7 +25,7 @@ public class Transfer extends Thread implements TransferStatusConstans{
 	 * 4 - completed;
 	 */
 	private int status;
-	private int progress;
+	private int progress = 0;
 	
 	public Transfer(String file,String fromUser,String toUser, Mediator med, int type) {
 			this.file = file;
@@ -86,8 +86,16 @@ public class Transfer extends Thread implements TransferStatusConstans{
 		Random rand = new Random();
 		while(true)
 		{
+			//System.out.println("thread " + index + " status " + status);
 			if (status == ACTIVE) {
+				//System.out.println("thread " + index + " entered if");
 				updateProgress(rand.nextInt(5));
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
 			}
 		}
 		
