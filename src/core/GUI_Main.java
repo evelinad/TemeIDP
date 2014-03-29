@@ -19,6 +19,7 @@ import buttons.StopButton;
 import radiobuttons.ReceiveRadioButton;
 import radiobuttons.SendRadioButton;
 import tables.P2PJTable;
+import test.Test;
 
 public class GUI_Main extends JFrame {
 	/**
@@ -247,7 +248,9 @@ public class GUI_Main extends JFrame {
 			}
 		};
 		transferJTable.addMouseListener(tableMouseListener);
-		/*transfer_model.addRow(new Object[] {"1","2","3","69%","Ma-ta"});*/
+		
+		Test tester = new Test(med);
+		tester.execute();
 	}
 	
 	public static void main(String[] args) {
