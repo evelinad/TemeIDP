@@ -1,4 +1,4 @@
-package app;
+package core;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,8 +13,13 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import buttons.PauseButton;
+import buttons.ResumeButton;
+import buttons.StartButton;
+import buttons.StopButton;
 import radiobuttons.ReceiveRadioButton;
 import radiobuttons.SendRadioButton;
+import tables.P2PJTable;
 
 public class GUI_Main extends JFrame {
 	/**
@@ -88,7 +93,7 @@ public class GUI_Main extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println(userJList.getSelectedIndex()+"baa");
-				med.updateTransfer(userJList.getSelectedValue().toString());
+				med.updateTransferSelectedUser(userJList.getSelectedValue().toString());
 				
 			}
 		};
@@ -122,8 +127,6 @@ public class GUI_Main extends JFrame {
 		
 		SendRadioButton sendJRadioButton = new SendRadioButton("Send file",radioButtonListener,med);
 		ReceiveRadioButton receiveJRadioButton = new ReceiveRadioButton("Receive file",radioButtonListener,med);
-		med.registerReceiveRadioButton(receiveJRadioButton);
-		med.registerSendRadioButton(sendJRadioButton);
 		
 		JPanel operationJPanel = new JPanel(new GridLayout(0,2));
 		operationJPanel.add(sendJRadioButton);
@@ -131,16 +134,17 @@ public class GUI_Main extends JFrame {
 		ButtonGroup buttonGroup = new ButtonGroup();
 		buttonGroup.add(sendJRadioButton);
 		buttonGroup.add(receiveJRadioButton);
-		JButton addJButton = new JButton("Add new operation");
-		ActionListener addButtonListener = new ActionListener() {
+		ActionListener buttonListener = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO de inserat in JTable 
-				
+				med.setFileValue(fileJList.getSelectedValue().toString());
+				med.doTransfer();
 			}
 		};
-		addJButton.addActionListener(addButtonListener);
+		JButton addJButton = new JButton("Add new operation");
+		addJButton.addActionListener(buttonListener);
 		JPanel fileJPanelLabels = new JPanel(new GridLayout(2,0));
 		fileJPanelLabels.add(new JLabel("Hello "+currentUser));
 		fileJPanelLabels.add(new JLabel("Select current operation"));
@@ -165,38 +169,34 @@ public class GUI_Main extends JFrame {
 		
 		JPanel buttonsJPanel = new JPanel();
 		transferJPanel.add(buttonsJPanel);
-		JButton startJButton = new JButton("Start");
-		startJButton.setToolTipText("Start file transfer");
-		JButton stopJButton = new JButton("Stop");
-		stopJButton.setToolTipText("Stop transferring (Closes connection, download will start from scratch)");
-		JButton pauseJButton = new JButton("Pause");
-		pauseJButton.setToolTipText("Pause download maintaining connection");
-		JButton resumeJButton = new JButton("Resume");
-		resumeJButton.setToolTipText("Resume paused download");
-		buttonsJPanel.add(startJButton);
-		buttonsJPanel.add(stopJButton);
-		buttonsJPanel.add(resumeJButton);
-		buttonsJPanel.add(pauseJButton);
+		StartButton startButton = new StartButton("Start",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/core/Play1Normal.png")));
+		StopButton stopButton = new StopButton("Stop",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/core/Stop1NormalBlue.png")));
+		PauseButton pauseButton = new PauseButton("Pause",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/core/Pause.png")));
+		ResumeButton resumeButton = new ResumeButton("Resume",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/core/StepForwardNormalBlue.png")));
+		buttonsJPanel.add(startButton);
+		buttonsJPanel.add(stopButton);
+		buttonsJPanel.add(resumeButton);
+		buttonsJPanel.add(pauseButton);
 		transferJPanel.add(new JScrollPane(transferJTable,v,h));
 		
 		//PUSH THE BUTTON!
-		ImageIcon myIcon = new ImageIcon(GUI_Main.class.getResource("/app/Play1Normal.png"));
+/*		ImageIcon myIcon = new ImageIcon(GUI_Main.class.getResource("/core/Play1Normal.png"));
 		Image myImage = myIcon.getImage();
 		Image scaledImage = myImage.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);
-		startJButton.setIcon(new ImageIcon(scaledImage));
-		myIcon = new ImageIcon(GUI_Main.class.getResource("/app/Stop1NormalBlue.png"));
+		startButton.setIcon(new ImageIcon(scaledImage));
+		myIcon = new ImageIcon(GUI_Main.class.getResource("/core/Stop1NormalBlue.png"));
 		myImage = myIcon.getImage();
 		scaledImage = myImage.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);
-		stopJButton.setIcon(new ImageIcon(scaledImage));
-		myIcon = new ImageIcon(GUI_Main.class.getResource("/app/StepForwardNormalBlue.png"));
+		stopButton.setIcon(new ImageIcon(scaledImage));
+		myIcon = new ImageIcon(GUI_Main.class.getResource("/core/StepForwardNormalBlue.png"));
 		myImage = myIcon.getImage();
 		scaledImage = myImage.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);
-		resumeJButton.setIcon(new ImageIcon(scaledImage));
-		myIcon = new ImageIcon(GUI_Main.class.getResource("/app/Pause.png"));
+		resumeButton.setIcon(new ImageIcon(scaledImage));
+		myIcon = new ImageIcon(GUI_Main.class.getResource("/core/Pause.png"));
 		myImage = myIcon.getImage();
 		scaledImage = myImage.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);
-		pauseJButton.setIcon(new ImageIcon(scaledImage));
-		
+		pauseButton.setIcon(new ImageIcon(scaledImage));
+		*/
 		this.setVisible(true);
 		
 		transferJTable.setRowSelectionAllowed(true);

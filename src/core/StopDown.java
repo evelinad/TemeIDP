@@ -1,10 +1,10 @@
-package app;
+package core;
 
 import javax.swing.table.DefaultTableModel;
 
-public class stopDown extends Transfers {
+public class StopDown extends Transfers {
 
-	public stopDown(DefaultTableModel model, int index) {
+	public StopDown(DefaultTableModel model, int index) {
 		super(model, index);
 		// TODO Auto-generated constructor stub
 	}

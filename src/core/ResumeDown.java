@@ -1,10 +1,10 @@
-package app;
+package core;
 
 import javax.swing.table.DefaultTableModel;
 
-public class pauseDown extends Transfers {
+public class ResumeDown extends Transfers {
 
-	public pauseDown(DefaultTableModel model, int index) {
+	public ResumeDown(DefaultTableModel model, int index) {
 		super(model, index);
 		// TODO Auto-generated constructor stub
 	}

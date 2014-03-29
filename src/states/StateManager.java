@@ -1,6 +1,6 @@
 package states;
 
-import app.Mediator;
+import core.Mediator;
 
 public class StateManager {
 	private State currentState;

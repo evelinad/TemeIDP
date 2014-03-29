@@ -1,6 +1,6 @@
 package states;
 
-import app.Mediator;
+import core.Mediator;
 
 public class SendState extends State{
 
@@ -10,7 +10,7 @@ public class SendState extends State{
 	}
 
 	@Override
-	public void updateTransfer(String user) {
+	public void updateTransferSelectedUser(String user) {
 		// TODO Auto-generated method stub
 		med.setFromValue(med.getCurrentUser());
 		med.setToValue(user);

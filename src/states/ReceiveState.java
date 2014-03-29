@@ -1,6 +1,6 @@
 package states;
 
-import app.Mediator;
+import core.Mediator;
 
 public class ReceiveState extends State{
 
@@ -9,7 +9,7 @@ public class ReceiveState extends State{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateTransfer(String user)
+	public void updateTransferSelectedUser(String user)
 	{
 		med.addFilesToModel(user);
 		med.setFromValue(user);

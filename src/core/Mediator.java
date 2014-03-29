@@ -1,4 +1,4 @@
-package app;
+package core;
 
 import java.util.ArrayList;
 
@@ -11,23 +11,24 @@ import radiobuttons.SendRadioButton;
 import states.ReceiveState;
 import states.SendState;
 import states.StateManager;
+import tables.P2PJTable;
 import transfers.Transfer;
+import transfers.TransferManager;
 import users.User;
 
 public class Mediator {
 
-	private ReceiveRadioButton receiveRadioButton;
-	private SendRadioButton sendRadioButton;
 	private StateManager stateMgr;
 	private UserArrayList users;
-	private ArrayList<Transfer> transfers;
 	private DefaultListModel user_model;
 	private DefaultListModel files_model;
+	private TransferManager transferManager;
+	private P2PJTable transfer_model;
 	public Mediator() {
 		// TODO Auto-generated constructor stub
 		stateMgr = new StateManager(this);
 		users = new UserArrayList();
-		transfers = new ArrayList<Transfer>();
+		transferManager = new TransferManager(this);
 		users.add(new User("user1"));
 		users.add(new User("user2"));
 		users.add(new User("user3"));
@@ -70,22 +71,45 @@ public class Mediator {
 		addUsersToModel();
 		
 	}
-	public void updateTransfer(String user)
+	
+	public void setTransferModel(DefaultListModel dm)
 	{
-		stateMgr.getCurrentState().updateTransfer(user);
+		
 	}
+	
+	public void stopSelectedTransfer()
+	{
+		transferManager.stop();
+	}
+	public void startSelectedTransfer()
+	{
+		transferManager.start();
+	}
+	
+	public void resumeSelectedTransfer()
+	{
+		transferManager.resume();
+	}
+	
+	public void pauseSelectedTransfer()
+	{
+		transferManager.pause();
+	}
+	public void updateTransferSelectedUser(String user)
+	{
+		stateMgr.getCurrentState().updateTransferSelectedUser(user);
+	}
+	
+	
 	public void setFilesModel(DefaultListModel dm)
 	{
 		this.files_model = dm;
 	}
-	public void registerReceiveRadioButton(ReceiveRadioButton rb) {
-		receiveRadioButton = rb;
-	}
+
 	public void doTransfer()
 	{
-		Transfer transfer = new Transfer(stateMgr.getFileValue(),stateMgr.getToValue(),stateMgr.getFromValue());
-		transfers.add(transfer);
-	}
+		transferManager.addNewTransfer(stateMgr.getFromValue(), stateMgr.getToValue(), stateMgr.getFileValue());
+}
 	
 	public void setToValue(String to)
 	{
@@ -99,9 +123,6 @@ public class Mediator {
 	public void setFileValue(String file)
 	{
 		stateMgr.setFileValue(file);
-	}
-	public void registerSendRadioButton(SendRadioButton cb) {
-		sendRadioButton = cb;
 	}
 
 	public void initiateSendFile() {

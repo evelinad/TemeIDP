@@ -1,4 +1,4 @@
-package app;
+package tables;
 
 import java.util.Vector;
 

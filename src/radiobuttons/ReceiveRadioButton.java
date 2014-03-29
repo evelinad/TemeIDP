@@ -8,8 +8,8 @@ import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JRadioButton;
 
-import app.Command;
-import app.Mediator;
+import core.Command;
+import core.Mediator;
 
 public class ReceiveRadioButton extends JRadioButton implements Command{
 	Mediator med;
@@ -18,7 +18,6 @@ public class ReceiveRadioButton extends JRadioButton implements Command{
 		super(text);
 		addActionListener(act);
 		med = md;
-		med.registerReceiveRadioButton(this);
 	}
 	public ReceiveRadioButton() {
 		// TODO Auto-generated constructor stub

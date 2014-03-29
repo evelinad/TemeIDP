@@ -1,11 +1,11 @@
-package app;
+package core;
 
 import javax.swing.table.DefaultTableModel;
 
-public class startDown extends Transfers {
+public class StartDown extends Transfers {
 
 	
-	public startDown(DefaultTableModel model, int index) {
+	public StartDown(DefaultTableModel model, int index) {
 		super(model, index);
 		// TODO Auto-generated constructor stub
 	}

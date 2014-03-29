@@ -1,6 +1,6 @@
 package states;
 
-import app.Mediator;
+import core.Mediator;
 
 public abstract class State {
 	Mediator med;
@@ -8,6 +8,7 @@ public abstract class State {
 		this.med = med;
 	}
 	
-	public abstract void updateTransfer(String user);
-
+	public abstract void updateTransferSelectedUser(String user);
+	
+	
 }
