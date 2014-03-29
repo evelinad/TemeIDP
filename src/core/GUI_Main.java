@@ -98,6 +98,42 @@ public class GUI_Main extends JFrame {
 			}
 		};
 		userJList.addMouseListener(userMouseListener);
+		
+		MouseListener fileMouseListener = new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println(fileJList.getSelectedIndex()+"baa");
+				//med.updateTransferSelectedUser(//user);;//;(userJList.getSelectedValue().toString());
+				med.setFileValue(fileJList.getSelectedValue().toString());
+			}
+		};
+		fileJList.addMouseListener(fileMouseListener);
 		TableColumn col_aux = transferJTable.getColumnModel().getColumn(3);
 		col_aux.setCellRenderer(new ProgressCellRenderer());
 		
@@ -139,8 +175,7 @@ public class GUI_Main extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO de inserat in JTable 
-				med.setFileValue(fileJList.getSelectedValue().toString());
-				med.doTransfer();
+				((Command)e.getSource()).execute();
 			}
 		};
 		JButton addJButton = new JButton("Add new operation");
@@ -164,9 +199,6 @@ public class GUI_Main extends JFrame {
 		JPanel transferJPanelLabels = new JPanel(new GridLayout(1,1));
 		transferJPanelLabels.add(new JLabel("Ongoing transfers"));				
 		transferJPanel.add(transferJPanelLabels);
-		//transferJPanel.add(new JScrollPane(transferJTable,v,h));
-		
-		
 		JPanel buttonsJPanel = new JPanel();
 		transferJPanel.add(buttonsJPanel);
 		StartButton startButton = new StartButton("Start",buttonListener,med,new ImageIcon(GUI_Main.class.getResource("/core/Play1Normal.png")));
@@ -179,24 +211,6 @@ public class GUI_Main extends JFrame {
 		buttonsJPanel.add(pauseButton);
 		transferJPanel.add(new JScrollPane(transferJTable,v,h));
 		
-		//PUSH THE BUTTON!
-/*		ImageIcon myIcon = new ImageIcon(GUI_Main.class.getResource("/core/Play1Normal.png"));
-		Image myImage = myIcon.getImage();
-		Image scaledImage = myImage.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);
-		startButton.setIcon(new ImageIcon(scaledImage));
-		myIcon = new ImageIcon(GUI_Main.class.getResource("/core/Stop1NormalBlue.png"));
-		myImage = myIcon.getImage();
-		scaledImage = myImage.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);
-		stopButton.setIcon(new ImageIcon(scaledImage));
-		myIcon = new ImageIcon(GUI_Main.class.getResource("/core/StepForwardNormalBlue.png"));
-		myImage = myIcon.getImage();
-		scaledImage = myImage.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);
-		resumeButton.setIcon(new ImageIcon(scaledImage));
-		myIcon = new ImageIcon(GUI_Main.class.getResource("/core/Pause.png"));
-		myImage = myIcon.getImage();
-		scaledImage = myImage.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);
-		pauseButton.setIcon(new ImageIcon(scaledImage));
-		*/
 		this.setVisible(true);
 		
 		transferJTable.setRowSelectionAllowed(true);

@@ -45,6 +45,7 @@ public class StartButton extends JButton implements Command{
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
+		med.doTransfer();
 		med.startSelectedTransfer();
 		
 	}
