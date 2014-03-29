@@ -1,6 +1,7 @@
 package test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -32,6 +33,16 @@ public class TestUsers {
 	public int size()
 	{
 		return fl.size();
+	}
+	
+	public String get(int index)
+	{
+		return (String) fl.toArray()[index];
+	}
+	
+	public String[] toArray()
+	{
+		return (String[]) fl.toArray();
 	}
 
 }
