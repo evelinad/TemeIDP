@@ -14,4 +14,13 @@ public class UserArrayList extends ArrayList<User> {
 		}
 		return null;
 	}
+	public void removeUser(String user) {
+		for(User u: this)
+		{
+			if(u.getName().equals(user))
+			{
+				this.remove(u);
+			}
+		}
+	}
 }

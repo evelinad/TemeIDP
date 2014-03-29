@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.swing.SwingWorker;
 
+import users.User;
 import core.Mediator;
 /**
  * 
@@ -90,6 +91,17 @@ public class Test extends SwingWorker<Integer, Integer> {
 			}
 		}
 		
+		index = rand.nextInt(offline_users.size() - 1 );
+		user = offline_users.get(index);
+		online_users.add(user);
+		offline_users.remove(index);
+		//TODO: add med function
+		User u = new User(user.name());
+		for (String str : user.toArray()) {
+			u.insertFile(str);
+		}
+		med.addUserToModel(u);
+		
 		while(true)
 		{
 			switch (rand.nextInt(5)) {
@@ -99,6 +111,11 @@ public class Test extends SwingWorker<Integer, Integer> {
 				online_users.add(user);
 				offline_users.remove(index);
 				//TODO: add med function
+				u = new User(user.name());
+				for (String str : user.toArray()) {
+					u.insertFile(str);
+				}
+				med.addUserToModel(u);
 				break;
 				
 			case RM_USER:
@@ -107,6 +124,7 @@ public class Test extends SwingWorker<Integer, Integer> {
 				offline_users.add(user);
 				online_users.remove(index);
 				//TODO: add med function
+				med.removeUserFromModel(user.name());
 				break;
 				
 			case UPDATE_FILELIST:
@@ -124,11 +142,11 @@ public class Test extends SwingWorker<Integer, Integer> {
 						online_users.get(index).rm(rand.nextInt(online_users.get(index).size() - 1));
 					}
 					break;
-					//TODO: add med function
-
 				default:
 					break;
 				}
+				//TODO: add med function
+				med.addFilesToUser(online_users.get(index).name(), online_users.get(index).toArray());
 				break;
 				
 			default:

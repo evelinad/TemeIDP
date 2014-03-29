@@ -23,5 +23,13 @@ public class User {
 	{
 		return files;
 	}
+	
+	public void addFiles(String[] files)
+	{
+		this.files.clear();
+		for (String file : files) {
+			this.files.add(file);
+		}
+	}
 
 }

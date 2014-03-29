@@ -22,7 +22,7 @@ public class Mediator {
 		stateMgr = new StateManager(this);
 		users = new UserArrayList();
 		transferManager = new TransferManager(this);
-		users.add(new User("user1"));
+		/*users.add(new User("user1"));
 		users.add(new User("user2"));
 		users.add(new User("user3"));
 		
@@ -36,7 +36,7 @@ public class Mediator {
 				u.insertFile(filename);
 				
 			}
-		}
+		}*/
 	}
 	public void setCurrentUser(String user)
 	{
@@ -53,15 +53,27 @@ public class Mediator {
 		for(String file: u.getFiles())
 			files_model.addElement(file);
 	}
-	public void addUsersToModel()
+	
+	public void addFilesToUser(String userName, String[] files)
 	{
-		for(User u: users)
-			user_model.addElement(u.getName());
+		users.getUser(userName).addFiles(files);
 	}
+	
+	public void addUserToModel(User u)
+	{
+		user_model.addElement(u.getName());
+		users.add(u);
+	}
+	
+	public void removeUserFromModel(String user)
+	{
+		users.removeUser(user);
+		user_model.removeElement(user);
+	}
+	
 	public void setUserModel(DefaultListModel dm)
 	{
 		this.user_model = dm;
-		addUsersToModel();
 		
 	}
 	
