@@ -118,7 +118,9 @@ public class Test extends SwingWorker<Integer, Integer> {
 		
 		while(true)
 		{
-			switch (rand.nextInt(5)) {
+			int operation = rand.nextInt(2);
+			System.out.println("enterred while w/ op " + operation);
+			switch (operation) {
 			case ADD_USER:
 				index = rand.nextInt(offline_users.size() - 1 );
 				user = offline_users.get(index);
@@ -129,19 +131,29 @@ public class Test extends SwingWorker<Integer, Integer> {
 					u.insertFile(str);
 				}
 				med.addUserToModel(u);
+				System.out.println("add user " + user);
 				break;
 				
 			case RM_USER:
-				index = rand.nextInt(online_users.size() - 1 );
+				if (online_users.size() == 1)
+				{
+					index = 0;
+				}
+				else
+				{
+					index = rand.nextInt(online_users.size() - 1 );
+				}
 				user = online_users.get(index);
 				offline_users.add(user);
 				online_users.remove(index);
 				med.removeUserFromModel(user.name());
+				System.out.println("rm user " + user);
 				break;
 				
 			case UPDATE_FILELIST:
 				int size = rand.nextInt(2) + 1;
 				index = rand.nextInt(online_users.size() -1);
+				System.out.println("user's " + online_users.get(index).name() + " file list " + online_users.get(index).toArray());
 				switch (rand.nextInt(1)) {
 				case ADD_FILE:
 					for (int i = 0; i < size; i++) {
@@ -157,6 +169,8 @@ public class Test extends SwingWorker<Integer, Integer> {
 				default:
 					break;
 				}
+				System.out.println("new file list: " + online_users.get(index).toArray());
+				
 				med.addFilesToUser(online_users.get(index).name(), online_users.get(index).toArray());
 				break;
 				
@@ -164,7 +178,7 @@ public class Test extends SwingWorker<Integer, Integer> {
 				break;
 			}
 			
-			Thread.sleep(20000);
+			Thread.sleep(5000);
 		}
 		
 	}

@@ -21,6 +21,7 @@ public class UserArrayList extends ArrayList<User> {
 			if(u.getName().equals(user))
 			{
 				this.remove(u);
+				return;
 			}
 		}
 	}
