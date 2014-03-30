@@ -90,17 +90,19 @@ public class Test extends SwingWorker<Integer, Integer> {
 				offline_users.get(i).add(fl.get(rand.nextInt(fl.size() -1)));
 			}
 		}
-		
-		index = rand.nextInt(offline_users.size() - 1 );
-		user = offline_users.get(index);
+				
+		user = offline_users.get(3);
 		online_users.add(user);
 		offline_users.remove(index);
 		//TODO: add med function
 		User u = new User(user.name());
-		for (String str : user.toArray()) {
+		String[] st = user.toArray();
+		for (String str : st) {
 			u.insertFile(str);
 		}
 		med.addUserToModel(u);
+		med.setCurrentUser(user.name());
+		offline_users.remove(3);
 		
 		while(true)
 		{

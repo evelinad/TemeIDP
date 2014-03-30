@@ -1,14 +1,11 @@
 package test;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
 import java.util.TreeSet;
 
 public class TestUsers {
 	
 	private String user;
-	private Set<String> fl = new TreeSet<String>();
+	private TreeSet<String> fl = new TreeSet<String>();
 	
 	public TestUsers(String user)
 	{
@@ -42,7 +39,11 @@ public class TestUsers {
 	
 	public String[] toArray()
 	{
-		return (String[]) fl.toArray();
+		return (String[]) fl.toArray(new String[fl.size()]);
+	}
+	
+	public void printFiles() {
+		System.out.println((String[]) fl.toArray(new String[fl.size()]));
 	}
 
 }

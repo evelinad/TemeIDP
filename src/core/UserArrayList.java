@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import users.User;
 
+@SuppressWarnings("serial")
 public class UserArrayList extends ArrayList<User> {
 	public User getUser(String user)
 	{
