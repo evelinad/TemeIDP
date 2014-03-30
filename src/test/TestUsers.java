@@ -45,5 +45,9 @@ public class TestUsers {
 	public void printFiles() {
 		System.out.println((String[]) fl.toArray(new String[fl.size()]));
 	}
+	
+	public String toString() {
+		return this.user;
+	}
 
 }

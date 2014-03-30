@@ -92,8 +92,7 @@ public class Test extends SwingWorker<Integer, Integer> {
 		}
 				
 		user = offline_users.get(3);
-		online_users.add(user);
-		offline_users.remove(index);
+		offline_users.remove(3);
 		//TODO: add med function
 		User u = new User(user.name());
 		String[] st = user.toArray();
@@ -102,7 +101,20 @@ public class Test extends SwingWorker<Integer, Integer> {
 		}
 		med.addUserToModel(u);
 		med.setCurrentUser(user.name());
-		offline_users.remove(3);
+		//offline_users.remove(3);
+		
+		System.out.println("users: " + offline_users);
+		
+		//add user for testing
+		index = rand.nextInt(offline_users.size() - 1 );
+		user = offline_users.get(index);
+		online_users.add(user);
+		offline_users.remove(index);
+		u = new User(user.name());
+		for (String str : user.toArray()) {
+			u.insertFile(str);
+		}
+		med.addUserToModel(u);
 		
 		while(true)
 		{
@@ -112,7 +124,6 @@ public class Test extends SwingWorker<Integer, Integer> {
 				user = offline_users.get(index);
 				online_users.add(user);
 				offline_users.remove(index);
-				//TODO: add med function
 				u = new User(user.name());
 				for (String str : user.toArray()) {
 					u.insertFile(str);
@@ -125,7 +136,6 @@ public class Test extends SwingWorker<Integer, Integer> {
 				user = online_users.get(index);
 				offline_users.add(user);
 				online_users.remove(index);
-				//TODO: add med function
 				med.removeUserFromModel(user.name());
 				break;
 				
@@ -147,7 +157,6 @@ public class Test extends SwingWorker<Integer, Integer> {
 				default:
 					break;
 				}
-				//TODO: add med function
 				med.addFilesToUser(online_users.get(index).name(), online_users.get(index).toArray());
 				break;
 				
