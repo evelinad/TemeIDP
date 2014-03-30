@@ -23,6 +23,7 @@ public class Test extends SwingWorker<Integer, Integer> {
 	private final int UPDATE_FILELIST = 2;
 	private final int ADD_FILE = 0;
 	private final int RM_FILE = 1;
+	private final int MAX_USERS = 5;
 	/*private final int SELECT_FILE = 4;
 	private final int SELECT_USER = 5;
 	private final int ADD_TRANSFER = 6;
@@ -118,11 +119,23 @@ public class Test extends SwingWorker<Integer, Integer> {
 		
 		while(true)
 		{
-			int operation = rand.nextInt(2);
+			int operation = rand.nextInt(3);
 			System.out.println("enterred while w/ op " + operation);
 			switch (operation) {
 			case ADD_USER:
-				index = rand.nextInt(offline_users.size() - 1 );
+				if(online_users.size() == MAX_USERS)
+				{
+					System.out.println("no more users for testing");
+					break;
+				}
+				if (offline_users.size() == 1)
+				{
+					index = 0;
+				}
+				else
+				{
+					index = rand.nextInt(offline_users.size() - 1 );
+				}
 				user = offline_users.get(index);
 				online_users.add(user);
 				offline_users.remove(index);
@@ -135,9 +148,15 @@ public class Test extends SwingWorker<Integer, Integer> {
 				break;
 				
 			case RM_USER:
-				if (online_users.size() == 1)
+				if (online_users.isEmpty())
 				{
-					index = 0;
+					System.out.println("no user online");
+					break;
+				}
+				if (online_users.size() < 2)
+				{
+					System.out.println("forced to keep user");
+					break;
 				}
 				else
 				{
@@ -152,27 +171,26 @@ public class Test extends SwingWorker<Integer, Integer> {
 				
 			case UPDATE_FILELIST:
 				int size = rand.nextInt(2) + 1;
-				index = rand.nextInt(online_users.size() -1);
-				System.out.println("user's " + online_users.get(index).name() + " file list " + online_users.get(index).toArray());
-				switch (rand.nextInt(1)) {
-				case ADD_FILE:
-					for (int i = 0; i < size; i++) {
-						online_users.get(index).add(fl.get(rand.nextInt(fl.size() - 1)));
-					}
-					break;
-					
-				case RM_FILE:
-					for (int i = 0; i < size; i++) {
-						online_users.get(index).rm(rand.nextInt(online_users.get(index).size() - 1));
-					}
-					break;
-				default:
+				if (online_users.isEmpty())
+				{
+					System.out.println("no user online");
 					break;
 				}
-				System.out.println("new file list: " + online_users.get(index).toArray());
-				
+				if (online_users.size() == 1)
+				{
+					index = 0;
+				}
+				else
+				{
+					index = rand.nextInt(online_users.size() - 1 );
+				}
+				for (int i = 0; i < size; i++) {
+						online_users.get(index).add(fl.get(rand.nextInt(fl.size() - 1)));
+					}
 				med.addFilesToUser(online_users.get(index).name(), online_users.get(index).toArray());
+				System.out.println("user's " + online_users.get(index).name() + " file list updated");
 				break;
+				
 				
 			default:
 				break;

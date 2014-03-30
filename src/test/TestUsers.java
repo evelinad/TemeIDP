@@ -25,6 +25,7 @@ public class TestUsers {
 	public void rm(int index)
 	{
 		fl.remove(index);
+		return;
 	}
 	
 	public int size()
