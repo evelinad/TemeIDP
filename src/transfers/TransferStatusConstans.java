@@ -1,5 +1,10 @@
 package transfers;
 
+/**
+ * 
+ * TransferStatusConstants for defining Transfer states
+ *
+ */
 public interface TransferStatusConstans {
 	public static final int STARTED = 0;
 	public static final int ACTIVE = 1;

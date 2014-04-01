@@ -7,42 +7,36 @@ import javax.swing.SwingWorker;
 
 import users.User;
 import core.Mediator;
+
 /**
  * 
- * Contains a file list, and 2 user lists (online and offline).
- * Once every 20 seconds connects, disconnects or updates a user's file list.
- *
+ * Contains a file list, and 2 user lists (online and offline). Once every 20
+ * seconds connects, disconnects or updates a user's file list.
+ * 
  */
 public class Test extends SwingWorker<Integer, Integer> {
-	
+
 	private Mediator med;
 	Random rand = new Random();
-	
+
 	private final int ADD_USER = 0;
 	private final int RM_USER = 1;
 	private final int UPDATE_FILELIST = 2;
 	private final int ADD_FILE = 0;
 	private final int RM_FILE = 1;
 	private final int MAX_USERS = 5;
-	/*private final int SELECT_FILE = 4;
-	private final int SELECT_USER = 5;
-	private final int ADD_TRANSFER = 6;
-	private final int START_TRANSFER = 7;
-	private final int STOP_TRANSFER = 8;
-	private final int PAUSE_TRANSFER = 9;
-	private final int RESUME_TRANSFER = 10;*/
-	
 	ArrayList<TestUsers> offline_users = new ArrayList<TestUsers>();
 	ArrayList<TestUsers> online_users = new ArrayList<TestUsers>();
 	ArrayList<String> fl = new ArrayList<>();
 	int index;
 	TestUsers user;
-	
-	public Test(Mediator med)
-	{
-		this.med = med;
-		
 
+	public Test(Mediator med) {
+		this.med = med;
+
+		/**
+		 * add files
+		 */
 		fl.add("Doombringer");
 		fl.add("Foehammer");
 		fl.add("Frost Blade");
@@ -66,7 +60,9 @@ public class Test extends SwingWorker<Integer, Integer> {
 		fl.add("Fang of Morkai");
 		fl.add("Wolf Amulet");
 		fl.add("Wolf Tooth Necklace");
-		
+		/**
+		 * add offline users
+		 */
 		TestUsers user = new TestUsers("Leman Russ");
 		offline_users.add(user);
 		user = new TestUsers("Bjorn the Fell-Handed");
@@ -83,18 +79,16 @@ public class Test extends SwingWorker<Integer, Integer> {
 
 	@Override
 	protected Integer doInBackground() throws Exception {
-		// TODO Auto-generated method stub
-		
+
 		for (int i = 0; i < offline_users.size(); i++) {
 			int size = rand.nextInt(4) + 1;
 			for (int j = 0; j < size; j++) {
-				offline_users.get(i).add(fl.get(rand.nextInt(fl.size() -1)));
+				offline_users.get(i).add(fl.get(rand.nextInt(fl.size() - 1)));
 			}
 		}
-				
+
 		user = offline_users.get(3);
 		offline_users.remove(3);
-		//TODO: add med function
 		User u = new User(user.name());
 		String[] st = user.toArray();
 		for (String str : st) {
@@ -102,12 +96,11 @@ public class Test extends SwingWorker<Integer, Integer> {
 		}
 		med.addUserToModel(u);
 		med.setCurrentUser(user.name());
-		//offline_users.remove(3);
-		
+
 		System.out.println("users: " + offline_users);
-		
-		//add user for testing
-		index = rand.nextInt(offline_users.size() - 1 );
+
+		// add user for testing
+		index = rand.nextInt(offline_users.size() - 1);
 		user = offline_users.get(index);
 		online_users.add(user);
 		offline_users.remove(index);
@@ -116,25 +109,22 @@ public class Test extends SwingWorker<Integer, Integer> {
 			u.insertFile(str);
 		}
 		med.addUserToModel(u);
-		
-		while(true)
-		{
+		/**
+		 * after 5 seconds, a new event is generated
+		 */
+		while (true) {
 			int operation = rand.nextInt(3);
 			System.out.println("enterred while w/ op " + operation);
 			switch (operation) {
 			case ADD_USER:
-				if(online_users.size() == MAX_USERS)
-				{
+				if (online_users.size() == MAX_USERS) {
 					System.out.println("no more users for testing");
 					break;
 				}
-				if (offline_users.size() == 1)
-				{
+				if (offline_users.size() == 1) {
 					index = 0;
-				}
-				else
-				{
-					index = rand.nextInt(offline_users.size() - 1 );
+				} else {
+					index = rand.nextInt(offline_users.size() - 1);
 				}
 				user = offline_users.get(index);
 				online_users.add(user);
@@ -146,21 +136,17 @@ public class Test extends SwingWorker<Integer, Integer> {
 				med.addUserToModel(u);
 				System.out.println("add user " + user);
 				break;
-				
+
 			case RM_USER:
-				if (online_users.isEmpty())
-				{
+				if (online_users.isEmpty()) {
 					System.out.println("no user online");
 					break;
 				}
-				if (online_users.size() < 2)
-				{
+				if (online_users.size() < 2) {
 					System.out.println("forced to keep user");
 					break;
-				}
-				else
-				{
-					index = rand.nextInt(online_users.size() - 1 );
+				} else {
+					index = rand.nextInt(online_users.size() - 1);
 				}
 				user = online_users.get(index);
 				offline_users.add(user);
@@ -168,37 +154,35 @@ public class Test extends SwingWorker<Integer, Integer> {
 				med.removeUserFromModel(user.name());
 				System.out.println("rm user " + user);
 				break;
-				
+
 			case UPDATE_FILELIST:
 				int size = rand.nextInt(2) + 1;
-				if (online_users.isEmpty())
-				{
+				if (online_users.isEmpty()) {
 					System.out.println("no user online");
 					break;
 				}
-				if (online_users.size() == 1)
-				{
+				if (online_users.size() == 1) {
 					index = 0;
-				}
-				else
-				{
-					index = rand.nextInt(online_users.size() - 1 );
+				} else {
+					index = rand.nextInt(online_users.size() - 1);
 				}
 				for (int i = 0; i < size; i++) {
-						online_users.get(index).add(fl.get(rand.nextInt(fl.size() - 1)));
-					}
-				med.addFilesToUser(online_users.get(index).name(), online_users.get(index).toArray());
-				System.out.println("user's " + online_users.get(index).name() + " file list updated");
+					online_users.get(index).add(
+							fl.get(rand.nextInt(fl.size() - 1)));
+				}
+				med.addFilesToUser(online_users.get(index).name(), online_users
+						.get(index).toArray());
+				System.out.println("user's " + online_users.get(index).name()
+						+ " file list updated");
 				break;
-				
-				
+
 			default:
 				break;
 			}
-			
+
 			Thread.sleep(5000);
 		}
-		
+
 	}
 
 }

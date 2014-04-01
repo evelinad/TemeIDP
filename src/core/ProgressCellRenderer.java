@@ -6,12 +6,14 @@ import javax.swing.JProgressBar;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
+/**
+ * 
+ * Class for updating a progress bar in a tranfsre table row
+ *
+ */
 public class ProgressCellRenderer extends JProgressBar implements
 		TableCellRenderer {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2294931500959570838L;
 
 	public ProgressCellRenderer() {

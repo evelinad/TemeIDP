@@ -3,8 +3,11 @@ package transfers;
 import java.util.Random;
 
 import core.Mediator;
-
-//SwingWorker<Integer, Integer>
+/**
+ * 
+ * Transfer class for keeping data of an ongoing transfer
+ *
+ */
 public class Transfer extends Thread implements TransferStatusConstans{
 
 	private String file;
@@ -82,19 +85,15 @@ public class Transfer extends Thread implements TransferStatusConstans{
 
 	@Override
 	public void run() {
-		// TODO Actually do something
 		Random rand = new Random();
 		while(true)
 		{
-			//System.out.println("thread " + index + " status " + status);
 			if (status == ACTIVE) {
-				//System.out.println("thread " + index + " entered if");
 				updateProgress(rand.nextInt(5));
 			}
 			try {
 				Thread.sleep(1000);
 			} catch (Exception e) {
-				// TODO: handle exception
 				e.printStackTrace();
 			}
 		}

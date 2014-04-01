@@ -1,7 +1,12 @@
 package states;
 
 import core.Mediator;
-
+/**
+ * 
+ * @author Evelina
+ * class that keeps reference to current transfer state choice
+ *
+ */
 public class StateManager {
 	private State currentState;
 	private ReceiveState receiveState;
@@ -58,9 +63,10 @@ public class StateManager {
 	}
 	
 	
+	/**
+	 *set current state as rectangle state
+	 */
 	public void setReceiveState() {
-		//TODO 2.4
-		//set current state as rectangle state
 		currentState = receiveState;
 		System.out.println("receive state");
 	}
@@ -68,9 +74,10 @@ public class StateManager {
 	{
 		return currentState;
 	}
+/**
+ * set current state as circle state
+ */
 	public void setSendState() {
-		//TODO 2.4
-		//set current state as circle state
 		currentState = sendState;
 		System.out.println("send state");
 	}

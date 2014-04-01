@@ -1,7 +1,11 @@
 package states;
 
 import core.Mediator;
-
+/**
+ * 
+// * Send interface implemenetd by Receive and SendState
+ *
+ */
 public abstract class State {
 	protected Mediator med;
 	/**

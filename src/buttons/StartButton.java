@@ -7,7 +7,9 @@ import javax.swing.JButton;
 
 import core.Command;
 import core.Mediator;
-
+/*
+ * class for starting a transfer
+ */
 public class StartButton extends JButton implements Command {
 
 	private Mediator med;
@@ -21,7 +23,6 @@ public class StartButton extends JButton implements Command {
 	
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 		med.startSelectedTransfer();
 	}
 

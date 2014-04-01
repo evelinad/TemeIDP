@@ -2,11 +2,16 @@ package states;
 
 import core.Mediator;
 
+/**
+ * 
+ * After checking the ReceiveRadioButton, the application 
+ * goes into receive state until the new transfer is added
+ *
+ */
 public class ReceiveState extends State{
 
 	public ReceiveState(Mediator med) {
 		super(med);
-		// TODO Auto-generated constructor stub
 		type = 0;
 	}
 	

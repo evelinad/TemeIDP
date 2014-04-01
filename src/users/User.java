@@ -1,7 +1,12 @@
 package users;
 
 import java.util.ArrayList;
-
+/**
+ * 
+ * User class for keeping information related to a user
+ * eg: user name, user files
+ *
+ */
 public class User {
 
 	String name;

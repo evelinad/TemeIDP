@@ -4,26 +4,25 @@ import java.util.ArrayList;
 
 import core.Mediator;
 
-public class TransferManager implements TransferStatusConstans{
-	
-	/*private P2PJTable trans;
-	private DefaultTableModel model;
-	private ArrayList<Row> list = new ArrayList<Row>();*/
+/**
+ * 
+ * keeps evidence of all ongoing transfers
+ * 
+ */
+public class TransferManager implements TransferStatusConstans {
+
 	private Mediator med;
-	private ArrayList<Transfer> transfers =  new ArrayList<Transfer>();
-	int selectedTransfer = -1; //TODO check for no row selected 
-	
-	public TransferManager( Mediator med)
-	{
-		//trans = table;
-		//model = (DefaultTableModel)table.getModel();
+	private ArrayList<Transfer> transfers = new ArrayList<Transfer>();
+	int selectedTransfer = -1;
+
+	public TransferManager(Mediator med) {
 		this.med = med;
 		transfers = new ArrayList<Transfer>();
 	}
-	
-	public boolean addNewTransfer(String source, String destination, String file, int type)
-	{
-		Transfer transfer = new Transfer(file,source,destination, med, type);
+
+	public boolean addNewTransfer(String source, String destination,
+			String file, int type) {
+		Transfer transfer = new Transfer(file, source, destination, med, type);
 		if (source == null || destination == null || file == null)
 			return false;
 		transfer.setIndex(transfers.size());
@@ -31,75 +30,74 @@ public class TransferManager implements TransferStatusConstans{
 		transfer.updateStatus(STARTED);
 		return true;
 	}
-	public void setSelectedTransfer(int index)
-	{
+
+	/**
+	 * 
+	 * get/set selected transfer from JTable
+	 */
+	public void setSelectedTransfer(int index) {
 		this.selectedTransfer = index;
 	}
-	
-	public int getSelectedTransfer()
-	{
+
+	public int getSelectedTransfer() {
 		return this.selectedTransfer;
 	}
-	
-	public void updateStatusSelectedTransfer(int status)
-	{
+
+	public void setStatusSelectedTransfer(int status) {
 		transfers.get(selectedTransfer).updateStatus(status);
 	}
 
-	public String start()
-	{
-		if(selectedTransfer >= 0
-				&& transfers.get(selectedTransfer).getStatus() == STARTED)
-		{
+	/**
+	 * start/stop/pause a selected transfer
+	 */
+	public String start() {
+		if (selectedTransfer >= 0
+				&& transfers.get(selectedTransfer).getStatus() == STARTED) {
 			transfers.get(selectedTransfer).start();
 			transfers.get(selectedTransfer).updateStatus(ACTIVE);
 			return transfers.get(selectedTransfer).getType();
 		}
 		return null;
 	}
-	
-	public boolean stop()
-	{
-		if(selectedTransfer >= 0
-				&& (transfers.get(selectedTransfer).getStatus() == STARTED 
-				|| transfers.get(selectedTransfer).getStatus() == PAUSED
-				|| transfers.get(selectedTransfer).getStatus() == ACTIVE))
-		{
+
+	public boolean stop() {
+		if (selectedTransfer >= 0
+				&& (transfers.get(selectedTransfer).getStatus() == STARTED
+						|| transfers.get(selectedTransfer).getStatus() == PAUSED || transfers
+						.get(selectedTransfer).getStatus() == ACTIVE)) {
 			transfers.get(selectedTransfer).updateStatus(STOPPED);
 			return true;
 		}
-		return false;		
+		return false;
 	}
-	
-	public String resume()
-	{
-		if(selectedTransfer >= 0
-				&& transfers.get(selectedTransfer).getStatus() == PAUSED)
-		{
+
+	public String resume() {
+		if (selectedTransfer >= 0
+				&& transfers.get(selectedTransfer).getStatus() == PAUSED) {
 			transfers.get(selectedTransfer).updateStatus(ACTIVE);
 			return transfers.get(selectedTransfer).getType();
 		}
 		return null;
 	}
-	
-	public boolean pause()
-	{
-		if(selectedTransfer >= 0
-				&& (transfers.get(selectedTransfer).getStatus() == STARTED ||
-				transfers.get(selectedTransfer).getStatus() == ACTIVE))
-		{
+
+	public boolean pause() {
+		if (selectedTransfer >= 0
+				&& (transfers.get(selectedTransfer).getStatus() == STARTED || transfers
+						.get(selectedTransfer).getStatus() == ACTIVE)) {
 			transfers.get(selectedTransfer).updateStatus(PAUSED);
 			return true;
 		}
-		return false;		
+		return false;
 	}
-	
-	public String getTransferType()
-	{
+
+	/**
+	 * 
+	 * get/set transfer type
+	 */
+	public String getTransferType() {
 		if (selectedTransfer >= 0 && !transfers.isEmpty())
 			return transfers.get(selectedTransfer).getType();
 		return null;
 	}
 
 }
-
