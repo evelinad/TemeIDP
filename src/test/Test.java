@@ -25,11 +25,11 @@ public class Test extends SwingWorker<Integer, Integer> {
 	private final int ADD_FILE = 0;
 	private final int RM_FILE = 1;
 	private final int MAX_USERS = 5;
-	ArrayList<TestUsers> offline_users = new ArrayList<TestUsers>();
-	ArrayList<TestUsers> online_users = new ArrayList<TestUsers>();
+	ArrayList<User> offline_users = new ArrayList<User>();
+	ArrayList<User> online_users = new ArrayList<User>();
 	ArrayList<String> fl = new ArrayList<>();
 	int index;
-	TestUsers user;
+	User user;
 
 	public Test(Mediator med) {
 		this.med = med;
@@ -63,17 +63,17 @@ public class Test extends SwingWorker<Integer, Integer> {
 		/**
 		 * add offline users
 		 */
-		TestUsers user = new TestUsers("Leman Russ");
+		User user = new User("Leman Russ");
 		offline_users.add(user);
-		user = new TestUsers("Bjorn the Fell-Handed");
+		user = new User("Bjorn the Fell-Handed");
 		offline_users.add(user);
-		user = new TestUsers("Logan Grimnar");
+		user = new User("Logan Grimnar");
 		offline_users.add(user);
-		user = new TestUsers("Ragnar Blackmane");
+		user = new User("Ragnar Blackmane");
 		offline_users.add(user);
-		user = new TestUsers("Sven Bloodhowl");
+		user = new User("Sven Bloodhowl");
 		offline_users.add(user);
-		user = new TestUsers("Vaer Greyloc");
+		user = new User("Vaer Greyloc");
 		offline_users.add(user);
 	}
 
@@ -83,19 +83,19 @@ public class Test extends SwingWorker<Integer, Integer> {
 		for (int i = 0; i < offline_users.size(); i++) {
 			int size = rand.nextInt(4) + 1;
 			for (int j = 0; j < size; j++) {
-				offline_users.get(i).add(fl.get(rand.nextInt(fl.size() - 1)));
+				offline_users.get(i).insertFile(fl.get(rand.nextInt(fl.size() - 1)));
 			}
 		}
 
 		user = offline_users.get(3);
 		offline_users.remove(3);
-		User u = new User(user.name());
-		String[] st = user.toArray();
+		User u = new User(user.getName());
+		ArrayList<String> st = user.getFiles();
 		for (String str : st) {
 			u.insertFile(str);
 		}
 		med.addUserToModel(u);
-		med.setCurrentUser(user.name());
+		med.setCurrentUser(user.getName());
 
 		System.out.println("users: " + offline_users);
 
@@ -104,8 +104,8 @@ public class Test extends SwingWorker<Integer, Integer> {
 		user = offline_users.get(index);
 		online_users.add(user);
 		offline_users.remove(index);
-		u = new User(user.name());
-		for (String str : user.toArray()) {
+		u = new User(user.getName());
+		for (String str : user.getFiles()) {
 			u.insertFile(str);
 		}
 		med.addUserToModel(u);
@@ -129,8 +129,8 @@ public class Test extends SwingWorker<Integer, Integer> {
 				user = offline_users.get(index);
 				online_users.add(user);
 				offline_users.remove(index);
-				u = new User(user.name());
-				for (String str : user.toArray()) {
+				u = new User(user.getName());
+				for (String str : user.getFiles()) {
 					u.insertFile(str);
 				}
 				med.addUserToModel(u);
@@ -151,7 +151,7 @@ public class Test extends SwingWorker<Integer, Integer> {
 				user = online_users.get(index);
 				offline_users.add(user);
 				online_users.remove(index);
-				med.removeUserFromModel(user.name());
+				med.removeUserFromModel(user.getName());
 				System.out.println("rm user " + user);
 				break;
 
@@ -167,12 +167,12 @@ public class Test extends SwingWorker<Integer, Integer> {
 					index = rand.nextInt(online_users.size() - 1);
 				}
 				for (int i = 0; i < size; i++) {
-					online_users.get(index).add(
+					online_users.get(index).insertFile(
 							fl.get(rand.nextInt(fl.size() - 1)));
 				}
-				med.addFilesToUser(online_users.get(index).name(), online_users
-						.get(index).toArray());
-				System.out.println("user's " + online_users.get(index).name()
+				med.addFilesToUser(online_users.get(index).getName(), online_users
+						.get(index).getFiles());
+				System.out.println("user's " + online_users.get(index).getName()
 						+ " file list updated");
 				break;
 

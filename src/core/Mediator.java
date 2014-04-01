@@ -1,5 +1,7 @@
 package core;
 
+import java.util.ArrayList;
+
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -8,7 +10,11 @@ import com.sun.corba.se.spi.orbutil.fsm.State;
 import states.StateManager;
 import transfers.TransferManager;
 import users.User;
-
+/**
+ * 
+ * Mediator class
+ *
+ */
 public class Mediator {
 
 	private StateManager stateMgr;
@@ -46,8 +52,8 @@ public class Mediator {
 			files_model.addElement(file);
 	}
 
-	public void addFilesToUser(String userName, String[] files) {
-		users.getUser(userName).addFiles(files);
+	public void addFilesToUser(String userName, ArrayList<String> arrayList) {
+		users.getUser(userName).addFiles(arrayList);
 	}
 
 	public void addUserToModel(User u) {

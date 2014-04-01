@@ -27,10 +27,11 @@ import test.Test;
 public class GUI_Main extends JFrame {
 	
 	private static final long serialVersionUID = -8118352433755008641L;
-
+	private final int HEIGHT = 900;
+	private final int WIDTH = 700;
 	public GUI_Main(String currentUser) {
 		super("P2P File Transfer");
-		this.setSize(700, 500);
+		this.setSize(HEIGHT, WIDTH);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
@@ -242,7 +243,7 @@ public class GUI_Main extends JFrame {
 		userJPanel.setLayout(new BoxLayout(userJPanel, BoxLayout.PAGE_AXIS));
 		userJPanel.add(new JLabel("Users"));
 		userJPanel.add(new JScrollPane(userJList, v, h));
-		userJPanel.setMinimumSize(new Dimension(defaultJFrameWidth / 4 - 30,
+		userJPanel.setMinimumSize(new Dimension(defaultJFrameWidth / 4 - 100,
 				defaultJFrameHeight));
 		operationJPanel.add(sendJRadioButton);
 		operationJPanel.add(receiveJRadioButton);

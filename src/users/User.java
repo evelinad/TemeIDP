@@ -29,7 +29,7 @@ public class User {
 		return files;
 	}
 	
-	public void addFiles(String[] files)
+	public void addFiles(ArrayList<String> files)
 	{
 		this.files.clear();
 		for (String file : files) {
