@@ -44,8 +44,8 @@ public class GUI_Main extends JFrame {
 		 */
 		final JList userJList, fileJList;
 		final P2PJTable transferJTable;
-		int defaultJFrameHeight = 500;
-		int defaultJFrameWidth = 700;
+		int defaultJFrameHeight = WIDTH;
+		int defaultJFrameWidth = HEIGHT;
 		DefaultTableModel transfer_model;
 		DefaultListModel user_model;
 		final DefaultListModel files_model;
