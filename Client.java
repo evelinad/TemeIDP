@@ -127,54 +127,73 @@ class ServerPeer implements Runnable {
 			System.err.println(ex);
 		}
 	}
-
+    
 	/* writing event */
-	private void writeOP(SelectionKey key) throws IOException {
+	private void writeOP(SelectionKey key)  {
+	    try
+	    {
 		SocketChannel socketChannel = (SocketChannel) key.channel();
 		List<byte[]> channelData = keepDataTrack.get(socketChannel);
 		Iterator<byte[]> its = channelData.iterator();
-		FileInputStream f;
-		long positionToJump;
+		RandomAccessFile f;
+
 		StringTokenizer st;
 		String fileName;
 		int fragment;
+		String task;
 		/* process all requests from channel queue */
 		while (its.hasNext()) {
 			byte[] it = its.next();
 			its.remove();
 			/* extract filename, fragment no and send back the file fragment */
-			fileName = new String(it);
+			task = new String(it);
 			/* remove trailing grabage characters from message */
-			fileName = fileName.replaceAll("[^A-Za-z0-9. ]", "");
+			task = task.replaceAll("[^A-Za-z0-9. ]", "");
+			String[] tokens = task.split(" ");
+			fileName = tokens[1];
+			if(tokens[0].equals("size") )
+			{
 			byte[] bufferRead = new byte[BYTE_BUFFER_SIZE];
-			f = new FileInputStream(fileName);
+
 	    	long size = new File(fileName).length();
-	    	System.out.println("file size "+ size);	    	
+	    	//System.out.println("file size "+ size);	    	
 	    	for(int i=4;i<12;i++) {
 	    	    bufferRead[i] = (byte)(size >> (i *8));
+             bufferRead[0] = 8;
+
+
 	    	}
-	    	bufferRead[0] = 8;
-
-          	socketChannel.write(ByteBuffer.wrap(bufferRead));	   		
-            int rd;
-            bufferRead = new byte[BYTE_BUFFER_SIZE];
-			while((rd = f.read(bufferRead, 4, BYTE_BUFFER_SIZE - NR_BYTES_SIZE))!=-1)
-			{
-               
-    			for (int i = 0; i < 4; i++) {
+ 	          	socketChannel.write(ByteBuffer.wrap(bufferRead));	 	    	    
+	    	}
+	    	else
+	    	{
+	    	    fragment = Integer.parseInt(tokens[2]);
+	    	   fileName = tokens[1];
+       			f = new RandomAccessFile(fileName, "r");
+    			long positionToJump = (BYTE_BUFFER_SIZE - NR_BYTES_SIZE) * fragment;
+	    		f.seek(positionToJump);
+	    		//System.out.println("file fragment "+fragment + " "+fileName);
+    			byte[] bufferRead = new byte[BYTE_BUFFER_SIZE];
+	    		int rd = f.read(bufferRead, 4, BYTE_BUFFER_SIZE - NR_BYTES_SIZE);
+	    		for (int i = 0; i < 4; i++) {
 	    			bufferRead[i] = (byte) (rd >> (i * 8));
-    
+
 	    		}
-	    		System.out.println("Am citit "+rd+" "+bufferRead[0]+ " "+bufferRead[1]+ " "+bufferRead[2]+ " "+bufferRead[3]+ " ");
-              	socketChannel.write(ByteBuffer.wrap(bufferRead));	   			    		
-                bufferRead = new byte[BYTE_BUFFER_SIZE];
+	    		socketChannel.write(ByteBuffer.wrap(bufferRead));       			
+    			f.close();       			
+            }
+	    	  		
 
-	    	}	   		
 
-			f.close();
+			
 		}
 
 		key.interestOps(SelectionKey.OP_READ);
+		}
+		catch(Exception exc)
+		{
+		    exc.printStackTrace();
+        }
 	
 	}
 	/* store in a queue the requests for further processing */
@@ -190,6 +209,7 @@ class ServerPeer implements Runnable {
 /* client class used to send I/O requests to other peers */
 class ClientPeer implements Runnable {
 	ByteBuffer receivingBufferPeer;
+
 	final int BYTE_BUFFER_SIZE = 4096;
 	final int NR_BYTES_SIZE = 4;
 	int remotePort;
@@ -198,6 +218,7 @@ class ClientPeer implements Runnable {
 		this.remotePort = remotePort;
 		this.downloadFile = downloadFile;
 		this.receivingBufferPeer = ByteBuffer.allocate(BYTE_BUFFER_SIZE);
+
 		(new Thread(this)).start();
 	}
 
@@ -246,10 +267,11 @@ class ClientPeer implements Runnable {
 									keySocketChannel.finishConnect();
 								}
 
-    								FileOutputStream f = new FileOutputStream(this.downloadFile + "2");
+                                    RandomAccessFile f = new RandomAccessFile(
+										this.downloadFile + "2", "rw");
 								
 									byte[] message = new byte[BYTE_BUFFER_SIZE];
-									byte[] messageBytes = (this.downloadFile ).getBytes();
+									byte[] messageBytes = ("size "+this.downloadFile ).getBytes();
 									System.arraycopy(messageBytes, 0, message,
 											0, messageBytes.length);
 
@@ -262,11 +284,12 @@ class ClientPeer implements Runnable {
 									long fileSize = 0;
 									long numBytesReceived = 0;
 									receivingBufferPeer.clear();
-									
+
 									/* get the response and write the fragment */
 									while ((numRead += keySocketChannel
 											.read(receivingBufferPeer)) < BYTE_BUFFER_SIZE);
 									receivingBufferPeer.flip();
+
 									byte[] data = new byte[numRead];
 									System.arraycopy(
 											receivingBufferPeer.array(), 0,
@@ -289,14 +312,27 @@ class ClientPeer implements Runnable {
 											+ ((0xFF & data[5]) << 8)
 											+ (0xFF & data[4]);
 									System.out.println("Am primit "+numBytes+" "+ fileSize);																				
+    								
+    							long fragmentNo = fileSize/(long)4092;
+    							if(fileSize % 4092 != 0) fragmentNo++;
 
-								
+	                           for (long fragment=0;fragment< fragmentNo; fragment++) {
+									message = new byte[BYTE_BUFFER_SIZE];
+									messageBytes = ("fragment "+this.downloadFile
+											+ " " +  fragment).getBytes();
+									System.arraycopy(messageBytes, 0, message,
+											0, messageBytes.length);
+
+									ByteBuffer sendingBuffer2 = ByteBuffer
+											.wrap(message);
+									keySocketChannel.write(sendingBuffer2);
+									
+									int positionToJump = (BYTE_BUFFER_SIZE - NR_BYTES_SIZE)
+											* ((int) fragment);
+									f.seek(positionToJump);
 									receivingBufferPeer.clear();
-
-									numRead = 0;
-                                    while(numBytesReceived<fileSize)
-                                    {
-									/* get the response and write the fragment */
+								
+                                    numRead = 0;
 									while ((numRead += keySocketChannel
 											.read(receivingBufferPeer)) < BYTE_BUFFER_SIZE);
 									receivingBufferPeer.flip();
@@ -304,36 +340,29 @@ class ClientPeer implements Runnable {
 									System.arraycopy(
 											receivingBufferPeer.array(), 0,
 											data, 0, numRead);
-									/*
-									 * first 4 bytes represent the size of the
-									 * file fragment
-									 */
+								
 									numBytes = ((0xFF & data[3]) << 24)
 											+ ((0xFF & data[2]) << 16)
 											+ ((0xFF & data[1]) << 8)
 											+ (0xFF & data[0]);
 
-									//System.out.println("Am citit "+numBytes+data[0]+" "+data[1] +" "+data[2]+" "+data[3]);																				
 									f.write(data, 4, numBytes);
-
+								
+									
 									
 									if (receivingBufferPeer.hasRemaining()) {
 										receivingBufferPeer.compact();
 									} else {
 										receivingBufferPeer.clear();
-
 									}
-									numBytesReceived += numBytes;
-									System.out.println(fileSize + "  "+ numBytesReceived+" "+numBytes);
-                                   								                                        
-                                    }									
-
-    								f.close();
+									//System.out.println("ma cac pe IDP"); 
+								}
+								f.close();   								
 								}
 
 							
 						} catch (IOException ex) {
-							
+							ex.printStackTrace();
 
 						}
 					}
@@ -342,7 +371,7 @@ class ClientPeer implements Runnable {
 
 		}
 		} catch (Exception exc) {
-			
+			exc.printStackTrace();
 		}
 	}
 }
@@ -353,32 +382,11 @@ public class Client extends AbstractClient {
     {
         
     }
-    
-    static void parseCommand()
-    {
-        String command  = "";
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        while(true)
-        {
-            try
-            {
-                command = br.readLine();
-                String[] result = command.split(" ");
-                String file = result[0];
-                int remotePort = Integer.parseInt(result[1]);
-            
-            }
-            catch(Exception exc)
-            {
-                
-            }
-            
-        }
-    }
+
     
     public static void main(String[] args)
     {
-      //  parseCommand();   
+
         int port = Integer.parseInt(args[0]);
         int remotePort = Integer.parseInt(args[1]);
         String fileName = args[2];
