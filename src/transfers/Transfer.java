@@ -1,6 +1,14 @@
 package transfers;
 
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.Set;
 
 import core.Mediator;
 /**
@@ -17,6 +25,11 @@ public class Transfer extends Thread implements TransferStatusConstans{
 	private long fileSize;
 	private long downloaded = 0;
 	private int index;
+	ByteBuffer receivingBufferPeer;
+	final int BYTE_BUFFER_SIZE = 4096;
+	final int NR_BYTES_SIZE = 4;
+	int remotePort;
+	long startFragment;	
 	/**
 	 * 0 - Download; 
 	 * 1 - Upload; 
@@ -32,12 +45,16 @@ public class Transfer extends Thread implements TransferStatusConstans{
 	private int state;
 	private int progress = 0;
 	
-	public Transfer(String file,String fromUser,String toUser, Mediator med, int type) {
+	public Transfer(String file,String fromUser,String toUser, Mediator med, int type, int remotePort,  long fragment) {
 			this.file = file;
 			this.toUser = toUser;
 			this.fromUser = fromUser;
 			state = STARTED;
 			this.med = med;
+			this.remotePort = remotePort;
+			this.file = file;
+			this.receivingBufferPeer = ByteBuffer.allocate(BYTE_BUFFER_SIZE);
+	        this.startFragment = fragment;			
 			if (type == DOWNLOAD)
 				this.type = new String("Downloading");
 			else
@@ -100,7 +117,159 @@ public class Transfer extends Thread implements TransferStatusConstans{
 				e.printStackTrace();
 			}
 		}*/
-		System.out.println("outdated");
+		try {
+
+			/* open Selector and ServerSocketChannel */
+			Selector selector = Selector.open();
+			SocketChannel socketChannel = SocketChannel.open();
+		
+			// check if both of them are opened
+			if ((socketChannel.isOpen()) && (selector.isOpen())) {
+
+				/* non-blocking mode */
+				socketChannel.configureBlocking(false);
+
+				/* register the channel */
+				socketChannel.register(selector, SelectionKey.OP_CONNECT);
+
+				/* connect to remote host */
+				socketChannel.connect(new java.net.InetSocketAddress(
+						"localhost", remotePort));
+
+				while (selector.select(1000) > 0) {
+
+					/* get current selected keys */
+					Set keys = selector.selectedKeys();
+					Iterator its = keys.iterator();
+
+					/* process each one */
+					while (its.hasNext()) {
+						SelectionKey key = (SelectionKey) its.next();
+
+						/* remove the selected one */
+						its.remove();
+
+						/* get the socket channel for current key */
+						try (SocketChannel keySocketChannel = (SocketChannel) key
+								.channel()) {
+
+							/* try to connect */
+							if (key.isConnectable()) {
+
+								/* close pendent connections */
+								if (keySocketChannel.isConnectionPending()) {
+									keySocketChannel.finishConnect();
+								}
+
+                                    RandomAccessFile f = new RandomAccessFile(
+										this.file + "2", "rw");
+								
+									byte[] message = new byte[BYTE_BUFFER_SIZE];
+									byte[] messageBytes = ("size "+this.file ).getBytes();
+									System.arraycopy(messageBytes, 0, message,
+											0, messageBytes.length);
+
+									/* send the request to the remote peer */
+									ByteBuffer sendingBuffer = ByteBuffer
+											.wrap(message);
+									keySocketChannel.write(sendingBuffer);
+									int numRead = 0;
+									int numBytes = 0;
+									long fileSize = 0;
+									long numBytesReceived = 0;
+									receivingBufferPeer.clear();
+
+									/* get the response and write the fragment */
+									while ((numRead += keySocketChannel
+											.read(receivingBufferPeer)) < BYTE_BUFFER_SIZE);
+									receivingBufferPeer.flip();
+
+									byte[] data = new byte[numRead];
+									System.arraycopy(
+											receivingBufferPeer.array(), 0,
+											data, 0, numRead);
+									/*
+									 * first 4 bytes represent the size of the
+									 * file fragment
+									 */
+									numBytes = ((0xFF & data[3]) << 24)
+											+ ((0xFF & data[2]) << 16)
+											+ ((0xFF & data[1]) << 8)
+											+ (0xFF & data[0]);
+
+                                    fileSize = ((0xFF & data[11]) << 54)
+                                            + ((0xFF & data[10]) << 48) 
+                                            + ((0xFF & data[9]) << 40)
+                                            + ((0xFF & data[8]) << 32)
+                                            + ((0xFF & data[7]) << 24)
+											+ ((0xFF & data[6]) << 16)
+											+ ((0xFF & data[5]) << 8)
+											+ (0xFF & data[4]);
+									System.out.println("Am primit "+numBytes+" "+ fileSize);
+									this.fileSize = fileSize;
+    							long fragmentNo = fileSize/(long)4092;
+    							if(fileSize % 4092 != 0) fragmentNo++;
+
+	                           for (;startFragment< fragmentNo; startFragment++) {
+									message = new byte[BYTE_BUFFER_SIZE];
+									messageBytes = ("fragment "+this.file
+											+ " " +  startFragment).getBytes();
+									System.arraycopy(messageBytes, 0, message,
+											0, messageBytes.length);
+
+									ByteBuffer sendingBuffer2 = ByteBuffer
+											.wrap(message);
+									keySocketChannel.write(sendingBuffer2);
+									
+									long positionToJump = (BYTE_BUFFER_SIZE - NR_BYTES_SIZE)
+											* ((long)startFragment);
+									f.seek(positionToJump);
+									receivingBufferPeer.clear();
+								
+                                    numRead = 0;
+									while ((numRead += keySocketChannel
+											.read(receivingBufferPeer)) < BYTE_BUFFER_SIZE);
+									receivingBufferPeer.flip();
+									data = new byte[numRead];
+									System.arraycopy(
+											receivingBufferPeer.array(), 0,
+											data, 0, numRead);
+								
+									numBytes = ((0xFF & data[3]) << 24)
+											+ ((0xFF & data[2]) << 16)
+											+ ((0xFF & data[1]) << 8)
+											+ (0xFF & data[0]);
+
+									f.write(data, 4, numBytes);
+									updateProgress(numBytes);    								
+
+									
+									
+									if (receivingBufferPeer.hasRemaining()) {
+										receivingBufferPeer.compact();
+									} else {
+										receivingBufferPeer.clear();
+									}
+									System.out.println("ma cac pe IDP"); 
+								}
+								f.close();   								
+								}
+
+							
+						} catch (IOException ex) {
+							ex.printStackTrace();
+
+						}
+					}
+				}
+			 
+
+		}
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+		
+		
 		
 	}
 }

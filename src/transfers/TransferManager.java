@@ -19,14 +19,16 @@ public class TransferManager implements TransferStatusConstans {
 	private ResumeState resumeState;
 	private StartState startState;
 	private StopState stopState;
+
 	public TransferManager(Mediator med) {
 		this.med = med;
 		transfers = new ArrayList<Transfer>();
 	}
 
 	public boolean addNewTransfer(String source, String destination,
-			String file, int type) {
-		Transfer transfer = new Transfer(file, source, destination, med, type);
+			String file, int type, int remotePort, long fragment) {
+		//(String file,String fromUser,String toUser, Mediator med, int type, int remotePort,  long fragment)
+		Transfer transfer = new Transfer(file, source, destination, med, type, remotePort, fragment);
 		if (source == null || destination == null || file == null)
 			return false;
 		transfer.setIndex(transfers.size());
@@ -58,9 +60,7 @@ public class TransferManager implements TransferStatusConstans {
 	public Transfer getSelectedTransfer() {
 		return this.transfers.get(selectedTransfer);
 	}
-	public void setStatusSelectedTransfer(int status) {
-		transfers.get(selectedTransfer).setState(status);
-	}
+
 
 	/**
 	 * start/stop/pause a selected transfer
@@ -68,7 +68,7 @@ public class TransferManager implements TransferStatusConstans {
 	public String start() {
 		if (selectedTransfer >= 0
 				&& transfers.get(selectedTransfer).getTransferState() == STARTED) {
-			//transfers.get(selectedTransfer).start();
+			transfers.get(selectedTransfer).start();
 			transfers.get(selectedTransfer).setState(ACTIVE);
 			this.selectedTransferState = startState;
 			return transfers.get(selectedTransfer).getType();

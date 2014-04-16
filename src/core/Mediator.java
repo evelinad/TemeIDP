@@ -163,7 +163,7 @@ public class Mediator {
 			return;
 		int type = currentState.getType();
 		if (!(transferManager.addNewTransfer(stateMgr.getFromValue(),
-				stateMgr.getToValue(), stateMgr.getFileValue(), type)))
+				stateMgr.getToValue(), stateMgr.getFileValue(), type,users.getUser(stateMgr.getToValue()).getPort(),0)))
 			return;
 		if (type == 0)
 			transfer_model.addRow(new Object[] { stateMgr.getFromValue(),
