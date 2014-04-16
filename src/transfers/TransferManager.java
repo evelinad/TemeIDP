@@ -68,9 +68,8 @@ public class TransferManager implements TransferStatusConstans {
 	public String start() {
 		if (selectedTransfer >= 0
 				&& transfers.get(selectedTransfer).getTransferState() == STARTED) {
-			/*transfers.get(selectedTransfer).start();
+			//transfers.get(selectedTransfer).start();
 			transfers.get(selectedTransfer).setState(ACTIVE);
-			*/
 			this.selectedTransferState = startState;
 			return transfers.get(selectedTransfer).getType();
 		}
@@ -82,7 +81,7 @@ public class TransferManager implements TransferStatusConstans {
 				&& (transfers.get(selectedTransfer).getTransferState() == STARTED
 						|| transfers.get(selectedTransfer).getTransferState() == PAUSED || transfers
 						.get(selectedTransfer).getTransferState() == ACTIVE)) {
-			//transfers.get(selectedTransfer).setState(STOPPED);
+			transfers.get(selectedTransfer).setState(STOPPED);
 			this.selectedTransferState = stopState;
 			return true;
 		}
@@ -92,7 +91,7 @@ public class TransferManager implements TransferStatusConstans {
 	public String resume() {
 		if (selectedTransfer >= 0
 				&& transfers.get(selectedTransfer).getTransferState() == PAUSED) {
-			//transfers.get(selectedTransfer).setState(ACTIVE);
+			transfers.get(selectedTransfer).setState(ACTIVE);
 			this.selectedTransferState = resumeState;
 			return transfers.get(selectedTransfer).getType();
 		}
@@ -103,8 +102,9 @@ public class TransferManager implements TransferStatusConstans {
 		if (selectedTransfer >= 0
 				&& (transfers.get(selectedTransfer).getTransferState() == STARTED || transfers
 						.get(selectedTransfer).getTransferState() == ACTIVE)) {
-			this.selectedTransferState = pauseState;			
-			//transfers.get(selectedTransfer).setState(PAUSED);
+			this.selectedTransferState = pauseState;		
+			System.out.println("WHY?? "+transfers.get(selectedTransfer).getTransferState());
+			transfers.get(selectedTransfer).setState(PAUSED);
 			return true;
 		}
 		return false;
