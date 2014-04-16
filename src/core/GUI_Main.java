@@ -21,7 +21,6 @@ import buttons.StopButton;
 import radiobuttons.ReceiveRadioButton;
 import radiobuttons.SendRadioButton;
 import tables.P2PJTable;
-import test.Test;
 /**
  * Class for building the gui
  */
