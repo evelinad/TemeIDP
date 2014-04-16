@@ -21,6 +21,7 @@ import radiobuttons.ReceiveRadioButton;
 import radiobuttons.SendRadioButton;
 import tables.P2PJTable;
 import test.Test;
+import transfers.Configure;
 /**
  * Class for building the gui
  */
@@ -273,12 +274,15 @@ public class GUI_Main extends JFrame {
 
 		this.setVisible(true);
 
-		Test tester = new Test(med);
-		tester.execute();
+		/*Test tester = new Test(med);
+		tester.execute();*/
+		
+		Configure conf = new Configure(currentUser, med);
+		conf.setUpUsers();
 	}
 
 	public static void main(String[] args) {
-		new GUI_Main("user1");
+		new GUI_Main(args[0]);
 	}
 
 }

@@ -32,6 +32,8 @@ public class User {
 	public void addFiles(ArrayList<String> files)
 	{
 		this.files.clear();
+		if (files == null || files.isEmpty())
+			return;
 		for (String file : files) {
 			this.files.add(file);
 		}
