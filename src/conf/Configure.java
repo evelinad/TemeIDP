@@ -21,10 +21,11 @@ public class Configure {
 	private String[] users = new String[4];
 	private int noUsers;
 	private HashMap<String, ArrayList<String>> fileList;
+	private HashMap<String, Integer> ports;
 	private String currentUser;
 	private Mediator med;
 	private Logger log = Logger.getLogger(Configure.class);
-	private int port;
+	private int port; /* reserved for future use */
 	
 	public Configure(String user, Mediator med, int port)
 	{
@@ -40,18 +41,21 @@ public class Configure {
 		try {
 			log.info("init config");
 			cfgFile = new RandomAccessFile("test.cfg", "r");
-			System.out.println(currentUser);
+			System.out.println("current user is " + currentUser);
 			downFolder = cfgFile.readLine();
 			System.out.println("user folder: " + downFolder);
 			fileList = new HashMap<String, ArrayList<String>>();
+			ports = new HashMap<String, Integer>();
 			log.debug("finished init");
 			
 			log.info("finding users");
 			//add user names
 			for (noUsers = 0; noUsers < 4; noUsers++) {
 				aux = cfgFile.readLine();
-				System.out.println("added user: " + aux);
 				users[noUsers] = new String(aux);
+				ports.put(aux, Integer.parseInt(cfgFile.readLine()));
+				log.info("added user: " + aux + " with port " + ports.get(aux));
+				System.out.println("added user: " + aux + " with port " + ports.get(aux));
 			}
 			log.debug("finished user counter: " + noUsers);
 			
@@ -98,9 +102,10 @@ public class Configure {
 		
 		log.info("adding & setting current user");
 		med.addUserToModel(currentUser);
-		med.addUser(new User(currentUser,port));
+		med.addUser(new User(currentUser,ports.get(currentUser)));
 		med.setCurrentUser(currentUser);
 		med.addFilesToUser(currentUser, fileList.get(currentUser));
+
 		fileList.remove(currentUser);
 		log.debug("user added to model and removed from map");
 		
@@ -112,7 +117,7 @@ public class Configure {
 			log.info("adding " + userName + " to list");
 			//TODO modify port
 			med.addUserToModel(userName);
-			med.addUser(new User(userName,0));
+			med.addUser(new User(userName,ports.get(userName)));
 			med.addFilesToUser(userName, fileList.get(userName));
 			log.debug("added " + userName);
 		}
