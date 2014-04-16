@@ -111,7 +111,10 @@ public class Mediator {
 	 * get reference to selected transfer
 	 */
 	public void setSelectedTransfer(int index) {
-		transferManager.setSelectedTransfer(index);
+		if(index>=0) {
+			System.out.println("index "+index);
+			transferManager.setSelectedTransfer(index);
+		}	
 	}
 
 	/**
