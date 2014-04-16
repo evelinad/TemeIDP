@@ -14,7 +14,11 @@ public class TransferManager implements TransferStatusConstans {
 	private Mediator med;
 	private ArrayList<Transfer> transfers = new ArrayList<Transfer>();
 	int selectedTransfer = -1;
-
+	private TransferState selectedTransferState;
+	private PauseState pauseState;
+	private ResumeState resumeState;
+	private StartState startState;
+	private StopState stopState;
 	public TransferManager(Mediator med) {
 		this.med = med;
 		transfers = new ArrayList<Transfer>();
@@ -28,6 +32,7 @@ public class TransferManager implements TransferStatusConstans {
 		transfer.setIndex(transfers.size());
 		transfers.add(transfer);
 		transfer.setState(STARTED);
+		this.selectedTransferState = startState;
 		return true;
 	}
 
@@ -37,12 +42,22 @@ public class TransferManager implements TransferStatusConstans {
 	 */
 	public void setSelectedTransfer(int index) {
 		this.selectedTransfer = index;
+		pauseState = new PauseState(transfers.get(index));
+		resumeState = new ResumeState(transfers.get(index));
+		startState = new StartState(transfers.get(index));
+		stopState = new StopState(transfers.get(index));
 	}
-
-	public int getSelectedTransfer() {
+	public void selectedTransferStateAction()
+	{
+		selectedTransferState.doAction();
+	}
+	public int getSelectedTransferIndex() {
 		return this.selectedTransfer;
 	}
 
+	public Transfer getSelectedTransfer() {
+		return this.transfers.get(selectedTransfer);
+	}
 	public void setStatusSelectedTransfer(int status) {
 		transfers.get(selectedTransfer).setState(status);
 	}
@@ -53,8 +68,10 @@ public class TransferManager implements TransferStatusConstans {
 	public String start() {
 		if (selectedTransfer >= 0
 				&& transfers.get(selectedTransfer).getTransferState() == STARTED) {
-			transfers.get(selectedTransfer).start();
+			/*transfers.get(selectedTransfer).start();
 			transfers.get(selectedTransfer).setState(ACTIVE);
+			*/
+			this.selectedTransferState = startState;
 			return transfers.get(selectedTransfer).getType();
 		}
 		return null;
@@ -65,7 +82,8 @@ public class TransferManager implements TransferStatusConstans {
 				&& (transfers.get(selectedTransfer).getTransferState() == STARTED
 						|| transfers.get(selectedTransfer).getTransferState() == PAUSED || transfers
 						.get(selectedTransfer).getTransferState() == ACTIVE)) {
-			transfers.get(selectedTransfer).setState(STOPPED);
+			//transfers.get(selectedTransfer).setState(STOPPED);
+			this.selectedTransferState = stopState;
 			return true;
 		}
 		return false;
@@ -74,7 +92,8 @@ public class TransferManager implements TransferStatusConstans {
 	public String resume() {
 		if (selectedTransfer >= 0
 				&& transfers.get(selectedTransfer).getTransferState() == PAUSED) {
-			transfers.get(selectedTransfer).setState(ACTIVE);
+			//transfers.get(selectedTransfer).setState(ACTIVE);
+			this.selectedTransferState = resumeState;
 			return transfers.get(selectedTransfer).getType();
 		}
 		return null;
@@ -84,7 +103,8 @@ public class TransferManager implements TransferStatusConstans {
 		if (selectedTransfer >= 0
 				&& (transfers.get(selectedTransfer).getTransferState() == STARTED || transfers
 						.get(selectedTransfer).getTransferState() == ACTIVE)) {
-			transfers.get(selectedTransfer).setState(PAUSED);
+			this.selectedTransferState = pauseState;			
+			//transfers.get(selectedTransfer).setState(PAUSED);
 			return true;
 		}
 		return false;

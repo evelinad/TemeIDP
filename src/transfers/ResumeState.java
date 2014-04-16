@@ -1,8 +1,8 @@
 package transfers;
 
-public class Resume extends TransferState implements TransferStatusConstans {
+public class ResumeState extends TransferState implements TransferStatusConstans {
 
-	public Resume(Transfer transfer) {
+	public ResumeState(Transfer transfer) {
 		super(transfer);
 		// TODO Auto-generated constructor stub
 	}
@@ -10,7 +10,7 @@ public class Resume extends TransferState implements TransferStatusConstans {
 	@Override
 	public void doAction() {
 		// TODO Auto-generated method stub
-		transfer.setState(ACTIVE);
+		this.transfer.setState(ACTIVE);
 	}
 
 }

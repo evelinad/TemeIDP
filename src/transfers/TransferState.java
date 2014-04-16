@@ -9,7 +9,7 @@ package transfers;
  */
 public abstract class TransferState {
 	
-	Transfer transfer;
+	protected Transfer transfer;
 	
 	public TransferState(Transfer transfer)
 	{

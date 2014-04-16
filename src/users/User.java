@@ -11,10 +11,11 @@ public class User {
 
 	private String name;
 	private ArrayList<String> files;
-	private int port;
+	private int serverPort;
 	
-	public User(String name) {
+	public User(String name, int severPort) {
 		this.name = name;
+		this.serverPort = serverPort;
 		files = new ArrayList<String>();
 	}
 	
@@ -43,12 +44,12 @@ public class User {
 	
 	public void setPort(int port)
 	{
-		this.port = port;
+		this.serverPort = port;
 	}
 	
 	public int getPort()
 	{
-		return this.port;
+		return this.serverPort;
 	}
 
 }

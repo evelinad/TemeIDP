@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
+import net.ServerPeer;
+
 import org.apache.log4j.Logger;
 
 import com.sun.corba.se.spi.orbutil.fsm.State;
@@ -27,11 +29,12 @@ public class Mediator {
 	private TransferManager transferManager;
 	private DefaultTableModel transfer_model;
 	private Logger log = Logger.getLogger(Mediator.class);
-
+	private ServerPeer serverPeer;
 	public Mediator() {
 		stateMgr = new StateManager(this);
 		users = new UserArrayList();
 		transferManager = new TransferManager(this);
+		
 	}
 
 	/**
@@ -39,6 +42,8 @@ public class Mediator {
 	 */
 	public void setCurrentUser(String user) {
 		stateMgr.setCurrentUser(user);
+		User u = users.getUser(user);
+		this.serverPeer = new ServerPeer(u.getPort());		
 	}
 
 	public String getCurrentUser() {
@@ -60,9 +65,8 @@ public class Mediator {
 		users.getUser(userName).addFiles(arrayList);
 	}
 
-	public void addUserToModel(User u) {
-		user_model.addElement(u.getName());
-		users.add(u);
+	public void addUserToModel(String user) {
+		user_model.addElement(user);
 	}
 
 	/**
@@ -70,8 +74,19 @@ public class Mediator {
 	 * remove a user from user model
 	 */
 	public void removeUserFromModel(String user) {
-		users.removeUser(user);
 		user_model.removeElement(user);
+	}
+	public void removeUser(String user)
+	{
+		users.removeUser(user);
+
+		
+	}
+	
+	public void addUser(User user)
+	{
+		users.add(user);
+
 	}
 
 	/**
@@ -105,27 +120,27 @@ public class Mediator {
 	public void stopSelectedTransfer() {
 		if (transferManager.stop())
 			transfer_model.setValueAt("Stopped",
-					transferManager.getSelectedTransfer(), 4);
+					transferManager.getSelectedTransferIndex(), 4);
 	}
 
 	public void startSelectedTransfer() {
 		String type = transferManager.start();
 		if (type != null)
 			transfer_model.setValueAt(transferManager.getTransferType(),
-					transferManager.getSelectedTransfer(), 4);
+					transferManager.getSelectedTransferIndex(), 4);
 	}
 
 	public void resumeSelectedTransfer() {
 		String type = transferManager.resume();
 		if (type != null)
 			transfer_model.setValueAt(type,
-					transferManager.getSelectedTransfer(), 4);
+					transferManager.getSelectedTransferIndex(), 4);
 	}
 
 	public void pauseSelectedTransfer() {
 		if (transferManager.pause())
 			transfer_model.setValueAt("Paused",
-					transferManager.getSelectedTransfer(), 4);
+					transferManager.getSelectedTransferIndex(), 4);
 	}
 
 	public void updateTransferSelectedUser(String user) {
@@ -190,15 +205,5 @@ public class Mediator {
 		transfer_model.setValueAt(Integer.toString(progress) + '%', row, 3);
 	}
 	
-	public void setPortToUser(String user, int port)
-	{
-		users.getUser(user).setPort(port);
-		log.info("user " + user + " has port " + port);
-	}
-	
-	public int getPortToUser(String user)
-	{
-		return users.getUser(user).getPort();
-	}
 
 }

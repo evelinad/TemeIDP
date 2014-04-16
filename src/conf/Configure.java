@@ -97,10 +97,10 @@ public class Configure {
 		checkMap();
 		
 		log.info("adding & setting current user");
-		med.addUserToModel(new User(currentUser));
+		med.addUserToModel(currentUser);
+		med.addUser(new User(currentUser,port));
 		med.setCurrentUser(currentUser);
 		med.addFilesToUser(currentUser, fileList.get(currentUser));
-		med.setPortToUser(currentUser, port);
 		fileList.remove(currentUser);
 		log.debug("user added to model and removed from map");
 		
@@ -110,7 +110,9 @@ public class Configure {
 		Set<String> keys = fileList.keySet();
 		for (String userName : keys) {
 			log.info("adding " + userName + " to list");
-			med.addUserToModel(new User(userName));
+			//TODO modify port
+			med.addUserToModel(userName);
+			med.addUser(new User(userName,0));
 			med.addFilesToUser(userName, fileList.get(userName));
 			log.debug("added " + userName);
 		}

@@ -21,7 +21,6 @@ import buttons.StopButton;
 import radiobuttons.ReceiveRadioButton;
 import radiobuttons.SendRadioButton;
 import tables.P2PJTable;
-import test.Test;
 /**
  * Class for building the gui
  */
@@ -65,7 +64,6 @@ public class GUI_Main extends JFrame {
 		transferJTable = new P2PJTable(transfer_model);
 		med.setFilesModel(files_model);
 		med.setUserModel(user_model);
-		med.setCurrentUser("user1");
 		med.setTransferModel(transfer_model);
 		int v = ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
 		int h = ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED;

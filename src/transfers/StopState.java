@@ -1,8 +1,7 @@
 package transfers;
 
-public class Pause extends TransferState implements TransferStatusConstans {
-
-	public Pause(Transfer transfer) {
+public class StopState extends TransferState implements TransferStatusConstans {
+	public StopState(Transfer transfer) {
 		super(transfer);
 		// TODO Auto-generated constructor stub
 	}
@@ -10,7 +9,7 @@ public class Pause extends TransferState implements TransferStatusConstans {
 	@Override
 	public void doAction() {
 		// TODO Auto-generated method stub
-		transfer.setState(PAUSED);
+		this.transfer.setState(STOPPED);
 	}
 
 }
