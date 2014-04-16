@@ -21,6 +21,7 @@ public class StateManager {
 		this.med = med;
 		receiveState = new ReceiveState(med);
 		sendState = new SendState(med);
+		currentState = sendState;
 	}
 	public void setToValue(String to)
 	{

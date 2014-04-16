@@ -108,7 +108,7 @@ public class Configure {
 		for (String userName : keys) {
 			log.info("adding " + userName + " to list");
 			med.addUserToModel(new User(userName));
-			med.addFilesToUser(userName, fileList.get(currentUser));
+			med.addFilesToUser(userName, fileList.get(userName));
 			log.debug("added " + userName);
 		}
 		log.debug("configuration complete");

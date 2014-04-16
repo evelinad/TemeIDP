@@ -14,6 +14,8 @@ public class Transfer extends Thread implements TransferStatusConstans{
 	private String toUser;
 	private String fromUser;
 	private Mediator med;
+	private long fileSize;
+	private long downloaded = 0;
 	private int index;
 	/**
 	 * 0 - Download; 
@@ -27,14 +29,14 @@ public class Transfer extends Thread implements TransferStatusConstans{
 	 * 3 - stopped;
 	 * 4 - completed;
 	 */
-	private int status;
+	private int state;
 	private int progress = 0;
 	
 	public Transfer(String file,String fromUser,String toUser, Mediator med, int type) {
 			this.file = file;
 			this.toUser = toUser;
 			this.fromUser = fromUser;
-			status = STARTED;
+			state = STARTED;
 			this.med = med;
 			if (type == DOWNLOAD)
 				this.type = new String("Downloading");
@@ -43,19 +45,20 @@ public class Transfer extends Thread implements TransferStatusConstans{
 			
 	}
 	
-	public void updateProgress(int unit)
+	public void updateProgress(long chunk)
 	{
-		progress += unit;
-		if (progress >= 100)
+		downloaded += chunk;
+		progress = (int) (fileSize / downloaded * 100);
+		if (progress == 100)
 		{
 			progress = 100;
-			status = COMPLETED;
+			state = COMPLETED;
 		}
 		med.updateProgress(progress, index);
 	}
 	public void updateStatus(int status)
 	{
-		this.status = status;
+		this.state = status;
 	}
 	
 	public boolean isCompleted() {
@@ -69,9 +72,9 @@ public class Transfer extends Thread implements TransferStatusConstans{
 	{
 		return this.progress;
 	}
-	public int getStatus()
+	public int getTransferState()
 	{
-		return this.status;
+		return this.state;
 	}	
 	
 	public void setIndex(int index) {
@@ -85,7 +88,7 @@ public class Transfer extends Thread implements TransferStatusConstans{
 
 	@Override
 	public void run() {
-		Random rand = new Random();
+		/*Random rand = new Random();
 		while(true)
 		{
 			if (status == ACTIVE) {
@@ -96,7 +99,8 @@ public class Transfer extends Thread implements TransferStatusConstans{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
+		System.out.println("outdated");
 		
 	}
 }

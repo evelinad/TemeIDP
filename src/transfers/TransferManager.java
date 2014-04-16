@@ -52,7 +52,7 @@ public class TransferManager implements TransferStatusConstans {
 	 */
 	public String start() {
 		if (selectedTransfer >= 0
-				&& transfers.get(selectedTransfer).getStatus() == STARTED) {
+				&& transfers.get(selectedTransfer).getTransferState() == STARTED) {
 			transfers.get(selectedTransfer).start();
 			transfers.get(selectedTransfer).updateStatus(ACTIVE);
 			return transfers.get(selectedTransfer).getType();
@@ -62,9 +62,9 @@ public class TransferManager implements TransferStatusConstans {
 
 	public boolean stop() {
 		if (selectedTransfer >= 0
-				&& (transfers.get(selectedTransfer).getStatus() == STARTED
-						|| transfers.get(selectedTransfer).getStatus() == PAUSED || transfers
-						.get(selectedTransfer).getStatus() == ACTIVE)) {
+				&& (transfers.get(selectedTransfer).getTransferState() == STARTED
+						|| transfers.get(selectedTransfer).getTransferState() == PAUSED || transfers
+						.get(selectedTransfer).getTransferState() == ACTIVE)) {
 			transfers.get(selectedTransfer).updateStatus(STOPPED);
 			return true;
 		}
@@ -73,7 +73,7 @@ public class TransferManager implements TransferStatusConstans {
 
 	public String resume() {
 		if (selectedTransfer >= 0
-				&& transfers.get(selectedTransfer).getStatus() == PAUSED) {
+				&& transfers.get(selectedTransfer).getTransferState() == PAUSED) {
 			transfers.get(selectedTransfer).updateStatus(ACTIVE);
 			return transfers.get(selectedTransfer).getType();
 		}
@@ -82,8 +82,8 @@ public class TransferManager implements TransferStatusConstans {
 
 	public boolean pause() {
 		if (selectedTransfer >= 0
-				&& (transfers.get(selectedTransfer).getStatus() == STARTED || transfers
-						.get(selectedTransfer).getStatus() == ACTIVE)) {
+				&& (transfers.get(selectedTransfer).getTransferState() == STARTED || transfers
+						.get(selectedTransfer).getTransferState() == ACTIVE)) {
 			transfers.get(selectedTransfer).updateStatus(PAUSED);
 			return true;
 		}
