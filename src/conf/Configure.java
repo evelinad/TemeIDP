@@ -1,4 +1,4 @@
-package transfers;
+package conf;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,20 +15,22 @@ import core.Mediator;
 
 public class Configure {
 	
-	RandomAccessFile cfgFile;
+	private RandomAccessFile cfgFile;
 	//BufferedReader cfgReader;
-	String downFolder, aux = "aux";
-	String[] users = new String[4];
-	int noUsers;
-	HashMap<String, ArrayList<String>> fileList;
-	String currentUser;
-	Mediator med;
-	Logger log = Logger.getLogger(Configure.class);
+	private String downFolder, aux = "aux";
+	private String[] users = new String[4];
+	private int noUsers;
+	private HashMap<String, ArrayList<String>> fileList;
+	private String currentUser;
+	private Mediator med;
+	private Logger log = Logger.getLogger(Configure.class);
+	private int port;
 	
-	public Configure(String user, Mediator med)
+	public Configure(String user, Mediator med, int port)
 	{
 		currentUser = user;
 		this.med = med;
+		this.port = port;
 		PropertyConfigurator.configure(currentUser + ".properties");
 		System.out.println("luat logger file");
 	}
@@ -98,6 +100,7 @@ public class Configure {
 		med.addUserToModel(new User(currentUser));
 		med.setCurrentUser(currentUser);
 		med.addFilesToUser(currentUser, fileList.get(currentUser));
+		med.setPortToUser(currentUser, port);
 		fileList.remove(currentUser);
 		log.debug("user added to model and removed from map");
 		

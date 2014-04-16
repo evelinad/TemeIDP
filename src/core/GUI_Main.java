@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import conf.Configure;
 import buttons.PauseButton;
 import buttons.ResumeButton;
 import buttons.AddButton;
@@ -21,7 +22,6 @@ import radiobuttons.ReceiveRadioButton;
 import radiobuttons.SendRadioButton;
 import tables.P2PJTable;
 import test.Test;
-import transfers.Configure;
 /**
  * Class for building the gui
  */
@@ -30,7 +30,7 @@ public class GUI_Main extends JFrame {
 	private static final long serialVersionUID = -8118352433755008641L;
 	private final int HEIGHT = 900;
 	private final int WIDTH = 700;
-	public GUI_Main(String currentUser) {
+	public GUI_Main(String currentUser, int port) {
 		super("P2P File Transfer");
 		this.setSize(HEIGHT, WIDTH);
 		this.setLocationRelativeTo(null);
@@ -277,12 +277,12 @@ public class GUI_Main extends JFrame {
 		/*Test tester = new Test(med);
 		tester.execute();*/
 		
-		Configure conf = new Configure(currentUser, med);
+		Configure conf = new Configure(currentUser, med, port);
 		conf.setUpUsers();
 	}
 
 	public static void main(String[] args) {
-		new GUI_Main(args[0]);
+		new GUI_Main(args[0], Integer.parseInt(args[1]));
 	}
 
 }

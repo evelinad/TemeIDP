@@ -9,8 +9,10 @@ import java.util.ArrayList;
  */
 public class User {
 
-	String name;
-	ArrayList<String> files;
+	private String name;
+	private ArrayList<String> files;
+	private int port;
+	
 	public User(String name) {
 		this.name = name;
 		files = new ArrayList<String>();
@@ -37,6 +39,16 @@ public class User {
 		for (String file : files) {
 			this.files.add(file);
 		}
+	}
+	
+	public void setPort(int port)
+	{
+		this.port = port;
+	}
+	
+	public int getPort()
+	{
+		return this.port;
 	}
 
 }

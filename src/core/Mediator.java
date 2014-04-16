@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.Logger;
+
 import com.sun.corba.se.spi.orbutil.fsm.State;
 
+import conf.Configure;
 import states.StateManager;
 import transfers.TransferManager;
 import users.User;
@@ -23,6 +26,7 @@ public class Mediator {
 	private DefaultListModel files_model;
 	private TransferManager transferManager;
 	private DefaultTableModel transfer_model;
+	private Logger log = Logger.getLogger(Mediator.class);
 
 	public Mediator() {
 		stateMgr = new StateManager(this);
@@ -184,6 +188,17 @@ public class Mediator {
 
 	public void updateProgress(int progress, int row) {
 		transfer_model.setValueAt(Integer.toString(progress) + '%', row, 3);
+	}
+	
+	public void setPortToUser(String user, int port)
+	{
+		users.getUser(user).setPort(port);
+		log.info("user " + user + " has port " + port);
+	}
+	
+	public int getPortToUser(String user)
+	{
+		return users.getUser(user).getPort();
 	}
 
 }

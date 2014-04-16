@@ -27,7 +27,7 @@ public class TransferManager implements TransferStatusConstans {
 			return false;
 		transfer.setIndex(transfers.size());
 		transfers.add(transfer);
-		transfer.updateStatus(STARTED);
+		transfer.setState(STARTED);
 		return true;
 	}
 
@@ -44,7 +44,7 @@ public class TransferManager implements TransferStatusConstans {
 	}
 
 	public void setStatusSelectedTransfer(int status) {
-		transfers.get(selectedTransfer).updateStatus(status);
+		transfers.get(selectedTransfer).setState(status);
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class TransferManager implements TransferStatusConstans {
 		if (selectedTransfer >= 0
 				&& transfers.get(selectedTransfer).getTransferState() == STARTED) {
 			transfers.get(selectedTransfer).start();
-			transfers.get(selectedTransfer).updateStatus(ACTIVE);
+			transfers.get(selectedTransfer).setState(ACTIVE);
 			return transfers.get(selectedTransfer).getType();
 		}
 		return null;
@@ -65,7 +65,7 @@ public class TransferManager implements TransferStatusConstans {
 				&& (transfers.get(selectedTransfer).getTransferState() == STARTED
 						|| transfers.get(selectedTransfer).getTransferState() == PAUSED || transfers
 						.get(selectedTransfer).getTransferState() == ACTIVE)) {
-			transfers.get(selectedTransfer).updateStatus(STOPPED);
+			transfers.get(selectedTransfer).setState(STOPPED);
 			return true;
 		}
 		return false;
@@ -74,7 +74,7 @@ public class TransferManager implements TransferStatusConstans {
 	public String resume() {
 		if (selectedTransfer >= 0
 				&& transfers.get(selectedTransfer).getTransferState() == PAUSED) {
-			transfers.get(selectedTransfer).updateStatus(ACTIVE);
+			transfers.get(selectedTransfer).setState(ACTIVE);
 			return transfers.get(selectedTransfer).getType();
 		}
 		return null;
@@ -84,7 +84,7 @@ public class TransferManager implements TransferStatusConstans {
 		if (selectedTransfer >= 0
 				&& (transfers.get(selectedTransfer).getTransferState() == STARTED || transfers
 						.get(selectedTransfer).getTransferState() == ACTIVE)) {
-			transfers.get(selectedTransfer).updateStatus(PAUSED);
+			transfers.get(selectedTransfer).setState(PAUSED);
 			return true;
 		}
 		return false;

@@ -56,9 +56,9 @@ public class Transfer extends Thread implements TransferStatusConstans{
 		}
 		med.updateProgress(progress, index);
 	}
-	public void updateStatus(int status)
+	public void setState(int state)
 	{
-		this.state = status;
+		this.state = state;
 	}
 	
 	public boolean isCompleted() {
