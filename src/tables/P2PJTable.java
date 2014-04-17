@@ -6,10 +6,11 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+
 /**
  * 
  * the class extends JTable, making each cell not editable
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class P2PJTable extends JTable {
@@ -17,11 +18,11 @@ public class P2PJTable extends JTable {
 	public P2PJTable() {
 	}
 
-	public boolean isCellEditable(int row, int column)
-	{
+	public boolean isCellEditable(int row, int column) {
 		return false;
-		
+
 	}
+
 	public P2PJTable(TableModel dm) {
 		super(dm);
 	}
@@ -46,13 +47,11 @@ public class P2PJTable extends JTable {
 	public P2PJTable(TableModel dm, TableColumnModel cm, ListSelectionModel sm) {
 		super(dm, cm, sm);
 	}
-	
-	
-	@Override  
-    public void changeSelection(int rowIndex, int columnIndex,  
-            boolean toggle, boolean extend)
-	{  
-        super.changeSelection(rowIndex, columnIndex, true, false);  
-    }  
+
+	@Override
+	public void changeSelection(int rowIndex, int columnIndex, boolean toggle,
+			boolean extend) {
+		super.changeSelection(rowIndex, columnIndex, true, false);
+	}
 
 }

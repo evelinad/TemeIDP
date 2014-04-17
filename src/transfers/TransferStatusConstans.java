@@ -3,7 +3,7 @@ package transfers;
 /**
  * 
  * TransferStatusConstants for defining Transfer states
- *
+ * 
  */
 public interface TransferStatusConstans {
 	public static final int STARTED = 0;

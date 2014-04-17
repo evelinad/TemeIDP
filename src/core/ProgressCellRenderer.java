@@ -9,7 +9,7 @@ import javax.swing.table.TableCellRenderer;
 /**
  * 
  * Class for updating a progress bar in a tranfsre table row
- *
+ * 
  */
 public class ProgressCellRenderer extends JProgressBar implements
 		TableCellRenderer {
@@ -17,7 +17,7 @@ public class ProgressCellRenderer extends JProgressBar implements
 	private static final long serialVersionUID = -2294931500959570838L;
 
 	public ProgressCellRenderer() {
-		super(0,100);
+		super(0, 100);
 		setValue(0);
 		setString("0%");
 		setStringPainted(true);
@@ -28,11 +28,10 @@ public class ProgressCellRenderer extends JProgressBar implements
 			boolean isSelected, boolean hasFocus, int row, int column) {
 		final String val = value.toString();
 		int index = val.indexOf('%');
-		if (index != -1)
-		{
+		if (index != -1) {
 			int progress = 0;
 			try {
-				progress = Integer.parseInt(val.substring(0,index));
+				progress = Integer.parseInt(val.substring(0, index));
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
@@ -42,5 +41,4 @@ public class ProgressCellRenderer extends JProgressBar implements
 		return this;
 	}
 
-	
 }

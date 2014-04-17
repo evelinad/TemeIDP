@@ -1,7 +1,8 @@
 package transfers;
+
 /**
- *  Put the selected transfer in stop state, after selecting stop button
- *
+ * Put the selected transfer in stop state, after selecting stop button
+ * 
  */
 public class StopState extends TransferState implements TransferStatusConstans {
 	public StopState(Transfer transfer) {

@@ -27,8 +27,8 @@ public class TransferManager implements TransferStatusConstans {
 
 	public boolean addNewTransfer(String source, String destination,
 			String file, int type, int remotePort, long fragment) {
-		//(String file,String fromUser,String toUser, Mediator med, int type, int remotePort,  long fragment)
-		Transfer transfer = new Transfer(file, source, destination, med, type, remotePort, fragment,transfers.size());
+		Transfer transfer = new Transfer(file, source, destination, med, type,
+				remotePort, fragment, transfers.size());
 		if (source == null || destination == null || file == null)
 			return false;
 		transfers.add(transfer);
@@ -48,10 +48,11 @@ public class TransferManager implements TransferStatusConstans {
 		startState = new StartState(transfers.get(index));
 		stopState = new StopState(transfers.get(index));
 	}
-	public void selectedTransferStateAction()
-	{
+
+	public void selectedTransferStateAction() {
 		selectedTransferState.doAction();
 	}
+
 	public int getSelectedTransferIndex() {
 		return this.selectedTransfer;
 	}
@@ -59,7 +60,6 @@ public class TransferManager implements TransferStatusConstans {
 	public Transfer getSelectedTransfer() {
 		return this.transfers.get(selectedTransfer);
 	}
-
 
 	/**
 	 * start/stop/pause a selected transfer
@@ -82,7 +82,7 @@ public class TransferManager implements TransferStatusConstans {
 						.get(selectedTransfer).getTransferState() == ACTIVE)) {
 			transfers.get(selectedTransfer).setTransferState(STOPPED);
 			this.selectedTransferState = stopState;
-			this.selectedTransferState.doAction();			
+			this.selectedTransferState.doAction();
 			return true;
 		}
 		return false;
@@ -93,8 +93,8 @@ public class TransferManager implements TransferStatusConstans {
 				&& transfers.get(selectedTransfer).getTransferState() == PAUSED) {
 			transfers.get(selectedTransfer).setTransferState(ACTIVE);
 			this.selectedTransferState = resumeState;
-			this.selectedTransferState.doAction();			
-			
+			this.selectedTransferState.doAction();
+
 			return transfers.get(selectedTransfer).getType();
 		}
 		return null;
@@ -104,11 +104,12 @@ public class TransferManager implements TransferStatusConstans {
 		if (selectedTransfer >= 0
 				&& (transfers.get(selectedTransfer).getTransferState() == STARTED || transfers
 						.get(selectedTransfer).getTransferState() == ACTIVE)) {
-			this.selectedTransferState = pauseState;		
-			System.out.println("WHY?? "+transfers.get(selectedTransfer).getTransferState());
+			this.selectedTransferState = pauseState;
+			System.out.println("WHY?? "
+					+ transfers.get(selectedTransfer).getTransferState());
 			transfers.get(selectedTransfer).setTransferState(PAUSED);
-			this.selectedTransferState.doAction();			
-			
+			this.selectedTransferState.doAction();
+
 			return true;
 		}
 		return false;

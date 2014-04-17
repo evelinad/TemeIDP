@@ -1,7 +1,8 @@
 package transfers;
+
 /**
- *  Put the selected transfer in start state, after selecting start button
- *
+ * Put the selected transfer in start state, after selecting start button
+ * 
  */
 public class StartState extends TransferState implements TransferStatusConstans {
 
@@ -12,7 +13,7 @@ public class StartState extends TransferState implements TransferStatusConstans 
 	@Override
 	public void doAction() {
 		this.transfer.setTransferState(ACTIVE);
-		this.transfer.start();		
+		this.transfer.start();
 
 	}
 

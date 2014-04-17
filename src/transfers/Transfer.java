@@ -18,8 +18,9 @@ import core.Mediator;
  * Transfer class for handling data of an ongoing transfer
  * 
  */
-public class Transfer extends AbstractTransfer  {
-	private final static Logger LOGGER = Logger.getLogger(Transfer.class .getName()); 
+public class Transfer extends AbstractTransfer {
+	private final static Logger LOGGER = Logger.getLogger(Transfer.class
+			.getName());
 	private String file;
 	private String toUser;
 	private String fromUser;
@@ -62,7 +63,7 @@ public class Transfer extends AbstractTransfer  {
 
 	public void updateProgress(long chunk) {
 		downloaded += chunk;
-		LOGGER.info("Received "+chunk +" bytes");
+		LOGGER.info("Received " + chunk + " bytes");
 		progress = (long) ((double) downloaded / (double) fileSize * (double) 100);
 		if (progress == 100) {
 			progress = 100;
@@ -73,13 +74,13 @@ public class Transfer extends AbstractTransfer  {
 
 	public void setTransferState(int state) {
 		this.state = state;
-		LOGGER.info("Transfer " +this.index+" state changed to "+state);
+		LOGGER.info("Transfer " + this.index + " state changed to " + state);
 	}
 
 	public boolean isCompleted() {
 		if (progress == 100) {
-			LOGGER.info("Transfer " +this.index+" is completed");
-			
+			LOGGER.info("Transfer " + this.index + " is completed");
+
 			return true;
 		}
 		return false;
@@ -100,7 +101,7 @@ public class Transfer extends AbstractTransfer  {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void run() {
-		
+
 		try {
 
 			/* open Selector and ServerSocketChannel */
@@ -146,10 +147,12 @@ public class Transfer extends AbstractTransfer  {
 								}
 
 								RandomAccessFile f = new RandomAccessFile(
-										"downloads/" + toUser + "/"+this.file , "rw");
+										"downloads/" + toUser + "/" + this.file,
+										"rw");
 
 								byte[] message = new byte[BYTE_BUFFER_SIZE];
-								byte[] messageBytes = ("size " + "downloads/" + fromUser + "/"+this.file)
+								byte[] messageBytes = ("size " + "downloads/"
+										+ fromUser + "/" + this.file)
 										.getBytes();
 								System.arraycopy(messageBytes, 0, message, 0,
 										messageBytes.length);
@@ -163,7 +166,8 @@ public class Transfer extends AbstractTransfer  {
 								receivingBufferPeer.clear();
 
 								while ((numRead += keySocketChannel
-										.read(receivingBufferPeer)) < BYTE_BUFFER_SIZE);
+										.read(receivingBufferPeer)) < BYTE_BUFFER_SIZE)
+									;
 								receivingBufferPeer.flip();
 								byte[] data = new byte[numRead];
 								System.arraycopy(receivingBufferPeer.array(),
@@ -185,17 +189,22 @@ public class Transfer extends AbstractTransfer  {
 										+ ((0xFF & data[6]) << 16)
 										+ ((0xFF & data[5]) << 8)
 										+ (0xFF & data[4]);
-								LOGGER.info("Requested file "+this.file+" size "+fileSize);
+								LOGGER.info("Requested file " + this.file
+										+ " size " + fileSize);
 								this.fileSize = fileSize;
 								long fragmentNo = fileSize / (long) 4092;
 								if (fileSize % 4092 != 0)
 									fragmentNo++;
-								/* ask for a specific fragment and write it in the file */
+								/*
+								 * ask for a specific fragment and write it in
+								 * the file
+								 */
 								LOGGER.info("Started file fragment transfer");
 								for (; startFragment < fragmentNo; startFragment++) {
 									message = new byte[BYTE_BUFFER_SIZE];
-									messageBytes = ("fragment " +  "downloads/" + fromUser + "/"+this.file
-											+ " " + startFragment).getBytes();
+									messageBytes = ("fragment " + "downloads/"
+											+ fromUser + "/" + this.file + " " + startFragment)
+											.getBytes();
 									System.arraycopy(messageBytes, 0, message,
 											0, messageBytes.length);
 
@@ -231,7 +240,7 @@ public class Transfer extends AbstractTransfer  {
 									} else {
 										receivingBufferPeer.clear();
 									}
-									
+
 								}
 								f.close();
 							}

@@ -1,8 +1,8 @@
 package transfers;
 
 /**
- *  Put the selected transfer in the pause stat, after selecting pause button 
- *
+ * Put the selected transfer in the pause stat, after selecting pause button
+ * 
  */
 public class PauseState extends TransferState implements TransferStatusConstans {
 

@@ -7,6 +7,7 @@ import javax.swing.JButton;
 
 import core.Command;
 import core.Mediator;
+
 /*
  * class for starting a transfer
  */
@@ -14,14 +15,15 @@ import core.Mediator;
 public class StartButton extends JButton implements Command {
 
 	private Mediator med;
-	
-	public StartButton(String text,ActionListener act, Mediator md,ImageIcon icon) {
+
+	public StartButton(String text, ActionListener act, Mediator md,
+			ImageIcon icon) {
 		super(text);
 		addActionListener(act);
 		med = md;
 		setIcon(icon);
 	}
-	
+
 	@Override
 	public void execute() {
 		med.startSelectedTransfer();

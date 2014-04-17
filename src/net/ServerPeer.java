@@ -16,7 +16,8 @@ import transfers.Transfer;
  *
  */
 public class ServerPeer extends AbstractServerPeer implements Runnable {
-	private final static Logger LOGGER = Logger.getLogger(ServerPeer.class .getName()); 
+	private final static Logger LOGGER = Logger.getLogger(ServerPeer.class
+			.getName());
 	int port;
 	final int BYTE_BUFFER_SIZE = 4096;
 	final int NR_BYTES_SIZE = 4;
@@ -27,15 +28,16 @@ public class ServerPeer extends AbstractServerPeer implements Runnable {
 
 	public ServerPeer(int port) {
 		this.port = port;
-    	this.charset = Charset.defaultCharset();
-		this.decoder = charset.newDecoder();		
+		this.charset = Charset.defaultCharset();
+		this.decoder = charset.newDecoder();
 		(new Thread(this)).start();
 
 	}
+
 	@SuppressWarnings("rawtypes")
 	public void run() {
 
-	/* open Selector and ServerSocketChannel */
+		/* open Selector and ServerSocketChannel */
 		try {
 			Selector selector = Selector.open();
 			ServerSocketChannel serverSocketChannel = ServerSocketChannel
@@ -84,22 +86,21 @@ public class ServerPeer extends AbstractServerPeer implements Runnable {
 			LOGGER.error("An error occurred while communicating with other hosts");
 		}
 	}
-	
+
 	/* new connecton */
 	protected void acceptOP(SelectionKey key, Selector selector) {
 
-		try
-		{
-			ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
+		try {
+			ServerSocketChannel serverChannel = (ServerSocketChannel) key
+					.channel();
 			SocketChannel socketChannel = serverChannel.accept();
 			socketChannel.configureBlocking(false);
-			LOGGER.info("Incoming connection from: "+ socketChannel.getRemoteAddress());
+			LOGGER.info("Incoming connection from: "
+					+ socketChannel.getRemoteAddress());
 			/* register channel with selector for exchanging further messages */
 			keepDataTrack.put(socketChannel, new ArrayList<byte[]>());
 			socketChannel.register(selector, SelectionKey.OP_READ);
-		}
-		catch(IOException ex)
-		{
+		} catch (IOException ex) {
 			LOGGER.error(ex.toString());
 
 		}
@@ -137,79 +138,72 @@ public class ServerPeer extends AbstractServerPeer implements Runnable {
 			System.err.println(ex);
 		}
 	}
-    
+
 	/* writing event */
-	protected void writeOP(SelectionKey key)  {
-	    try
-	    {
-		SocketChannel socketChannel = (SocketChannel) key.channel();
-		List<byte[]> channelData = keepDataTrack.get(socketChannel);
-		Iterator<byte[]> its = channelData.iterator();
-		RandomAccessFile f;
+	protected void writeOP(SelectionKey key) {
+		try {
+			SocketChannel socketChannel = (SocketChannel) key.channel();
+			List<byte[]> channelData = keepDataTrack.get(socketChannel);
+			Iterator<byte[]> its = channelData.iterator();
+			RandomAccessFile f;
 
-		String fileName;
-		int fragment;
-		String task;
-		/* process all requests from channel queue */
-		while (its.hasNext()) {
-			byte[] it = its.next();
-			its.remove();
-			/* extract filename, fragment no and send back the file fragment */
-			task = new String(it);
-			/* remove trailing grabage characters from message */
-			task = task.replaceAll("[^A-Za-z0-9._\\/ ]", "");
-			String[] tokens = task.split(" ");
-			fileName = tokens[1];
-			if(tokens[0].equals("size") )
-			{
-			byte[] bufferRead = new byte[BYTE_BUFFER_SIZE];
+			String fileName;
+			int fragment;
+			String task;
+			/* process all requests from channel queue */
+			while (its.hasNext()) {
+				byte[] it = its.next();
+				its.remove();
+				/* extract filename, fragment no and send back the file fragment */
+				task = new String(it);
+				/* remove trailing grabage characters from message */
+				task = task.replaceAll("[^A-Za-z0-9._\\/ ]", "");
+				String[] tokens = task.split(" ");
+				fileName = tokens[1];
+				if (tokens[0].equals("size")) {
+					byte[] bufferRead = new byte[BYTE_BUFFER_SIZE];
 
-	    	long size = new File(fileName).length();
-	    	System.out.println("file size "+ size+fileName);	    	
-	    	for(int i=4;i<12;i++) {
-	    	    bufferRead[i] = (byte)(size >> (i *8));
-             bufferRead[0] = 8;
+					long size = new File(fileName).length();
+					System.out.println("file size " + size + fileName);
+					for (int i = 4; i < 12; i++) {
+						bufferRead[i] = (byte) (size >> (i * 8));
+						bufferRead[0] = 8;
 
+					}
+					socketChannel.write(ByteBuffer.wrap(bufferRead));
+				} else {
+					fragment = Integer.parseInt(tokens[2]);
+					fileName = tokens[1];
+					f = new RandomAccessFile(fileName, "r");
+					long positionToJump = (BYTE_BUFFER_SIZE - NR_BYTES_SIZE)
+							* fragment;
+					f.seek(positionToJump);
+					byte[] bufferRead = new byte[BYTE_BUFFER_SIZE];
+					int rd = f.read(bufferRead, 4, BYTE_BUFFER_SIZE
+							- NR_BYTES_SIZE);
+					for (int i = 0; i < 4; i++) {
+						bufferRead[i] = (byte) (rd >> (i * 8));
 
-	    	}
- 	          	socketChannel.write(ByteBuffer.wrap(bufferRead));	 	    	    
-	    	}
-	    	else
-	    	{
-	    	    fragment = Integer.parseInt(tokens[2]);
-	    	   fileName = tokens[1];
-       			f = new RandomAccessFile(fileName, "r");
-    			long positionToJump = (BYTE_BUFFER_SIZE - NR_BYTES_SIZE) * fragment;
-	    		f.seek(positionToJump);
-    			byte[] bufferRead = new byte[BYTE_BUFFER_SIZE];
-	    		int rd = f.read(bufferRead, 4, BYTE_BUFFER_SIZE - NR_BYTES_SIZE);
-	    		for (int i = 0; i < 4; i++) {
-	    			bufferRead[i] = (byte) (rd >> (i * 8));
+					}
+					socketChannel.write(ByteBuffer.wrap(bufferRead));
+					f.close();
+				}
 
-	    		}
-	    		socketChannel.write(ByteBuffer.wrap(bufferRead));       			
-    			f.close();       			
-            }
-	    	  		
+			}
 
-
-			
+			key.interestOps(SelectionKey.OP_READ);
+		} catch (Exception exc) {
+			exc.printStackTrace();
 		}
 
-		key.interestOps(SelectionKey.OP_READ);
-		}
-		catch(Exception exc)
-		{
-		    exc.printStackTrace();
-        }
-	
 	}
+
 	/* store in a queue the requests for further processing */
 	private void doEchoJob(SelectionKey key, byte[] data) {
 		SocketChannel socketChannel = (SocketChannel) key.channel();
 		List<byte[]> channelData = keepDataTrack.get(socketChannel);
 		channelData.add(data);
 		key.interestOps(SelectionKey.OP_WRITE);
-	}	
+	}
 
 }

@@ -12,20 +12,20 @@ import core.Mediator;
 /**
  * 
  * Receive RadioButton class for setting a receive transfer
- *
+ * 
  */
 @SuppressWarnings("serial")
-public class ReceiveRadioButton extends JRadioButton implements Command{
+public class ReceiveRadioButton extends JRadioButton implements Command {
 	Mediator med;
 
-	public ReceiveRadioButton(String text,ActionListener act, Mediator md) {
+	public ReceiveRadioButton(String text, ActionListener act, Mediator md) {
 		super(text);
 		addActionListener(act);
 		med = md;
 	}
+
 	public ReceiveRadioButton() {
 	}
-	
 
 	public ReceiveRadioButton(Icon icon) {
 		super(icon);
@@ -54,13 +54,14 @@ public class ReceiveRadioButton extends JRadioButton implements Command{
 	public ReceiveRadioButton(String text, Icon icon, boolean selected) {
 		super(text, icon, selected);
 	}
+
 	/**
 	 * setup the receive transfer
 	 */
 	@Override
 	public void execute() {
 		med.initiateReceiveFile();
-		
+
 	}
 
 }

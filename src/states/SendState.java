@@ -4,11 +4,11 @@ import core.Mediator;
 
 /**
  * 
- * After checking the SendRadioButton, the application 
- * goes into send state until the new transfer is added
- *
+ * After checking the SendRadioButton, the application goes into send state
+ * until the new transfer is added
+ * 
  */
-public class SendState extends State{
+public class SendState extends State {
 
 	public SendState(Mediator med) {
 		super(med);
@@ -19,7 +19,7 @@ public class SendState extends State{
 	public void updateTransferSelectedUser(String user) {
 		med.setFromValue(med.getCurrentUser());
 		med.setToValue(user);
-		
+
 	}
 
 }

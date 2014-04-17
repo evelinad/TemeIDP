@@ -1,10 +1,11 @@
 package transfers;
 
 /**
- *  Put the selected transfer in resume state, after selecting resume button
- *
+ * Put the selected transfer in resume state, after selecting resume button
+ * 
  */
-public class ResumeState extends TransferState implements TransferStatusConstans {
+public class ResumeState extends TransferState implements
+		TransferStatusConstans {
 
 	public ResumeState(Transfer transfer) {
 		super(transfer);
@@ -14,7 +15,7 @@ public class ResumeState extends TransferState implements TransferStatusConstans
 	@Override
 	public void doAction() {
 		this.transfer.setTransferState(ACTIVE);
-		this.transfer.resume();		
+		this.transfer.resume();
 	}
 
 }

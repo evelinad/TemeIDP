@@ -9,24 +9,27 @@ import javax.swing.JButton;
 
 import core.Command;
 import core.Mediator;
+
 /**
  * 
- * @author Evelina
  * class for stopping a transfer
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class StopButton extends JButton implements Command {
 	Mediator med;
+
 	public StopButton() {
 	}
 
-	public StopButton(String text,ActionListener act, Mediator md,ImageIcon icon) {
+	public StopButton(String text, ActionListener act, Mediator md,
+			ImageIcon icon) {
 		super(text);
 		addActionListener(act);
 		med = md;
 		setIcon(icon);
 	}
+
 	public StopButton(Icon icon) {
 		super(icon);
 	}

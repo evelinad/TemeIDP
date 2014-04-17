@@ -26,7 +26,6 @@ public class TestMarge extends TestCase {
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		DiffFiles diff = new DiffFiles("downloads/marge/curs1.pdf",
@@ -34,7 +33,7 @@ public class TestMarge extends TestCase {
 		assertTrue("downloaded file curs1.pdf is identical to original",
 				diff.compareFiles());
 	}
-	
+
 	public void testStartStop() {
 		++index;
 		med.setFromValue("homer");
@@ -48,7 +47,6 @@ public class TestMarge extends TestCase {
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		DiffFiles diff = new DiffFiles("downloads/homer/C2.pdf",
@@ -56,7 +54,7 @@ public class TestMarge extends TestCase {
 		assertTrue("downloaded file curs1.pdf is identical to original",
 				diff.compareFiles());
 	}
-	
+
 	public void testPauseResume() {
 		++index;
 		med.setFromValue("lisa");
@@ -70,7 +68,6 @@ public class TestMarge extends TestCase {
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		DiffFiles diff = new DiffFiles("downloads/marge/smp_5_CMP1.ppt",

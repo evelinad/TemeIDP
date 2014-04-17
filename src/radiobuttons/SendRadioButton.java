@@ -8,19 +8,21 @@ import javax.swing.JRadioButton;
 
 import core.Command;
 import core.Mediator;
+
 /**
  * 
  * SendRadioButton class for setting a send transfer
  */
 @SuppressWarnings("serial")
-public class SendRadioButton extends JRadioButton implements Command{
+public class SendRadioButton extends JRadioButton implements Command {
 	Mediator med;
 
-	public SendRadioButton(String text,ActionListener act, Mediator md) {
+	public SendRadioButton(String text, ActionListener act, Mediator md) {
 		super(text);
 		addActionListener(act);
 		med = md;
 	}
+
 	public SendRadioButton() {
 	}
 
@@ -51,13 +53,14 @@ public class SendRadioButton extends JRadioButton implements Command{
 	public SendRadioButton(String text, Icon icon, boolean selected) {
 		super(text, icon, selected);
 	}
+
 	/**
 	 * setup the send transfer
 	 */
 	@Override
 	public void execute() {
 		med.initiateSendFile();
-		
+
 	}
 
 }

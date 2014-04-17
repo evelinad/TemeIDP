@@ -21,14 +21,16 @@ import buttons.StopButton;
 import radiobuttons.ReceiveRadioButton;
 import radiobuttons.SendRadioButton;
 import tables.P2PJTable;
+
 /**
  * Class for building the gui
  */
 public class GUI_Main extends JFrame {
-	
+
 	private static final long serialVersionUID = -8118352433755008641L;
 	private final int HEIGHT = 900;
 	private final int WIDTH = 700;
+
 	public GUI_Main(String currentUser, int port) {
 		super("P2P File Transfer");
 		this.setSize(HEIGHT, WIDTH);

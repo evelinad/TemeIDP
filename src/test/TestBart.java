@@ -34,7 +34,7 @@ public class TestBart extends TestCase {
 		assertTrue("downloaded file C2.pdf is identical to original",
 				diff.compareFiles());
 	}
-	
+
 	public void testStartStop() {
 		++index;
 		med.setFromValue("marge");
@@ -56,7 +56,7 @@ public class TestBart extends TestCase {
 		assertTrue("downloaded file l04_2013.pdf is identical to original",
 				diff.compareFiles());
 	}
-	
+
 	public void testPauseResume() {
 		++index;
 		med.setFromValue("lisa");
