@@ -86,6 +86,7 @@ public class Mediator {
 	public void addUser(User user)
 	{
 		users.add(user);
+		System.out.println("med.addUser "+user.getName() + user.getPort());
 
 	}
 
@@ -162,8 +163,13 @@ public class Mediator {
 		if (currentState == null)
 			return;
 		int type = currentState.getType();
+		for(User u : users)
+		{
+			System.out.println("med.doTransfer"+u.getName() + u.getPort());
+		}
+System.out.println("doTransfer2"+users.getUser(stateMgr.getFromValue()).getName()+users.getUser(stateMgr.getFromValue()).getPort());		
 		if (!(transferManager.addNewTransfer(stateMgr.getFromValue(),
-				stateMgr.getToValue(), stateMgr.getFileValue(), type,users.getUser(stateMgr.getToValue()).getPort(),0)))
+				stateMgr.getToValue(), stateMgr.getFileValue(), type,users.getUser(stateMgr.getFromValue()).getPort(),0)))
 			return;
 		if (type == 0)
 			transfer_model.addRow(new Object[] { stateMgr.getFromValue(),

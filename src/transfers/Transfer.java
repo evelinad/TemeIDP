@@ -46,13 +46,12 @@ public class Transfer extends Thread implements TransferStatusConstans{
 	private int progress = 0;
 	
 	public Transfer(String file,String fromUser,String toUser, Mediator med, int type, int remotePort,  long fragment) {
-			this.file = file;
+			this.file = "downloads/"+fromUser+"/"+file;
 			this.toUser = toUser;
 			this.fromUser = fromUser;
 			state = STARTED;
 			this.med = med;
 			this.remotePort = remotePort;
-			this.file = file;
 			this.receivingBufferPeer = ByteBuffer.allocate(BYTE_BUFFER_SIZE);
 	        this.startFragment = fragment;			
 			if (type == DOWNLOAD)
@@ -155,7 +154,7 @@ public class Transfer extends Thread implements TransferStatusConstans{
 
 							/* try to connect */
 							if (key.isConnectable()) {
-
+								System.out.println(remotePort + fromUser);
 								/* close pendent connections */
 								if (keySocketChannel.isConnectionPending()) {
 									keySocketChannel.finishConnect();
@@ -168,7 +167,7 @@ public class Transfer extends Thread implements TransferStatusConstans{
 									byte[] messageBytes = ("size "+this.file ).getBytes();
 									System.arraycopy(messageBytes, 0, message,
 											0, messageBytes.length);
-
+System.out.println("FIIILEEE "+this.file);
 									/* send the request to the remote peer */
 									ByteBuffer sendingBuffer = ByteBuffer
 											.wrap(message);

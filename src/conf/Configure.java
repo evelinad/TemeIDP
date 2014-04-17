@@ -117,7 +117,10 @@ public class Configure {
 			log.info("adding " + userName + " to list");
 			//TODO modify port
 			med.addUserToModel(userName);
-			med.addUser(new User(userName,ports.get(userName)));
+			int port = ports.get(userName);
+			User user = new User(userName,port);
+			med.addUser(user);
+			System.out.println("portul lui"+userName+"e"+port);
 			med.addFilesToUser(userName, fileList.get(userName));
 			log.debug("added " + userName);
 		}

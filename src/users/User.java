@@ -13,9 +13,10 @@ public class User {
 	private ArrayList<String> files;
 	private int serverPort;
 	
-	public User(String name, int severPort) {
+	public User(String name, int port) {
 		this.name = name;
-		this.serverPort = serverPort;
+		this.serverPort = port;
+		System.out.println("in user"+this.serverPort);
 		files = new ArrayList<String>();
 	}
 	
@@ -42,10 +43,7 @@ public class User {
 		}
 	}
 	
-	public void setPort(int port)
-	{
-		this.serverPort = port;
-	}
+
 	
 	public int getPort()
 	{

@@ -148,7 +148,7 @@ public class ServerPeer implements Runnable {
 			/* extract filename, fragment no and send back the file fragment */
 			task = new String(it);
 			/* remove trailing grabage characters from message */
-			task = task.replaceAll("[^A-Za-z0-9._\\ ]", "");
+			task = task.replaceAll("[^A-Za-z0-9._\\/ ]", "");
 			String[] tokens = task.split(" ");
 			fileName = tokens[1];
 			if(tokens[0].equals("size") )

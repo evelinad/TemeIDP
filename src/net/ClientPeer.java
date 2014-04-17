@@ -161,7 +161,7 @@ class ClientPeer implements Runnable {
 									} else {
 										receivingBufferPeer.clear();
 									}
-									System.out.println("ma cac pe IDP"); 
+									System.out.println("numbytes and numread"+numBytes +" "+numRead); 
 								}
 								f.close();   								
 								}
