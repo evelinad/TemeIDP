@@ -10,6 +10,7 @@ import core.Mediator;
 /*
  * class for starting a transfer
  */
+@SuppressWarnings("serial")
 public class StartButton extends JButton implements Command {
 
 	private Mediator med;

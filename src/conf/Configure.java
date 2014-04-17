@@ -16,7 +16,6 @@ import core.Mediator;
 public class Configure {
 	
 	private RandomAccessFile cfgFile;
-	//BufferedReader cfgReader;
 	private String downFolder, aux = "aux";
 	private String[] users = new String[4];
 	private int noUsers;
@@ -25,6 +24,7 @@ public class Configure {
 	private String currentUser;
 	private Mediator med;
 	private Logger log = Logger.getLogger(Configure.class);
+	@SuppressWarnings("unused")
 	private int port; /* reserved for future use */
 	
 	public Configure(String user, Mediator med, int port)

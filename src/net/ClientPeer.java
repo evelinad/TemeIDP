@@ -1,15 +1,10 @@
 package net;
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.StandardSocketOptions;
 import java.nio.*;
 import java.nio.channels.*;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
 import java.io.*;
 import java.util.*;
-import java.util.logging.Logger;
 
 /* client class used to send I/O requests to other peers */
 class ClientPeer implements Runnable {
@@ -51,8 +46,8 @@ class ClientPeer implements Runnable {
 				while (selector.select(1000) > 0) {
 
 					/* get current selected keys */
-					Set keys = selector.selectedKeys();
-					Iterator its = keys.iterator();
+					Set<?> keys = selector.selectedKeys();
+					Iterator<?> its = keys.iterator();
 
 					/* process each one */
 					while (its.hasNext()) {
@@ -88,7 +83,6 @@ class ClientPeer implements Runnable {
 									int numRead = 0;
 									int numBytes = 0;
 									long fileSize = 0;
-									long numBytesReceived = 0;
 									receivingBufferPeer.clear();
 
 									/* get the response and write the fragment */

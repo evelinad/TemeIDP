@@ -1,12 +1,6 @@
 package net;
 
 
-
-
-import java.io.File;
-import java.io.IOException;
-
-
 /**
  * Clasa abstracta din care va mosteni clasa principala a clientului.
  * Este necesara pentru uniformizarea si simplificarea testarii temei de casa.

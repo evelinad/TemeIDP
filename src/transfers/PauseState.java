@@ -7,6 +7,7 @@ public class PauseState extends TransferState implements TransferStatusConstans 
 		// TODO Auto-generated constructor stub
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void doAction() {
 		// TODO Auto-generated method stub

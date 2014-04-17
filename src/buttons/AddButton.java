@@ -16,6 +16,7 @@ import core.Mediator;
  * Class for adding anew transfer
  * 
  */
+@SuppressWarnings("serial")
 public class AddButton extends JButton implements Command {
 	Mediator med;
 

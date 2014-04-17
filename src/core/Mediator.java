@@ -9,32 +9,31 @@ import net.ServerPeer;
 
 import org.apache.log4j.Logger;
 
-import com.sun.corba.se.spi.orbutil.fsm.State;
-
-import conf.Configure;
 import states.StateManager;
 import transfers.TransferManager;
 import users.User;
+
 /**
  * 
  * Mediator class
- *
+ * 
  */
 public class Mediator {
 
 	private StateManager stateMgr;
 	private UserArrayList users;
-	private DefaultListModel user_model;
-	private DefaultListModel files_model;
+	private DefaultListModel<String> user_model;
+	private DefaultListModel<String> files_model;
 	private TransferManager transferManager;
 	private DefaultTableModel transfer_model;
+	@SuppressWarnings("unused")
 	private Logger log = Logger.getLogger(Mediator.class);
-	private ServerPeer serverPeer;
+
 	public Mediator() {
 		stateMgr = new StateManager(this);
 		users = new UserArrayList();
 		transferManager = new TransferManager(this);
-		
+
 	}
 
 	/**
@@ -43,7 +42,7 @@ public class Mediator {
 	public void setCurrentUser(String user) {
 		stateMgr.setCurrentUser(user);
 		User u = users.getUser(user);
-		this.serverPeer = new ServerPeer(u.getPort());		
+		new ServerPeer(u.getPort());
 	}
 
 	public String getCurrentUser() {
@@ -76,17 +75,15 @@ public class Mediator {
 	public void removeUserFromModel(String user) {
 		user_model.removeElement(user);
 	}
-	public void removeUser(String user)
-	{
+
+	public void removeUser(String user) {
 		users.removeUser(user);
 
-		
 	}
-	
-	public void addUser(User user)
-	{
+
+	public void addUser(User user) {
 		users.add(user);
-		System.out.println("med.addUser "+user.getName() + user.getPort());
+		System.out.println("med.addUser " + user.getName() + user.getPort());
 
 	}
 
@@ -94,7 +91,7 @@ public class Mediator {
 	 * 
 	 * get reference to user model
 	 */
-	public void setUserModel(DefaultListModel dm) {
+	public void setUserModel(DefaultListModel<String> dm) {
 		this.user_model = dm;
 
 	}
@@ -112,10 +109,10 @@ public class Mediator {
 	 * get reference to selected transfer
 	 */
 	public void setSelectedTransfer(int index) {
-		if(index>=0) {
-			System.out.println("index "+index);
+		if (index >= 0) {
+			System.out.println("index " + index);
 			transferManager.setSelectedTransfer(index);
-		}	
+		}
 	}
 
 	/**
@@ -151,7 +148,7 @@ public class Mediator {
 		stateMgr.getCurrentState().updateTransferSelectedUser(user);
 	}
 
-	public void setFilesModel(DefaultListModel dm) {
+	public void setFilesModel(DefaultListModel<String> dm) {
 		this.files_model = dm;
 	}
 
@@ -163,13 +160,38 @@ public class Mediator {
 		if (currentState == null)
 			return;
 		int type = currentState.getType();
-		for(User u : users)
-		{
-			System.out.println("med.doTransfer"+u.getName() + u.getPort());
+		for (User u : users) {
+			System.out.println("med.doTransfer" + u.getName() + u.getPort());
 		}
-System.out.println("doTransfer2"+users.getUser(stateMgr.getFromValue()).getName()+users.getUser(stateMgr.getFromValue()).getPort());		
-		if (!(transferManager.addNewTransfer(stateMgr.getFromValue(),
-				stateMgr.getToValue(), stateMgr.getFileValue(), type,users.getUser(stateMgr.getFromValue()).getPort(),0)))
+		System.out.println("doTransfer2"
+				+ users.getUser(stateMgr.getFromValue()).getName()
+				+ users.getUser(stateMgr.getFromValue()).getPort());
+		if (!(transferManager.addNewTransfer(stateMgr.getFromValue(), stateMgr
+				.getToValue(), stateMgr.getFileValue(), type,
+				users.getUser(stateMgr.getFromValue()).getPort(), 0)))
+			return;
+		if (type == 0)
+			transfer_model.addRow(new Object[] { stateMgr.getFromValue(),
+					stateMgr.getToValue(), stateMgr.getFileValue(), "0%",
+					"Pending" });
+		else
+			transfer_model.addRow(new Object[] { stateMgr.getFromValue(),
+					stateMgr.getToValue(), stateMgr.getFileValue(), "0%",
+					"Pending" });
+	}
+
+	public void doTransferTest() {
+		states.State currentState = new states.ReceiveState(this);
+		int type = currentState.getType();
+		for (User u : users) {
+			System.out.println("med.doTransfer" + u.getName() + u.getPort());
+		}
+		System.out.println("doTransfer2"
+				+ users.getUser(stateMgr.getFromValue()).getName()
+				+ users.getUser(stateMgr.getFromValue()).getPort());
+		if (!(transferManager.addNewTransfer(stateMgr.getFromValue(), stateMgr
+				.getToValue(), stateMgr.getFileValue(), type,
+				users.getUser(stateMgr.getFromValue()).getPort(), 0)))
 			return;
 		if (type == 0)
 			transfer_model.addRow(new Object[] { stateMgr.getFromValue(),
@@ -213,6 +235,5 @@ System.out.println("doTransfer2"+users.getUser(stateMgr.getFromValue()).getName(
 	public void updateProgress(long progress, int row) {
 		transfer_model.setValueAt(Long.toString(progress) + '%', row, 3);
 	}
-	
 
 }
