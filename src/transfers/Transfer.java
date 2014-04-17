@@ -9,7 +9,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import core.Mediator;
 
 /**
