@@ -9,7 +9,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
-
+import java.util.logging.Logger;
 import core.Mediator;
 
 /**
@@ -18,7 +18,7 @@ import core.Mediator;
  * 
  */
 public class Transfer extends AbstractTransfer  {
-
+	private final static Logger LOGGER = Logger.getLogger(Transfer.class .getName()); 
 	private String file;
 	private String toUser;
 	private String fromUser;
@@ -61,6 +61,7 @@ public class Transfer extends AbstractTransfer  {
 
 	public void updateProgress(long chunk) {
 		downloaded += chunk;
+		LOGGER.info("Received "+chunk +" bytes");
 		progress = (long) ((double) downloaded / (double) fileSize * (double) 100);
 		if (progress == 100) {
 			progress = 100;
@@ -71,10 +72,13 @@ public class Transfer extends AbstractTransfer  {
 
 	public void setTransferState(int state) {
 		this.state = state;
+		LOGGER.info("Transfer " +this.index+" state changed to "+state);
 	}
 
 	public boolean isCompleted() {
 		if (progress == 100) {
+			LOGGER.info("Transfer " +this.index+" is completed");
+			
 			return true;
 		}
 		return false;
@@ -94,11 +98,7 @@ public class Transfer extends AbstractTransfer  {
 
 	@Override
 	public void run() {
-		/*
-		 * Random rand = new Random(); while(true) { if (status == ACTIVE) {
-		 * updateProgress(rand.nextInt(5)); } try { Thread.sleep(1000); } catch
-		 * (Exception e) { e.printStackTrace(); } }
-		 */
+		
 		try {
 
 			/* open Selector and ServerSocketChannel */
@@ -188,13 +188,12 @@ public class Transfer extends AbstractTransfer  {
 										+ ((0xFF & data[6]) << 16)
 										+ ((0xFF & data[5]) << 8)
 										+ (0xFF & data[4]);
-								System.out.println("Am primit " + numBytes
-										+ " " + fileSize);
+								LOGGER.info("Requested file "+this.file+" size "+fileSize);
 								this.fileSize = fileSize;
 								long fragmentNo = fileSize / (long) 4092;
 								if (fileSize % 4092 != 0)
 									fragmentNo++;
-
+								LOGGER.info("Started file fragment transfer");
 								for (; startFragment < fragmentNo; startFragment++) {
 									message = new byte[BYTE_BUFFER_SIZE];
 									messageBytes = ("fragment " +  "downloads/" + fromUser + "/"+this.file
@@ -234,8 +233,7 @@ public class Transfer extends AbstractTransfer  {
 									} else {
 										receivingBufferPeer.clear();
 									}
-									System.out.println("numBytes numread"
-											+ numBytes + " " + numRead);
+									
 								}
 								f.close();
 							}
