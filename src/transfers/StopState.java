@@ -10,7 +10,7 @@ public class StopState extends TransferState implements TransferStatusConstans {
 	@Override
 	public void doAction() {
 		// TODO Auto-generated method stub
-		this.transfer.setState(STOPPED);
+		this.transfer.setTransferState(STOPPED);
 		this.transfer.stop();
 
 	}
