@@ -37,7 +37,8 @@ IDP Arhitectura si interfata proiect
            asupra unui transfer in derulare(start, stop, resume, pause).
            Pentru executarea unei actiuni auspra unu transfer in functie de startea transferului,
            am implementat  State Pattern cu starile StartState, ResumeState, PauseState, StopState.
-           Pentru a simula prezenta mai multor useri am definit un fisier de configurare(test.cfg) unde sunt adaugati userii si server porturile asociate.
+           Pentru a simula prezenta mai multor useri am definit un fisier de configurare(test.cfg) 
+           unde sunt adaugati userii si server porturile asociate.
            Home-ul fiecarui user se defineste in downloads/<username> si contine toate   fisierele disponibile pentru transfer.
            
      2.3 GUI
@@ -46,8 +47,10 @@ IDP Arhitectura si interfata proiect
      2.4 Protocolul de comunicatie de transfer de fisiere
            Am implementat protocolul folosind Java nio, transferul de fisiere se face non blocant.
            Fiecare host porneste un thread(modulul net, ServerPeer.java) pe care primeste requesturi.
-           Initial un client cere dimensiunea fisiruliu pe care vrea sa il descarce si ulterior interogheaza serverul pentru fiecare fragmnt in parte(fragmentele au dimensiune 4096).
-           Un mesaj de transfer al unui fragment contine initial dimensiunea fragmentului de fisier(primii 4 bytes)si pe urma continutul.
+           Initial un client cere dimensiunea fisiruliu pe care vrea sa il descarce si ulterior 
+           interogheaza serverul pentru fiecare fragmnt in parte(fragmentele au dimensiune 4096).
+           Un mesaj de transfer al unui fragment contine initial dimensiunea fragmentului de fisier
+           (primii 4 bytes)si pe urma continutul.
            Pentru fiecare transfer initiat se porneste cate un thread.
 
      2.5 Testare
@@ -58,12 +61,13 @@ IDP Arhitectura si interfata proiect
      2.6 Logging
         Pentru jurnalizarea mesajelor am folosit nivele diferite de granularitate(error pentru exceptii,
         info si debug pentru mesajele obisnuite).
+        
      2.7 Rulare
         Din Eclipse -> Run As-> Run Configurations -> arguments -> <usernane> <serverport>
         
     
 3.Git
 ======
-    Pentru vesrion control, am folosit git.
+    Pentru version control, am folosit git.
     Versiunea pentru tema 1 este pe branchul tema1:
     https://github.com/evelinad/TemeIDP/tree/tema1
