@@ -210,8 +210,8 @@ System.out.println("doTransfer2"+users.getUser(stateMgr.getFromValue()).getName(
 
 	}
 
-	public void updateProgress(int progress, int row) {
-		transfer_model.setValueAt(Integer.toString(progress) + '%', row, 3);
+	public void updateProgress(long progress, int row) {
+		transfer_model.setValueAt(Long.toString(progress) + '%', row, 3);
 	}
 	
 

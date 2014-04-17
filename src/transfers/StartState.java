@@ -13,6 +13,8 @@ public class StartState extends TransferState implements TransferStatusConstans 
 	public void doAction() {
 		// TODO Auto-generated method stub
 		this.transfer.setState(ACTIVE);
+		this.transfer.start();		
+
 	}
 
 }

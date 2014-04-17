@@ -43,7 +43,7 @@ public class Transfer extends Thread implements TransferStatusConstans{
 	 * 4 - completed;
 	 */
 	private int state;
-	private int progress = 0;
+	private long progress = 0;
 	
 	public Transfer(String file,String fromUser,String toUser, Mediator med, int type, int remotePort,  long fragment) {
 			this.file = "downloads/"+fromUser+"/"+file;
@@ -64,7 +64,7 @@ public class Transfer extends Thread implements TransferStatusConstans{
 	public void updateProgress(long chunk)
 	{
 		downloaded += chunk;
-		progress = (int) (fileSize / downloaded * 100);
+		progress = (long) ( (double)downloaded/(double)fileSize  * (double)100);
 		if (progress == 100)
 		{
 			progress = 100;
@@ -84,7 +84,7 @@ public class Transfer extends Thread implements TransferStatusConstans{
 		return false;
 	}
 	
-	public int getProgress()
+	public long getProgress()
 	{
 		return this.progress;
 	}
@@ -249,7 +249,7 @@ System.out.println("FIIILEEE "+this.file);
 									} else {
 										receivingBufferPeer.clear();
 									}
-									System.out.println("ma cac pe IDP"); 
+									System.out.println("numBytes numread"+numBytes + " "+numRead); 
 								}
 								f.close();   								
 								}

@@ -12,6 +12,7 @@ public class PauseState extends TransferState implements TransferStatusConstans 
 		// TODO Auto-generated method stub
 		//this.transfer.se
 		this.transfer.setState(PAUSED);
+		this.transfer.suspend();
 	}
 
 }
