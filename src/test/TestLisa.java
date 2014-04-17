@@ -26,7 +26,6 @@ public class TestLisa extends TestCase {
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		DiffFiles diff = new DiffFiles("downloads/lisa/curs1.pdf",
@@ -48,7 +47,6 @@ public class TestLisa extends TestCase {
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		DiffFiles diff = new DiffFiles("downloads/lisa/l04_2013.pdf",
@@ -70,7 +68,6 @@ public class TestLisa extends TestCase {
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		DiffFiles diff = new DiffFiles("downloads/homer/C2.pdf",
