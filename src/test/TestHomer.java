@@ -19,7 +19,7 @@ public class TestHomer extends TestCase {
 	public void testFullTransfer() {
 		med.setFromValue("bart");
 		med.setToValue(med.getCurrentUser());
-		med.setFileValue("bart.txt");
+		med.setFileValue("curs1.pdf");
 		med.doTransfer();
 		med.setSelectedTransfer(index);
 		med.startSelectedTransfer();
@@ -29,9 +29,9 @@ public class TestHomer extends TestCase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		DiffFiles diff = new DiffFiles("downloads/homer/bart.txt",
-				"downloads/bart/bart.txt");
-		assertTrue("downloaded file bart.txt is identical to original",
+		DiffFiles diff = new DiffFiles("downloads/homer/curs1.pdf",
+				"downloads/bart/curs1.pdf");
+		assertTrue("downloaded file curs1.pdf is identical to original",
 				diff.compareFiles());
 	}
 	
@@ -39,7 +39,7 @@ public class TestHomer extends TestCase {
 		++index;
 		med.setFromValue("marge");
 		med.setToValue(med.getCurrentUser());
-		med.setFileValue("marge.txt");
+		med.setFileValue("l04_2013.pdf");
 		med.doTransfer();
 		med.setSelectedTransfer(index);
 		med.startSelectedTransfer();
@@ -51,9 +51,9 @@ public class TestHomer extends TestCase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		DiffFiles diff = new DiffFiles("downloads/homer/marge.txt",
-				"downloads/marge/marge.txt");
-		assertTrue("downloaded file marge.txt is identical to original",
+		DiffFiles diff = new DiffFiles("downloads/homer/l04_2013.pdf",
+				"downloads/marge/l04_2013.pdf");
+		assertTrue("downloaded file l04_2013.pdf is identical to original",
 				diff.compareFiles());
 	}
 	
@@ -61,7 +61,7 @@ public class TestHomer extends TestCase {
 		++index;
 		med.setFromValue("lisa");
 		med.setToValue(med.getCurrentUser());
-		med.setFileValue("lisa.txt");
+		med.setFileValue("smp_5_CMP1.ppt");
 		med.doTransfer();
 		med.setSelectedTransfer(index);
 		med.startSelectedTransfer();
@@ -73,9 +73,9 @@ public class TestHomer extends TestCase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		DiffFiles diff = new DiffFiles("downloads/homer/lisa.txt",
-				"downloads/lisa/lisa.txt");
-		assertTrue("downloaded file lisa.txt is identical to original",
+		DiffFiles diff = new DiffFiles("downloads/homer/smp_5_CMP1.ppt",
+				"downloads/lisa/smp_5_CMP1.ppt");
+		assertTrue("downloaded file smp_5_CMP1.ppt is identical to original",
 				diff.compareFiles());
 	}
 
