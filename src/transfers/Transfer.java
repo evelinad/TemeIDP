@@ -17,7 +17,7 @@ import core.Mediator;
  * Transfer class for keeping data of an ongoing transfer
  * 
  */
-public class Transfer extends Thread implements TransferStatusConstans {
+public class Transfer extends AbstractTransfer  {
 
 	private String file;
 	private String toUser;
@@ -42,12 +42,13 @@ public class Transfer extends Thread implements TransferStatusConstans {
 	private long progress = 0;
 
 	public Transfer(String file, String fromUser, String toUser, Mediator med,
-			int type, int remotePort, long fragment) {
+			int type, int remotePort, long fragment, int index) {
 		this.file = file;
 		this.toUser = toUser;
 		this.fromUser = fromUser;
 		state = STARTED;
 		this.med = med;
+		this.index = index;
 		this.remotePort = remotePort;
 		this.receivingBufferPeer = ByteBuffer.allocate(BYTE_BUFFER_SIZE);
 		this.startFragment = fragment;
@@ -68,7 +69,7 @@ public class Transfer extends Thread implements TransferStatusConstans {
 		med.updateProgress(progress, index);
 	}
 
-	public void setState(int state) {
+	public void setTransferState(int state) {
 		this.state = state;
 	}
 
@@ -85,10 +86,6 @@ public class Transfer extends Thread implements TransferStatusConstans {
 
 	public int getTransferState() {
 		return this.state;
-	}
-
-	public void setIndex(int index) {
-		this.index = index;
 	}
 
 	public String getType() {

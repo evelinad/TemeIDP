@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 /*Server class used to handle I/O connections from other peers*/
-public class ServerPeer implements Runnable {
+public class ServerPeer extends AbstractServerPeer implements Runnable {
 
 	int port;
 	final int BYTE_BUFFER_SIZE = 4096;
@@ -83,20 +83,26 @@ public class ServerPeer implements Runnable {
 	}
 	
 	/* new connecton */
-	private void acceptOP(SelectionKey key, Selector selector)
-			throws IOException {
+	protected void acceptOP(SelectionKey key, Selector selector) {
 
-		ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
-		SocketChannel socketChannel = serverChannel.accept();
-		socketChannel.configureBlocking(false);
-		System.out.println("Incoming connection from: "+ socketChannel.getRemoteAddress());
-		/* register channel with selector for exchanging further messages */
-		keepDataTrack.put(socketChannel, new ArrayList<byte[]>());
-		socketChannel.register(selector, SelectionKey.OP_READ);
+		try
+		{
+			ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
+			SocketChannel socketChannel = serverChannel.accept();
+			socketChannel.configureBlocking(false);
+			System.out.println("Incoming connection from: "+ socketChannel.getRemoteAddress());
+			/* register channel with selector for exchanging further messages */
+			keepDataTrack.put(socketChannel, new ArrayList<byte[]>());
+			socketChannel.register(selector, SelectionKey.OP_READ);
+		}
+		catch(IOException ex)
+		{
+		
+		}
 	}
 
 	/* reading event */
-	private void readOP(SelectionKey key) {
+	protected void readOP(SelectionKey key) {
 		try {
 			SocketChannel socketChannel = (SocketChannel) key.channel();
 
@@ -129,7 +135,7 @@ public class ServerPeer implements Runnable {
 	}
     
 	/* writing event */
-	private void writeOP(SelectionKey key)  {
+	protected void writeOP(SelectionKey key)  {
 	    try
 	    {
 		SocketChannel socketChannel = (SocketChannel) key.channel();

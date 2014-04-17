@@ -10,7 +10,7 @@ public class ResumeState extends TransferState implements TransferStatusConstans
 	@Override
 	public void doAction() {
 		// TODO Auto-generated method stub
-		this.transfer.setState(ACTIVE);
+		this.transfer.setTransferState(ACTIVE);
 		this.transfer.resume();		
 	}
 
