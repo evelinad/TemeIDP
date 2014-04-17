@@ -39,7 +39,8 @@ IDP Arhitectura si interfata proiect
            am implementat  State Pattern cu starile StartState, ResumeState, PauseState, StopState.
            Pentru a simula prezenta mai multor useri am definit un fisier de configurare(test.cfg) 
            unde sunt adaugati userii si server porturile asociate.
-           Home-ul fiecarui user se defineste in downloads/<username> si contine toate   fisierele disponibile pentru transfer.
+           Home-ul fiecarui user se defineste in downloads/<username> si contine toate 
+           fisierele disponibile pentru transfer.
            
      2.3 GUI
         In aceasta etapa, pentru handler-ele de evenimente am folosit Event Dispatch Thread (EDT).
@@ -54,8 +55,10 @@ IDP Arhitectura si interfata proiect
            Pentru fiecare transfer initiat se porneste cate un thread.
 
      2.5 Testare
-           Penru validarea functionalitatii legate de transferul de fisiere, am folosit unit testing(JUnit).
-           Fiecare clasa de testare face un transfer complet, un transfer cu stop start si unul cu pause resume.
+           Penru validarea functionalitatii legate de transferul de fisiere,
+           am folosit unit testing(JUnit).
+           Fiecare clasa de testare face un transfer complet, un transfer cu stop start 
+           si unul cu pause resume.
            Clasa DiffFiles verifica daca continutul fisierului transferat difera de cel original.
 
      2.6 Logging
