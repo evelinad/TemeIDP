@@ -12,7 +12,7 @@ import core.Mediator;
 
 /**
  * 
- * @author Evelina 
+ * 
  * Class for adding anew transfer
  * 
  */

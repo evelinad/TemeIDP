@@ -1,7 +1,5 @@
 package radiobuttons;
 
-import java.awt.Dimension;
-import java.awt.Insets;
 import java.awt.event.ActionListener;
 
 import javax.swing.Action;
@@ -16,6 +14,7 @@ import core.Mediator;
  * Receive RadioButton class for setting a receive transfer
  *
  */
+@SuppressWarnings("serial")
 public class ReceiveRadioButton extends JRadioButton implements Command{
 	Mediator med;
 

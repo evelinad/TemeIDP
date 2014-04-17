@@ -15,6 +15,8 @@ import core.Mediator;
  * Class for pausing a transfer
  * 
  */
+
+@SuppressWarnings("serial")
 public class PauseButton extends JButton implements Command {
 
 	Mediator med;

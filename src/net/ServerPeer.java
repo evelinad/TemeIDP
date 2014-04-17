@@ -2,15 +2,13 @@ package net;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.StandardSocketOptions;
 import java.nio.*;
 import java.nio.channels.*;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.io.*;
 import java.util.*;
-import java.util.logging.Logger;
-
+import org.apache.log4j.Logger;
 import transfers.Transfer;
 
 /*
@@ -34,6 +32,7 @@ public class ServerPeer extends AbstractServerPeer implements Runnable {
 		(new Thread(this)).start();
 
 	}
+	@SuppressWarnings("rawtypes")
 	public void run() {
 
 	/* open Selector and ServerSocketChannel */
@@ -79,10 +78,10 @@ public class ServerPeer extends AbstractServerPeer implements Runnable {
 				}
 
 			} else {
-				LOGGER.severe("The server socket channel or selector cannot be opened!");
+				LOGGER.error("The server socket channel or selector cannot be opened!");
 			}
 		} catch (IOException ex) {
-			LOGGER.severe("An error occurred while communicating with other hosts");
+			LOGGER.error("An error occurred while communicating with other hosts");
 		}
 	}
 	
@@ -101,7 +100,7 @@ public class ServerPeer extends AbstractServerPeer implements Runnable {
 		}
 		catch(IOException ex)
 		{
-			LOGGER.severe(ex.toString());
+			LOGGER.error(ex.toString());
 
 		}
 	}
@@ -117,12 +116,12 @@ public class ServerPeer extends AbstractServerPeer implements Runnable {
 			try {
 				numRead = socketChannel.read(buffer);
 			} catch (IOException e) {
-				LOGGER.severe("Cannot read from socket");
+				LOGGER.error("Cannot read from socket");
 			}
 
 			if (numRead == -1) {
 				this.keepDataTrack.remove(socketChannel);
-				LOGGER.severe("Connection closed by: "
+				LOGGER.error("Connection closed by: "
 						+ socketChannel.getRemoteAddress());
 				socketChannel.close();
 				key.cancel();
@@ -148,7 +147,6 @@ public class ServerPeer extends AbstractServerPeer implements Runnable {
 		Iterator<byte[]> its = channelData.iterator();
 		RandomAccessFile f;
 
-		StringTokenizer st;
 		String fileName;
 		int fragment;
 		String task;

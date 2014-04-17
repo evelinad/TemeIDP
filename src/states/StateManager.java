@@ -14,11 +14,9 @@ public class StateManager {
 	private String toUser;
 	private String fromUser;
 	private String file;
-	private Mediator med;
 	private String currentUser;
 	
 	public StateManager(Mediator med) {
-		this.med = med;
 		receiveState = new ReceiveState(med);
 		sendState = new SendState(med);
 		currentState = sendState;

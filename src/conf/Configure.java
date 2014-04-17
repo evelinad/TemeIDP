@@ -24,6 +24,7 @@ public class Configure {
 	private String currentUser;
 	private Mediator med;
 	private Logger log = Logger.getLogger(Configure.class);
+	@SuppressWarnings("unused")
 	private int port; /* reserved for future use */
 	
 	public Configure(String user, Mediator med, int port)

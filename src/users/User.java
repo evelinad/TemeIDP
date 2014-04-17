@@ -16,7 +16,6 @@ public class User {
 	public User(String name, int port) {
 		this.name = name;
 		this.serverPort = port;
-		System.out.println("in user"+this.serverPort);
 		files = new ArrayList<String>();
 	}
 	
@@ -42,8 +41,6 @@ public class User {
 			this.files.add(file);
 		}
 	}
-	
-
 	
 	public int getPort()
 	{

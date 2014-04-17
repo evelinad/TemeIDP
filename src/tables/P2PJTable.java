@@ -11,6 +11,7 @@ import javax.swing.table.TableModel;
  * the class extends JTable, making each cell not editable
  *
  */
+@SuppressWarnings("serial")
 public class P2PJTable extends JTable {
 
 	public P2PJTable() {
@@ -33,6 +34,7 @@ public class P2PJTable extends JTable {
 		super(numRows, numColumns);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public P2PJTable(Vector rowData, Vector columnNames) {
 		super(rowData, columnNames);
 	}

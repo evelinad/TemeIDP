@@ -10,6 +10,7 @@ public class ResumeState extends TransferState implements TransferStatusConstans
 		super(transfer);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void doAction() {
 		this.transfer.setTransferState(ACTIVE);

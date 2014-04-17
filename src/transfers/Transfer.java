@@ -7,9 +7,10 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
-import java.util.Random;
 import java.util.Set;
+
 import org.apache.log4j.Logger;
+
 import core.Mediator;
 
 /**
@@ -96,6 +97,7 @@ public class Transfer extends AbstractTransfer  {
 		return type;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void run() {
 		
@@ -158,7 +160,6 @@ public class Transfer extends AbstractTransfer  {
 								int numRead = 0;
 								int numBytes = 0;
 								long fileSize = 0;
-								long numBytesReceived = 0;
 								receivingBufferPeer.clear();
 
 								while ((numRead += keySocketChannel

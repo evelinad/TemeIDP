@@ -10,6 +10,7 @@ public class PauseState extends TransferState implements TransferStatusConstans 
 		super(transfer);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void doAction() {
 		this.transfer.setTransferState(PAUSED);

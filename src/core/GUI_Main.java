@@ -42,13 +42,13 @@ public class GUI_Main extends JFrame {
 		/**
 		 * add JLists/JTable for available users,files and transfers
 		 */
-		final JList userJList, fileJList;
+		final JList<String> userJList, fileJList;
 		final P2PJTable transferJTable;
 		int defaultJFrameHeight = WIDTH;
 		int defaultJFrameWidth = HEIGHT;
 		DefaultTableModel transfer_model;
-		DefaultListModel user_model;
-		final DefaultListModel files_model;
+		DefaultListModel<String> user_model;
+		final DefaultListModel<String> files_model;
 		final Mediator med;
 		String col[] = { "Source", "Destination", "File Name", "Progress",
 				"Status" };
@@ -59,8 +59,8 @@ public class GUI_Main extends JFrame {
 		user_model = new DefaultListModel<>();
 		files_model = new DefaultListModel<>();
 		transfer_model = new DefaultTableModel(col, 0);
-		userJList = new JList(user_model);
-		fileJList = new JList(files_model);
+		userJList = new JList<String>(user_model);
+		fileJList = new JList<String>(files_model);
 		transferJTable = new P2PJTable(transfer_model);
 		med.setFilesModel(files_model);
 		med.setUserModel(user_model);

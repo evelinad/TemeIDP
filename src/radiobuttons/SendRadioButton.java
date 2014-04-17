@@ -12,6 +12,7 @@ import core.Mediator;
  * 
  * SendRadioButton class for setting a send transfer
  */
+@SuppressWarnings("serial")
 public class SendRadioButton extends JRadioButton implements Command{
 	Mediator med;
 

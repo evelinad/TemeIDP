@@ -8,6 +8,7 @@ public class StopState extends TransferState implements TransferStatusConstans {
 		super(transfer);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void doAction() {
 		this.transfer.setTransferState(STOPPED);
