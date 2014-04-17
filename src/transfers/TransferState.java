@@ -4,7 +4,7 @@
 package transfers;
 
 /**
- * @author Serban
+ * Abstract class for transfer state
  *
  */
 public abstract class TransferState {

@@ -11,7 +11,7 @@ import core.Command;
 import core.Mediator;
 
 /*
- * class for resuimg a paused tranfsre
+ * class for resuming a paused transfer
  */
 
 public class ResumeButton extends JButton implements Command {

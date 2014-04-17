@@ -14,7 +14,7 @@ import core.Mediator;
 
 /**
  * 
- * Transfer class for keeping data of an ongoing transfer
+ * Transfer class for handling data of an ongoing transfer
  * 
  */
 public class Transfer extends AbstractTransfer  {
@@ -104,7 +104,7 @@ public class Transfer extends AbstractTransfer  {
 			/* open Selector and ServerSocketChannel */
 			Selector selector = Selector.open();
 			SocketChannel socketChannel = SocketChannel.open();
-
+			LOGGER.info("Opening socket channel and trying to connect to remote peer");
 			// check if both of them are opened
 			if ((socketChannel.isOpen()) && (selector.isOpen())) {
 
@@ -137,7 +137,7 @@ public class Transfer extends AbstractTransfer  {
 
 							/* try to connect */
 							if (key.isConnectable()) {
-								System.out.println(remotePort + fromUser);
+								LOGGER.info("Connection succeded");
 								/* close pendent connections */
 								if (keySocketChannel.isConnectionPending()) {
 									keySocketChannel.finishConnect();
@@ -151,7 +151,6 @@ public class Transfer extends AbstractTransfer  {
 										.getBytes();
 								System.arraycopy(messageBytes, 0, message, 0,
 										messageBytes.length);
-								System.out.println("FIIILEEE " + this.file);
 								/* send the request to the remote peer */
 								ByteBuffer sendingBuffer = ByteBuffer
 										.wrap(message);
@@ -162,12 +161,9 @@ public class Transfer extends AbstractTransfer  {
 								long numBytesReceived = 0;
 								receivingBufferPeer.clear();
 
-								/* get the response and write the fragment */
 								while ((numRead += keySocketChannel
-										.read(receivingBufferPeer)) < BYTE_BUFFER_SIZE)
-									;
+										.read(receivingBufferPeer)) < BYTE_BUFFER_SIZE);
 								receivingBufferPeer.flip();
-
 								byte[] data = new byte[numRead];
 								System.arraycopy(receivingBufferPeer.array(),
 										0, data, 0, numRead);
@@ -193,6 +189,7 @@ public class Transfer extends AbstractTransfer  {
 								long fragmentNo = fileSize / (long) 4092;
 								if (fileSize % 4092 != 0)
 									fragmentNo++;
+								/* ask for a specific fragment and write it in the file */
 								LOGGER.info("Started file fragment transfer");
 								for (; startFragment < fragmentNo; startFragment++) {
 									message = new byte[BYTE_BUFFER_SIZE];
@@ -239,15 +236,15 @@ public class Transfer extends AbstractTransfer  {
 							}
 
 						} catch (IOException ex) {
-							ex.printStackTrace();
+							LOGGER.error(ex.toString());
 
 						}
 					}
 				}
 
 			}
-		} catch (Exception exc) {
-			exc.printStackTrace();
+		} catch (Exception ex) {
+			LOGGER.error(ex.toString());
 		}
 
 	}

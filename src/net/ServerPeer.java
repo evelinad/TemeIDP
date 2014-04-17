@@ -5,16 +5,20 @@ import java.net.InetSocketAddress;
 import java.net.StandardSocketOptions;
 import java.nio.*;
 import java.nio.channels.*;
-import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
-/*Server class used to handle I/O connections from other peers*/
-public class ServerPeer extends AbstractServerPeer implements Runnable {
+import transfers.Transfer;
 
+/*
+ * Server class used to handle I/O connections from other peers
+ *
+ */
+public class ServerPeer extends AbstractServerPeer implements Runnable {
+	private final static Logger LOGGER = Logger.getLogger(ServerPeer.class .getName()); 
 	int port;
 	final int BYTE_BUFFER_SIZE = 4096;
 	final int NR_BYTES_SIZE = 4;
@@ -46,7 +50,7 @@ public class ServerPeer extends AbstractServerPeer implements Runnable {
 				serverSocketChannel.bind(new InetSocketAddress(port));
 				/* register the current channel with the given selector */
 				serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-                System.out.println("Wait for connections ..");
+				LOGGER.info("Wait for connections ..");
 				while (true) {
 					/* waiting for incomming events */
 					selector.select();
@@ -75,10 +79,10 @@ public class ServerPeer extends AbstractServerPeer implements Runnable {
 				}
 
 			} else {
-			
+				LOGGER.severe("The server socket channel or selector cannot be opened!");
 			}
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			LOGGER.severe("An error occurred while communicating with other hosts");
 		}
 	}
 	
@@ -90,14 +94,15 @@ public class ServerPeer extends AbstractServerPeer implements Runnable {
 			ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
 			SocketChannel socketChannel = serverChannel.accept();
 			socketChannel.configureBlocking(false);
-			System.out.println("Incoming connection from: "+ socketChannel.getRemoteAddress());
+			LOGGER.info("Incoming connection from: "+ socketChannel.getRemoteAddress());
 			/* register channel with selector for exchanging further messages */
 			keepDataTrack.put(socketChannel, new ArrayList<byte[]>());
 			socketChannel.register(selector, SelectionKey.OP_READ);
 		}
 		catch(IOException ex)
 		{
-		
+			LOGGER.severe(ex.toString());
+
 		}
 	}
 
@@ -112,12 +117,12 @@ public class ServerPeer extends AbstractServerPeer implements Runnable {
 			try {
 				numRead = socketChannel.read(buffer);
 			} catch (IOException e) {
-				System.out.println("Cannot read from socket");
+				LOGGER.severe("Cannot read from socket");
 			}
 
 			if (numRead == -1) {
 				this.keepDataTrack.remove(socketChannel);
-				System.out.println("Connection closed by: "
+				LOGGER.severe("Connection closed by: "
 						+ socketChannel.getRemoteAddress());
 				socketChannel.close();
 				key.cancel();
@@ -178,7 +183,6 @@ public class ServerPeer extends AbstractServerPeer implements Runnable {
        			f = new RandomAccessFile(fileName, "r");
     			long positionToJump = (BYTE_BUFFER_SIZE - NR_BYTES_SIZE) * fragment;
 	    		f.seek(positionToJump);
-	    		//System.out.println("file fragment "+fragment + " "+fileName);
     			byte[] bufferRead = new byte[BYTE_BUFFER_SIZE];
 	    		int rd = f.read(bufferRead, 4, BYTE_BUFFER_SIZE - NR_BYTES_SIZE);
 	    		for (int i = 0; i < 4; i++) {

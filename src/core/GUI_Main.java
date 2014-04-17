@@ -71,7 +71,7 @@ public class GUI_Main extends JFrame {
 		JLabel statusJLabel = new JLabel("Work in progress...");
 		getContentPane().add(statusJLabel, BorderLayout.SOUTH);
 		/**
-		 * add listeneres for userJList
+		 * add listeners for userJList
 		 */
 		MouseListener userMouseListener = new MouseListener() {
 
@@ -272,9 +272,6 @@ public class GUI_Main extends JFrame {
 
 		this.setVisible(true);
 
-		/*Test tester = new Test(med);
-		tester.execute();*/
-		
 		Configure conf = new Configure(currentUser, med, port);
 		conf.setUpUsers();
 	}

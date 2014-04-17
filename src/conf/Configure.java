@@ -16,7 +16,6 @@ import core.Mediator;
 public class Configure {
 	
 	private RandomAccessFile cfgFile;
-	//BufferedReader cfgReader;
 	private String downFolder, aux = "aux";
 	private String[] users = new String[4];
 	private int noUsers;
@@ -33,98 +32,72 @@ public class Configure {
 		this.med = med;
 		this.port = port;
 		PropertyConfigurator.configure(currentUser + ".properties");
-		System.out.println("luat logger file");
 	}
-	
+	/*read configuration file*/
 	public void init()
 	{
 		try {
-			log.info("init config");
 			cfgFile = new RandomAccessFile("test.cfg", "r");
-			System.out.println("current user is " + currentUser);
+			log.info("Loaded configuration file ...");
 			downFolder = cfgFile.readLine();
-			System.out.println("user folder: " + downFolder);
 			fileList = new HashMap<String, ArrayList<String>>();
 			ports = new HashMap<String, Integer>();
-			log.debug("finished init");
-			
-			log.info("finding users");
-			//add user names
+			log.info("Loading users ...");
+			/* add user names */
 			for (noUsers = 0; noUsers < 4; noUsers++) {
 				aux = cfgFile.readLine();
 				users[noUsers] = new String(aux);
 				ports.put(aux, Integer.parseInt(cfgFile.readLine()));
-				log.info("added user: " + aux + " with port " + ports.get(aux));
-				System.out.println("added user: " + aux + " with port " + ports.get(aux));
+				log.debug("Load online user: " + aux + " with port " + ports.get(aux));
 			}
-			log.debug("finished user counter: " + noUsers);
+			log.debug("User counter " + noUsers);
 			
-			log.info("adding files to each user");
-			//add files for each user
+			/* add files for each user */
 			for (String str: users)
 			{
 				setFilesForUser(str);
 			}
-			log.debug("files added");
+			log.debug("Finished loading files");
 			
 		} catch (IOException e) {
-			e.printStackTrace();
-			log.debug("opening config file", e);
+			log.error("Opening config file", e);
 		}
 	}
-	
+	/*load files for a specific user*/
 	public void setFilesForUser(String user) {
 		File folder = new File(downFolder + "/" + user);
 		ArrayList<String> files = new ArrayList<>();
 	    for (File fileEntry : folder.listFiles()) {
 	        if (fileEntry.isDirectory()) {
-	        	System.out.println("not handling folders, please archive or move to home");
+	        	log.error("Not handling folders, please archive or move to home");
 	        } else {
-	            System.out.println(fileEntry.getName());
 	            files.add(fileEntry.getName());
 	        }
 	    }
 	    fileList.put(user, files);
 	}
 	
-	private void checkMap() {
-		System.out.println("map checking");
-		for (String user : fileList.keySet())
-		{
-			System.out.println(user + " : " + fileList.get(user));
-		}
-	}
-	
+	/* add users to GUI */
 	public void setUpUsers() {
 		
 		init();
-		checkMap();
-		
-		log.info("adding & setting current user");
+		log.info("Setting current user "+currentUser);
 		med.addUserToModel(currentUser);
 		med.addUser(new User(currentUser,ports.get(currentUser)));
 		med.setCurrentUser(currentUser);
 		med.addFilesToUser(currentUser, fileList.get(currentUser));
-
 		fileList.remove(currentUser);
-		log.debug("user added to model and removed from map");
-		
-		checkMap();
-		
-		log.info("adding the rest");
 		Set<String> keys = fileList.keySet();
+		log.info("Setting other users: ");		
 		for (String userName : keys) {
-			log.info("adding " + userName + " to list");
-			//TODO modify port
 			med.addUserToModel(userName);
 			int port = ports.get(userName);
 			User user = new User(userName,port);
 			med.addUser(user);
-			System.out.println("portul lui"+userName+"e"+port);
 			med.addFilesToUser(userName, fileList.get(userName));
-			log.debug("added " + userName);
+			log.info(user + " "+ "with port "+port + fileList);
 		}
-		log.debug("configuration complete");
+		log.info("Configuration complete");
 	}
 
 }

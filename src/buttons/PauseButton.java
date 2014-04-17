@@ -12,7 +12,6 @@ import core.Mediator;
 
 /**
  * 
- * @author Evelina 
  * Class for pausing a transfer
  * 
  */
