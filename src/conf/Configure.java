@@ -54,10 +54,10 @@ public class Configure {
 		PropertyConfigurator.configure(currentUser + ".properties");
 		setFilesForUser(currentUser);
 		log.info("Setting current user "+currentUser);
-		med.addUserToModel(currentUser);
-		med.addUser(new User(currentUser,this.port));
-		med.setCurrentUser(currentUser);
-		med.addFilesToUser(currentUser, fileList.get(currentUser));
+		//med.addUserToModel(currentUser);
+		//med.addUser(new User(currentUser,this.port));
+		med.setCurrentUser(currentUser, this.port, fileList.get(currentUser));
+		//med.addFilesToUser(currentUser, fileList.get(currentUser));
 	
 	}
 
