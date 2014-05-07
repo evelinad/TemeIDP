@@ -1,0 +1,66 @@
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+public class Server {
+
+
+	private static HashMap<String, LinkedList<String>> userFiles =  new HashMap<String , LinkedList<String>>();
+	private static HashMap<String, String> userServerPort = new HashMap<String , String>();
+
+	public String login(String params)
+	{
+		 StringTokenizer st = new StringTokenizer(params,"|");
+		 LinkedList<String> files = new LinkedList<String>();
+		 String userName = "";
+		 String userPort = "";
+		 
+		 if(st.hasMoreTokens())
+		    userName = st.nextToken();
+		 if(st.hasMoreTokens())
+		    userPort = st.nextToken();
+         while (st.hasMoreTokens()) {
+            files.add(st.nextToken());
+        }			
+		userFiles.put(userName, files);
+		userServerPort.put(userName, userPort);
+		String result = "";
+		for (String user: userFiles.keySet())
+		{
+		    //e ok, poti sa ma injuri pt asta
+		    result+="["+user+"|"+userServerPort.get(user)+"|"+userFiles.get(user).toString().replace("[","").replace("]","").replace(",","|").replace(" ","")+"]";
+
+		}
+		return result;
+	}
+
+	public String getUsers()
+	{
+	    String result = "";
+        for(String user: userFiles.keySet())
+        {
+            result+="["+user+"|"+userServerPort.get(user)+"|"+userFiles.get(user).toString().replace("[","").replace("]","").replace(",","|").replace(" ","")+"]";
+        }
+        return result;
+    }
+	public void removeFile(String userName, String fileName)
+	{
+	    LinkedList<String> files = userFiles.get(userName);
+	    files.remove(fileName);
+    }
+    
+	
+	public void addFile(String userName, String fileName)
+	{
+	    LinkedList<String> files = userFiles.get(userName);
+	    files.add(fileName);
+    }
+    
+	public void logout(String name)
+	{
+		userFiles.remove(name);
+		userFiles.remove(name);
+		
+	}
+}
