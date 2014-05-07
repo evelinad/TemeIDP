@@ -277,7 +277,13 @@ public class GUI_Main extends JFrame {
 		Configure conf = new Configure(currentUser, med, port);
 		conf.setUpCurrentUser();
 	}
-
+	public void windowClosing(WindowEvent e)
+	{
+		System.out.println("mama");
+		//TODO call logout for onClose() event
+		//shoul be called when on close, doesn't work
+		
+	}
 	public static void main(String[] args) {
 		new GUI_Main(args[0], Integer.parseInt(args[1]));
 	}
