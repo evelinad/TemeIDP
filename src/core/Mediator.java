@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import states.StateManager;
 import transfers.TransferManager;
 import users.User;
+import webservice.WSClient;
 
 /**
  * 
@@ -26,6 +27,7 @@ public class Mediator {
 	private DefaultListModel<String> files_model;
 	private TransferManager transferManager;
 	private DefaultTableModel transfer_model;
+	private WSClient wsClient;
 	@SuppressWarnings("unused")
 	private Logger log = Logger.getLogger(Mediator.class);
 
@@ -33,6 +35,7 @@ public class Mediator {
 		stateMgr = new StateManager(this);
 		users = new UserArrayList();
 		transferManager = new TransferManager(this);
+		wsClient = new WSClient();
 
 	}
 
