@@ -275,7 +275,7 @@ public class GUI_Main extends JFrame {
 		this.setVisible(true);
 
 		Configure conf = new Configure(currentUser, med, port);
-		conf.setUpUsers();
+		conf.setUpCurrentUser();
 	}
 
 	public static void main(String[] args) {
