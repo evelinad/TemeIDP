@@ -108,9 +108,13 @@ public class Mediator {
 		}
 		
 	}
+	public void logoutCurrentUser()
+	{
+		wsClient.logout(stateMgr.getCurrentUser());
+	}
 	/**
 	 * 
-	 * add the files shared bye the user to the file model
+	 * add the files shared by the user to the file model
 	 */
 	public void addFilesToModel(String userName) {
 		files_model.removeAllElements();

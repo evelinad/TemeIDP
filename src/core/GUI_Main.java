@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -273,17 +274,58 @@ public class GUI_Main extends JFrame {
 		getContentPane().add(horizJSplitPane, BorderLayout.CENTER);
 
 		this.setVisible(true);
-
+		this.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("closing");
+                e.getWindow().dispose();	
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Closed");
+		        //e.getWindow().dispose();
+		        med.logoutCurrentUser();
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		Configure conf = new Configure(currentUser, med, port);
 		conf.setUpCurrentUser();
 	}
-	public void windowClosing(WindowEvent e)
-	{
-		System.out.println("mama");
-		//TODO call logout for onClose() event
-		//shoul be called when on close, doesn't work
-		
-	}
+	
 	public static void main(String[] args) {
 		new GUI_Main(args[0], Integer.parseInt(args[1]));
 	}
