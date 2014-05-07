@@ -36,6 +36,9 @@ public class Mediator {
 		users = new UserArrayList();
 		transferManager = new TransferManager(this);
 		wsClient = new WSClient();
+		//TODO call wsClient.login()
+		//TODO call logout for onClose() event
+		//TODO create polling thread(should check local folder for any files added/removed & ask ws for available users)
 
 	}
 

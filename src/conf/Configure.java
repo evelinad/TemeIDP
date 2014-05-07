@@ -89,7 +89,10 @@ public class Configure {
 		med.addFilesToUser(currentUser, fileList.get(currentUser));
 		fileList.remove(currentUser);
 		Set<String> keys = fileList.keySet();
-		log.info("Setting other users: ");		
+		log.info("Setting other users: ");
+		
+		//TODO remove this shit. Instead, ask the mediator to get from the ws the other users
+		
 		for (String userName : keys) {
 			med.addUserToModel(userName);
 			int port = ports.get(userName);
