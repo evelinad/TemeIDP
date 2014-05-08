@@ -73,12 +73,12 @@ IDP Arhitectura si interfata proiect
 	       Obiectele transmise catre servicul web sunt trimise ca stringuri ele fiind parsate la destinatie
 	       pentru a recrea obiectul.
 
-     2.7 Logging
+     2.8 Logging
         Pentru jurnalizarea mesajelor am folosit nivele diferite de granularitate(error pentru exceptii,
         info si debug pentru mesajele obisnuite).
      
         
-     2.8 Rulare
+     2.9 Rulare
         Din Eclipse -> Run As-> Run Configurations -> arguments -> <usernane> <serverport>
         
     
