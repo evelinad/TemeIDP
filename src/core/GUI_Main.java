@@ -244,7 +244,24 @@ public class GUI_Main extends JFrame {
 				defaultJFrameHeight / 2 - 30));
 		userJPanel.setLayout(new BoxLayout(userJPanel, BoxLayout.PAGE_AXIS));
 		userJPanel.add(new JLabel("Users"));
+		JButton logoutButton = new JButton("Logout");
+		logoutButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				med.logoutCurrentUser();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.exit(0);
+				
+			}
+		});
 		userJPanel.add(new JScrollPane(userJList, v, h));
+		userJPanel.add(logoutButton);
 		userJPanel.setMinimumSize(new Dimension(defaultJFrameWidth / 4 - 100,
 				defaultJFrameHeight));
 		operationJPanel.add(sendJRadioButton);
@@ -274,53 +291,7 @@ public class GUI_Main extends JFrame {
 		getContentPane().add(horizJSplitPane, BorderLayout.CENTER);
 
 		this.setVisible(true);
-		this.addWindowListener(new WindowListener() {
-			
-			@Override
-			public void windowOpened(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void windowIconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void windowDeiconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void windowDeactivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void windowClosing(WindowEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("closing");
-                e.getWindow().dispose();	
-			}
-			
-			@Override
-			public void windowClosed(WindowEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Closed");
-		        //e.getWindow().dispose();
-		        med.logoutCurrentUser();
-			}
-			
-			@Override
-			public void windowActivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+	
 		
 		Configure conf = new Configure(currentUser, med, port);
 		conf.setUpCurrentUser();
