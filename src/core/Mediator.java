@@ -126,6 +126,12 @@ public class Mediator {
 		wsClient.logout(stateMgr.getCurrentUser());
 		transferManager.stopAllTransfers();
 		try {
+			com.join();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
 			serverPeer.join();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
