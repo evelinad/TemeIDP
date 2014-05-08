@@ -68,6 +68,7 @@ public class Transfer extends AbstractTransfer {
 		if (progress == 100) {
 			progress = 100;
 			state = COMPLETED;
+			med.addFileToCurrentUser(file);
 		}
 		med.updateProgress(progress, index);
 	}

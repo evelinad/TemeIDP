@@ -14,6 +14,7 @@ import core.Mediator;
  * class for resuming a paused transfer
  */
 
+@SuppressWarnings("serial")
 public class ResumeButton extends JButton implements Command {
 	Mediator med;
 

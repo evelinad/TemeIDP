@@ -49,7 +49,7 @@ public class Mediator {
 	public void setCurrentUser(String user, int port, ArrayList<String> files) {
 		
 		stateMgr.setCurrentUser(user);
-		addUser(new User(user,port));
+		addUser(new User(user,port, "localhost"));
 		addFilesToUser(user, files);
 		addUserToModel(user);		
 		new ServerPeer(port);
@@ -66,7 +66,7 @@ public class Mediator {
 		String currentUser = stateMgr.getCurrentUser();
 		ArrayList<String> files = users.getUser(currentUser).getFiles();
 		String serverPort = Integer.toString(users.getUser(currentUser).getPort());
-		String result = wsClient.login(currentUser, serverPort, new LinkedList<>(files)); 
+		String result = wsClient.login(currentUser, serverPort, new LinkedList<>(files));
 		System.out.println(result);
 		StringTokenizer st = new StringTokenizer(result, "]");
 		while(st.hasMoreTokens())
@@ -78,6 +78,7 @@ public class Mediator {
 			StringTokenizer st2  = new StringTokenizer(userData, "|");
 			String userName = "";
 			String port  = "";
+			String IP ="";
 			if(st2.hasMoreTokens())
 			{
 				userName = st2.nextToken();
@@ -94,6 +95,13 @@ public class Mediator {
 			else
 			{
 				break;
+			}if(st2.hasMoreTokens())
+			{
+				IP = st2.nextToken();
+			}
+			else
+			{
+				break;
 			}
 			ArrayList<String> userFiles = new ArrayList<String>();
 			while(st2.hasMoreTokens())
@@ -101,9 +109,9 @@ public class Mediator {
 				userFiles.add(st2.nextToken());
 			}
 			addUserToModel(userName);
-			addUser(new User(userName,Integer.parseInt(port)));
+			addUser(new User(userName,Integer.parseInt(port), IP));
 			System.out.println(userFiles);
-			addFilesToUser(currentUser, userFiles);		
+			addFilesToUser(userName, userFiles);		
 			
 		}
 		
@@ -123,8 +131,18 @@ public class Mediator {
 			files_model.addElement(file);
 	}
 
+	public void addFileToCurrentUser(String file) {
+		users.getUser(stateMgr.getCurrentUser()).insertFile(file);
+		wsClient.addFile(stateMgr.getCurrentUser(), file);
+	}
+	
 	public void addFilesToUser(String userName, ArrayList<String> arrayList) {
 		users.getUser(userName).addFiles(arrayList);
+	}
+	
+	public ArrayList<String> getFilesFromUser(String userName)
+	{
+		return users.getUser(userName).getFiles();
 	}
 
 	public void addUserToModel(String user) {
@@ -141,6 +159,7 @@ public class Mediator {
 
 	public void removeUser(String user) {
 		users.removeUser(user);
+		removeUserFromModel(user);
 
 	}
 
@@ -148,6 +167,11 @@ public class Mediator {
 		users.add(user);
 		System.out.println("med.addUser " + user.getName() + user.getPort());
 
+	}
+	
+	public UserArrayList getUsers()
+	{
+		return users;
 	}
 
 	/**

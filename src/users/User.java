@@ -13,10 +13,12 @@ public class User {
 	private String name;
 	private ArrayList<String> files;
 	private int serverPort;
+	private String IP;
 
-	public User(String name, int port) {
+	public User(String name, int port, String IP) {
 		this.name = name;
 		this.serverPort = port;
+		this.IP = IP;
 		files = new ArrayList<String>();
 	}
 
@@ -43,6 +45,10 @@ public class User {
 
 	public int getPort() {
 		return this.serverPort;
+	}
+	
+	public String getIP() {
+		return IP;
 	}
 
 }

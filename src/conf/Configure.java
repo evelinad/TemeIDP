@@ -1,30 +1,19 @@
 package conf;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
-
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import users.User;
 import core.Mediator;
 
 public class Configure {
 	
-	private RandomAccessFile cfgFile;
-	private String downFolder, aux = "aux";
-	private String[] users = new String[4];
-	private int noUsers;
 	private HashMap<String, ArrayList<String>> fileList;
-	private HashMap<String, Integer> ports;
 	private String currentUser;
 	private Mediator med;
 	private Logger log = Logger.getLogger(Configure.class);
-	@SuppressWarnings("unused")
 	private int port; /* reserved for future use */
 	
 	public Configure(String user, Mediator med, int port)
@@ -58,7 +47,6 @@ public class Configure {
 		//med.addUser(new User(currentUser,this.port));
 		med.setCurrentUser(currentUser, this.port, fileList.get(currentUser));
 		//med.addFilesToUser(currentUser, fileList.get(currentUser));
-	
 	}
 
 }

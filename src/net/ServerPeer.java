@@ -9,7 +9,6 @@ import java.nio.charset.CharsetDecoder;
 import java.io.*;
 import java.util.*;
 import org.apache.log4j.Logger;
-import transfers.Transfer;
 
 /*
  * Server class used to handle I/O connections from other peers
