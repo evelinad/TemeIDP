@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import states.StateManager;
 import transfers.TransferManager;
 import users.User;
+import webservice.Comunicator;
 import webservice.WSClient;
 
 /**
@@ -30,6 +31,7 @@ public class Mediator {
 	private TransferManager transferManager;
 	private DefaultTableModel transfer_model;
 	private WSClient wsClient;
+	private Comunicator com;
 	@SuppressWarnings("unused")
 	private Logger log = Logger.getLogger(Mediator.class);
 
@@ -54,6 +56,8 @@ public class Mediator {
 		addUserToModel(user);		
 		new ServerPeer(port);
 		loginCurrentUser();
+		com = new Comunicator(this, user);
+		new Thread(com).start();
 	}
 
 	public String getCurrentUser() {

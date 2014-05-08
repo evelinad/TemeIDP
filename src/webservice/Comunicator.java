@@ -53,36 +53,39 @@ public class Comunicator implements Runnable {
 				{
 					break;
 				}
-				if(st2.hasMoreTokens())
+				if (userName != crtUser)
 				{
-					port = st2.nextToken();
+					if(st2.hasMoreTokens())
+					{
+						port = st2.nextToken();
+					}
+					else
+					{
+						break;
+					}
+					if(st2.hasMoreTokens())
+					{
+						IP = st2.nextToken();
+					}
+					else
+					{
+						break;
+					}
+					ArrayList<String> userFiles = new ArrayList<String>();
+					while(st2.hasMoreTokens())
+					{
+						userFiles.add(st2.nextToken());
+					}
+	
+					if (!users.contains(userName))
+					{
+						med.addUserToModel(userName);
+						med.addUser(new User(userName,Integer.parseInt(port), IP));	
+					}
+					newUsers.add(userName);
+					System.out.println(userFiles);
+					med.addFilesToUser(userName, userFiles);
 				}
-				else
-				{
-					break;
-				}
-				if(st2.hasMoreTokens())
-				{
-					IP = st2.nextToken();
-				}
-				else
-				{
-					break;
-				}
-				ArrayList<String> userFiles = new ArrayList<String>();
-				while(st2.hasMoreTokens())
-				{
-					userFiles.add(st2.nextToken());
-				}
-
-				if (!users.contains(userName))
-				{
-					med.addUserToModel(userName);
-					med.addUser(new User(userName,Integer.parseInt(port), IP));	
-				}
-				newUsers.add(userName);
-				System.out.println(userFiles);
-				med.addFilesToUser(userName, userFiles);
 			}
 			if (newUsers.size() < crtUsers.size())
 			{
