@@ -26,4 +26,14 @@ public class UserArrayList extends ArrayList<User> {
 			}
 		}
 	}
+	
+	public boolean containsUser (String user)
+	{
+		for (User u: this)
+		{
+			if (u.getName().equals(user))
+				return true;
+		}
+		return false;
+	}
 }

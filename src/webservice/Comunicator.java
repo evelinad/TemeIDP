@@ -38,9 +38,9 @@ public class Comunicator implements Runnable {
 			while(st.hasMoreTokens())
 			{
 				String userData = st.nextToken();
-				System.out.println(userData);
+				//System.out.println(userData);
 				userData = userData.replace("[", "");
-				System.out.println(userData);
+				//System.out.println(userData);
 				StringTokenizer st2  = new StringTokenizer(userData, "|");
 				String userName = "";
 				String port  = "";
@@ -53,7 +53,7 @@ public class Comunicator implements Runnable {
 				{
 					break;
 				}
-				if (userName != crtUser)
+				if (!userName.contentEquals(crtUser))
 				{
 					if(st2.hasMoreTokens())
 					{
@@ -77,13 +77,13 @@ public class Comunicator implements Runnable {
 						userFiles.add(st2.nextToken());
 					}
 	
-					if (!users.contains(userName))
+					if (!crtUsers.contains(userName))
 					{
 						med.addUserToModel(userName);
 						med.addUser(new User(userName,Integer.parseInt(port), IP));	
 					}
 					newUsers.add(userName);
-					System.out.println(userFiles);
+					//System.out.println(userFiles);
 					med.addFilesToUser(userName, userFiles);
 				}
 			}

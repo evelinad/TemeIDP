@@ -31,6 +31,7 @@ public class GUI_Main extends JFrame {
 	private static final long serialVersionUID = -8118352433755008641L;
 	private final int HEIGHT = 900;
 	private final int WIDTH = 700;
+	private final Mediator med;
 
 	public GUI_Main(String currentUser, int port) {
 		super("P2P File Transfer");
@@ -52,7 +53,7 @@ public class GUI_Main extends JFrame {
 		DefaultTableModel transfer_model;
 		DefaultListModel<String> user_model;
 		final DefaultListModel<String> files_model;
-		final Mediator med;
+		//final Mediator med;
 		String col[] = { "Source", "Destination", "File Name", "Progress",
 				"Status" };
 		/**
@@ -274,7 +275,7 @@ public class GUI_Main extends JFrame {
 		getContentPane().add(horizJSplitPane, BorderLayout.CENTER);
 
 		this.setVisible(true);
-		this.addWindowListener(new WindowListener() {
+		/*this.addWindowListener(new WindowListener() {
 			
 			@Override
 			public void windowOpened(WindowEvent e) {
@@ -320,14 +321,30 @@ public class GUI_Main extends JFrame {
 				// TODO Auto-generated method stub
 				
 			}
-		});
+		});*/
+		
+		
 		
 		Configure conf = new Configure(currentUser, med, port);
 		conf.setUpCurrentUser();
 	}
 	
+	public Mediator getMed()
+	{
+		return this.med;
+	}
+	
 	public static void main(String[] args) {
-		new GUI_Main(args[0], Integer.parseInt(args[1]));
+		GUI_Main gui =  new GUI_Main(args[0], Integer.parseInt(args[1]));
+		final Mediator med = gui.getMed();
+		gui.addWindowListener(new WindowAdapter() {
+			@Override
+	        public void windowClosing(WindowEvent e) {
+				System.out.println("Exit");
+				med.logoutCurrentUser();
+				System.exit(0);
+	        }
+		});
 	}
 
 }

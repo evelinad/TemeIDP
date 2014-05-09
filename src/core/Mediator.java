@@ -71,22 +71,24 @@ public class Mediator {
 		ArrayList<String> files = users.getUser(currentUser).getFiles();
 		String serverPort = Integer.toString(users.getUser(currentUser).getPort());
 		String result = wsClient.login(currentUser, serverPort, new LinkedList<>(files));
-		System.out.println(result);
+		//System.out.println("login");
+		//System.out.println(result);
 		StringTokenizer st = new StringTokenizer(result, "]");
 		while(st.hasMoreTokens())
 		{
 			String userData = st.nextToken();
-			System.out.println(userData);
+			//System.out.println(userData);
 			userData = userData.replace("[", "");
-			System.out.println(userData);
+			//System.out.println(userData);
 			StringTokenizer st2  = new StringTokenizer(userData, "|");
 			String userName = "";
 			String port  = "";
 			String IP ="";
+			//System.out.println("current user:" + currentUser + ";");
 			if(st2.hasMoreTokens())
 			{
 				userName = st2.nextToken();
-				
+				//System.out.println("user:" + userName + ";");
 			}
 			else
 			{
@@ -95,6 +97,7 @@ public class Mediator {
 			if(st2.hasMoreTokens())
 			{
 				port = st2.nextToken();
+				//System.out.println("port " + port);
 			}
 			else
 			{
@@ -102,6 +105,7 @@ public class Mediator {
 			}if(st2.hasMoreTokens())
 			{
 				IP = st2.nextToken();
+				//System.out.println("IP " + IP);
 			}
 			else
 			{
@@ -112,10 +116,14 @@ public class Mediator {
 			{
 				userFiles.add(st2.nextToken());
 			}
-			addUserToModel(userName);
-			addUser(new User(userName,Integer.parseInt(port), IP));
-			System.out.println(userFiles);
-			addFilesToUser(userName, userFiles);		
+			//System.out.println("!userName.contentEquals(currentUser) " + !userName.contentEquals(currentUser));
+			if (!userName.contentEquals(currentUser))
+			{
+				addUserToModel(userName);
+				addUser(new User(userName,Integer.parseInt(port), IP));
+				//System.out.println(userFiles);
+				addFilesToUser(userName, userFiles);
+			}
 			
 		}
 		
@@ -169,7 +177,7 @@ public class Mediator {
 
 	public void addUser(User user) {
 		users.add(user);
-		System.out.println("med.addUser " + user.getName() + user.getPort());
+		//System.out.println("med.addUser " + user.getName() + user.getPort());
 
 	}
 	

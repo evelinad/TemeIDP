@@ -12,7 +12,7 @@ public class WSClient {
 	private URL endpoint ;
 	private Service service = new Service();
 	private Call echoCall ;	
-	private static final String address= "http://localhost:8080/axis/Server.jws"; 
+	private static final String address= "http://192.168.0.43:8080/axis/Server.jws"; 
 
 	
 	public WSClient() {
@@ -100,7 +100,6 @@ public class WSClient {
 	public String getUsers()
 	{
 		String result;
-		String request;
 		echoCall.setOperationName(new QName("getUsers")); // operation name
 		Object[] params = new Object[] {  }; // operation parameters
 		
