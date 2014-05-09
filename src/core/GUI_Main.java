@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -36,11 +37,7 @@ public class GUI_Main extends JFrame {
 		this.setSize(HEIGHT, WIDTH);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			}
-		});
+		
 		/**
 		 * add JLists/JTable for available users,files and transfers
 		 */
@@ -72,6 +69,15 @@ public class GUI_Main extends JFrame {
 
 		JLabel statusJLabel = new JLabel("Work in progress...");
 		getContentPane().add(statusJLabel, BorderLayout.SOUTH);
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.out.println("closing");
+				med.logoutCurrentUser();
+				System.exit(0);
+			}
+		});
+		
 		/**
 		 * add listeners for userJList
 		 */
@@ -289,6 +295,15 @@ public class GUI_Main extends JFrame {
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(horizJSplitPane, BorderLayout.CENTER);
 
+		/*this.addWindowListener(new WindowAdapter() {
+
+		    @Override
+		    public void windowClosing(WindowEvent e) {
+		    	System.out.println("Closing");
+		    	System.exit(0);
+		    }
+		});*/
+		
 		this.setVisible(true);
 		/*this.addWindowListener(new WindowListener() {
 			
@@ -349,8 +364,9 @@ public class GUI_Main extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		GUI_Main gui =  new GUI_Main(args[0], Integer.parseInt(args[1]));
-		final Mediator med = gui.getMed();
+		new GUI_Main(args[0], Integer.parseInt(args[1]));
+		//GUI_Main gui =  new GUI_Main(args[0], Integer.parseInt(args[1]));
+		/*final Mediator med = gui.getMed();
 		gui.addWindowListener(new WindowAdapter() {
 			@Override
 	        public void windowClosing(WindowEvent e) {
@@ -358,7 +374,7 @@ public class GUI_Main extends JFrame {
 				med.logoutCurrentUser();
 				System.exit(0);
 	        }
-		});
+		});*/
 	}
 
 }

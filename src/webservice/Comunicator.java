@@ -24,14 +24,20 @@ public class Comunicator extends Thread {
 	@Override
 	public void run() {
 		ArrayList<String> crtUsers = new ArrayList<>();
-		for (User u: users)
+		for (User u: med.getUsers())
 		{
 			crtUsers.add(u.getName());
 		}
+		crtUsers.remove(crtUser);
 		ArrayList<String> newUsers = new ArrayList<>();
-		ArrayList<String> aux;
+		//ArrayList<String> aux;
 		while(true)
 		{
+			for (User u: med.getUsers())
+			{
+				crtUsers.add(u.getName());
+			}
+			crtUsers.remove(crtUser);
 			String response;
 			response = wsClient.getUsers();
 			StringTokenizer st = new StringTokenizer(response, "]");
@@ -87,6 +93,7 @@ public class Comunicator extends Thread {
 					med.addFilesToUser(userName, userFiles);
 				}
 			}
+			System.out.println(newUsers + " " +  crtUsers);
 			if (newUsers.size() < crtUsers.size())
 			{
 				for (String str: crtUsers)
@@ -97,10 +104,11 @@ public class Comunicator extends Thread {
 					}
 				}
 			}
-			aux = crtUsers;
+			/*aux = crtUsers;
 			crtUsers = newUsers;
-			newUsers = aux;
+			newUsers = aux;*/
 			newUsers.clear();
+			crtUsers.clear();
 			
 			try {
 				Thread.sleep(2000);

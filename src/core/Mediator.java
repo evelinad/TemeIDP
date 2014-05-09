@@ -118,7 +118,7 @@ public class Mediator {
 				userFiles.add(st2.nextToken());
 			}
 			//System.out.println("!userName.contentEquals(currentUser) " + !userName.contentEquals(currentUser));
-			if (!userName.contentEquals(currentUser))
+			if (!userName.equals(currentUser))
 			{
 				addUserToModel(userName);
 				addUser(new User(userName,Integer.parseInt(port), IP));
