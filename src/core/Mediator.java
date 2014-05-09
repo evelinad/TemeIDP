@@ -177,7 +177,7 @@ public class Mediator {
 	
 	public void addFilesToUser(String userName, ArrayList<String> arrayList) {
 		users.getUser(userName).addFiles(arrayList);
-		if (userName.equals(stateMgr.getFromValue()) && (stateMgr.getCurrentState().getType() == 0))
+		if ((stateMgr.getCurrentState().getType() == 0))
 		{
 			addFilesToModel(userName);
 		}
