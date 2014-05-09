@@ -32,6 +32,8 @@ public class Mediator {
 	private DefaultTableModel transfer_model;
 	private WSClient wsClient;
 	private Comunicator com;
+	private final int RECEIVE = 0;
+	private final int CHECK = 1;
 	ServerPeer serverPeer;
 	@SuppressWarnings("unused")
 	private Logger log = Logger.getLogger(Mediator.class);
@@ -163,11 +165,15 @@ public class Mediator {
 		users.getUser(stateMgr.getCurrentUser()).insertFile(file);
 		transferManager.removeFile(file);
 		wsClient.addFile(stateMgr.getCurrentUser(), file);
+		if (stateMgr.getCurrentState().getType() == 1)
+		{
+			addFilesToModel(getCurrentUser());
+		}
 	}
 	
 	public void removeFileFromCurrentUser(String file) {
 		users.getUser(stateMgr.getCurrentUser()).removeFile(file);
-		if (stateMgr.getCurrentState().getType() == 1)
+		if (stateMgr.getCurrentState().getType() == CHECK)
 		{
 			files_model.removeElement(file);	
 		}
@@ -177,10 +183,11 @@ public class Mediator {
 	
 	public void addFilesToUser(String userName, ArrayList<String> arrayList) {
 		users.getUser(userName).addFiles(arrayList);
-		if (userName.equals(stateMgr.getFromValue()) && (stateMgr.getCurrentState().getType() == 0))
+		if (userName.equals(stateMgr.getFromValue()) && (stateMgr.getCurrentState().getType() == RECEIVE))
 		{
 			addFilesToModel(userName);
 		}
+		
 	}
 	
 	public ArrayList<String> getActiveTransfers()
