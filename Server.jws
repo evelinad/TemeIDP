@@ -78,11 +78,7 @@ public class Server {
 	{
 		userFiles.remove(name);
 		userServerPort.remove(name);
-<<<<<<< HEAD
 		userIP.remove(name);
-=======
->>>>>>> branch 'tema3' of https://github.com/evelinad/TemeIDP.git
 		
 	}
 }
-
