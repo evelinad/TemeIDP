@@ -19,10 +19,12 @@ public class TransferManager implements TransferStatusConstans {
 	private ResumeState resumeState;
 	private StartState startState;
 	private StopState stopState;
+	private ArrayList<String> files;
 
 	public TransferManager(Mediator med) {
 		this.med = med;
 		transfers = new ArrayList<Transfer>();
+		files = new ArrayList<>();
 	}
 
 	public boolean addNewTransfer(String source, String destination,
@@ -34,7 +36,18 @@ public class TransferManager implements TransferStatusConstans {
 		transfers.add(transfer);
 		transfer.setTransferState(STARTED);
 		this.selectedTransferState = startState;
+		files.add(file);
 		return true;
+	}
+	
+	public ArrayList<String> getFiles()
+	{		
+		return files;
+	}
+	
+	public void removeFile(String file)
+	{
+		files.remove(file);
 	}
 
 	/**

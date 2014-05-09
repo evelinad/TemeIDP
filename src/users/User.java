@@ -25,6 +25,10 @@ public class User {
 	public void insertFile(String file) {
 		files.add(file);
 	}
+	
+	public void removeFile(String file) {
+		files.remove(file);
+	}
 
 	public String getName() {
 		return this.name;

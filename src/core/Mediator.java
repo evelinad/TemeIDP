@@ -117,6 +117,7 @@ public class Mediator {
 			{
 				userFiles.add(st2.nextToken());
 			}
+			//System.out.println("user: " + userName + " files: " + userFiles);
 			//System.out.println("!userName.contentEquals(currentUser) " + !userName.contentEquals(currentUser));
 			if (!userName.equals(currentUser))
 			{
@@ -160,15 +161,31 @@ public class Mediator {
 
 	public void addFileToCurrentUser(String file) {
 		users.getUser(stateMgr.getCurrentUser()).insertFile(file);
+		transferManager.removeFile(file);
 		wsClient.addFile(stateMgr.getCurrentUser(), file);
+	}
+	
+	public void removeFileFromCurrentUser(String file) {
+		users.getUser(stateMgr.getCurrentUser()).removeFile(file);
+		if (stateMgr.getCurrentState().getType() == 1)
+		{
+			files_model.removeElement(file);	
+		}
+		
+		wsClient.removeFile(stateMgr.getCurrentUser(), file);
 	}
 	
 	public void addFilesToUser(String userName, ArrayList<String> arrayList) {
 		users.getUser(userName).addFiles(arrayList);
-		if (userName.equals(stateMgr.getFromValue()))
+		if (userName.equals(stateMgr.getFromValue()) && (stateMgr.getCurrentState().getType() == 0))
 		{
 			addFilesToModel(userName);
 		}
+	}
+	
+	public ArrayList<String> getActiveTransfers()
+	{
+		return transferManager.getFiles();
 	}
 	
 	public ArrayList<String> getFilesFromUser(String userName)
