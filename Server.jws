@@ -2,23 +2,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-import javax.servlet.http.HttpServletRequest;
-import org.apache.axis.MessageContext;
-import org.apache.axis.transport.http.HTTPConstants;
-
 
 public class Server {
 
 
 	private static HashMap<String, LinkedList<String>> userFiles =  new HashMap<String , LinkedList<String>>();
 	private static HashMap<String, String> userServerPort = new HashMap<String , String>();
-	private static HashMap<String, String> userIP = new HashMap<String, String>();
-	
-	private HttpServletRequest getRequest() {
-		MessageContext context = MessageContext.getCurrentContext();
-		HttpServletRequest req = (HttpServletRequest) context.getProperty(HTTPConstants.MC_HTTP_SERVLETREQUEST);
-		return req;
-	}
 
 	public String login(String params)
 	{
@@ -26,11 +15,7 @@ public class Server {
 		 LinkedList<String> files = new LinkedList<String>();
 		 String userName = "";
 		 String userPort = "";
-		 String IP = "";
 		 
-		 HttpServletRequest request = getRequest();
-         IP = (String)request.getRemoteHost();
-
 		 if(st.hasMoreTokens())
 		    userName = st.nextToken();
 		 if(st.hasMoreTokens())
@@ -40,13 +25,11 @@ public class Server {
         }			
 		userFiles.put(userName, files);
 		userServerPort.put(userName, userPort);
-		userIP.put(userName, IP);
 		String result = "";
 		for (String user: userFiles.keySet())
 		{
 		    //e ok, poti sa ma injuri pt asta
-		    // te injur pt lipsa spatiilor
-		    result+="["+user+"|"+userServerPort.get(user)+"|"+userIP.get(user)+"|"+userFiles.get(user).toString().replace("[","").replace("]","").replace(",","|").replace(" ","")+"]";
+		    result+="["+user+"|"+userServerPort.get(user)+"|"+userFiles.get(user).toString().replace("[","").replace("]","").replace(",","|").replace(" ","")+"]";
 
 		}
 		return result;
@@ -77,7 +60,7 @@ public class Server {
 	public void logout(String name)
 	{
 		userFiles.remove(name);
-		userFiles.remove(name);
+		userServerPort.remove(name);
 		
 	}
 }
