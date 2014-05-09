@@ -7,8 +7,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -245,7 +243,24 @@ public class GUI_Main extends JFrame {
 				defaultJFrameHeight / 2 - 30));
 		userJPanel.setLayout(new BoxLayout(userJPanel, BoxLayout.PAGE_AXIS));
 		userJPanel.add(new JLabel("Users"));
+		JButton logoutButton = new JButton("Logout");
+		logoutButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				med.logoutCurrentUser();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.exit(0);
+				
+			}
+		});
 		userJPanel.add(new JScrollPane(userJList, v, h));
+		userJPanel.add(logoutButton);
 		userJPanel.setMinimumSize(new Dimension(defaultJFrameWidth / 4 - 100,
 				defaultJFrameHeight));
 		operationJPanel.add(sendJRadioButton);
@@ -322,8 +337,7 @@ public class GUI_Main extends JFrame {
 				
 			}
 		});*/
-		
-		
+
 		
 		Configure conf = new Configure(currentUser, med, port);
 		conf.setUpCurrentUser();

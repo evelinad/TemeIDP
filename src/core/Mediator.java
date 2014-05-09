@@ -32,6 +32,7 @@ public class Mediator {
 	private DefaultTableModel transfer_model;
 	private WSClient wsClient;
 	private Comunicator com;
+	ServerPeer serverPeer;
 	@SuppressWarnings("unused")
 	private Logger log = Logger.getLogger(Mediator.class);
 
@@ -54,7 +55,7 @@ public class Mediator {
 		addUser(new User(user,port, "localhost"));
 		addFilesToUser(user, files);
 		addUserToModel(user);		
-		new ServerPeer(port);
+		serverPeer = new ServerPeer(port);
 		loginCurrentUser();
 		com = new Comunicator(this, user);
 		new Thread(com).start();
@@ -131,6 +132,20 @@ public class Mediator {
 	public void logoutCurrentUser()
 	{
 		wsClient.logout(stateMgr.getCurrentUser());
+		transferManager.stopAllTransfers();
+		try {
+			com.join();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			serverPeer.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	/**
 	 * 

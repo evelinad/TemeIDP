@@ -7,7 +7,7 @@ import users.User;
 import core.Mediator;
 import core.UserArrayList;
 
-public class Comunicator implements Runnable {
+public class Comunicator extends Thread {
 	
 	Mediator med;
 	String crtUser;

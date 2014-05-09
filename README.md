@@ -55,17 +55,30 @@ IDP Arhitectura si interfata proiect
            Pentru fiecare transfer initiat se porneste cate un thread.
 
      2.5 Testare
-           Penru validarea functionalitatii legate de transferul de fisiere,
+           Pentru validarea functionalitatii legate de transferul de fisiere,
            am folosit unit testing(JUnit).
            Fiecare clasa de testare face un transfer complet, un transfer cu stop start 
            si unul cu pause resume.
            Clasa DiffFiles verifica daca continutul fisierului transferat difera de cel original.
+	
+	2.6 Clientul Web - modulul webservice
+	       Acest client mediaza comunicarea intre apliactie si serviciul web.
+           la deschiderea apliactiei, se trimite un mesaj de login prin care se fac publice
+           IP-ul,portul serverului local pt transferul de fisiere si fisierele detinute de user.
+           Prin intermediul clasei Communicator se obtin informatii regulat de la
+           serviciul web despre alti clienti si se  trmite lista actualizata de fisiere.
+	
+	2.7 Serviciul Web
+	       Serviciul Web este implementat folosind Apache Axis si Apache Tomcat.
+	       Obiectele transmise catre servicul web sunt trimise ca stringuri ele fiind parsate la destinatie
+	       pentru a recrea obiectul.
 
-     2.6 Logging
+     2.8 Logging
         Pentru jurnalizarea mesajelor am folosit nivele diferite de granularitate(error pentru exceptii,
         info si debug pentru mesajele obisnuite).
+     
         
-     2.7 Rulare
+     2.9 Rulare
         Din Eclipse -> Run As-> Run Configurations -> arguments -> <usernane> <serverport>
         
     

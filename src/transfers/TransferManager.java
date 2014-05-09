@@ -60,7 +60,19 @@ public class TransferManager implements TransferStatusConstans {
 	public Transfer getSelectedTransfer() {
 		return this.transfers.get(selectedTransfer);
 	}
-
+	public void stopAllTransfers()
+	{
+		for(Transfer t: transfers)
+		{
+				try {
+					t.join();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		
+	}
 	/**
 	 * start/stop/pause a selected transfer
 	 */

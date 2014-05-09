@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
  * Server class used to handle I/O connections from other peers
  *
  */
-public class ServerPeer extends AbstractServerPeer implements Runnable {
+public class ServerPeer extends AbstractServerPeer {
 	private final static Logger LOGGER = Logger.getLogger(ServerPeer.class
 			.getName());
 	int port;

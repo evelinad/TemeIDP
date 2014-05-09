@@ -7,7 +7,7 @@ import java.nio.channels.Selector;
  * Abstract class for server peer
  * 
  */
-public abstract class AbstractServerPeer {
+public abstract class AbstractServerPeer extends Thread{
 
 	protected abstract void acceptOP(SelectionKey key, Selector selector);
 
