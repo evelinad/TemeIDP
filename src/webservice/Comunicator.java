@@ -1,5 +1,6 @@
 package webservice;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -20,6 +21,42 @@ public class Comunicator extends Thread {
 		users = med.getUsers();
 		wsClient = new WSClient();
 	}
+	
+	public void setFilesForUser() {
+		File folder = new File("downloads" + "/" + crtUser);
+		ArrayList<String> files = new ArrayList<>();
+		ArrayList<String> transfers = med.getActiveTransfers();
+	    for (File fileEntry : folder.listFiles()) {
+	        if (fileEntry.isDirectory()) {
+	        } else {
+	        	if (transfers.contains(fileEntry.getName()))
+	        	{
+		            files.add(fileEntry.getName());	        		
+	        	}
+	        }
+	    }
+	    ArrayList<String> crtFiles = med.getFilesFromUser(crtUser);
+	    if (crtFiles.size() < files.size())
+	    {
+	    	for(String s: files)
+	    	{
+	    		if(!crtFiles.contains(s))
+	    		{
+	    			med.addFileToCurrentUser(s);
+	    		}
+	    	}
+	    }
+	    else
+	    {
+	    	for (String s: crtFiles)
+	    	{
+	    		if(!files.contains(s))
+	    		{
+	    			med.removeFileFromCurrentUser(s);
+	    		}
+	    	}
+	    }
+	}
 
 	@Override
 	public void run() {
@@ -31,6 +68,7 @@ public class Comunicator extends Thread {
 		crtUsers.remove(crtUser);*/
 		ArrayList<String> newUsers = new ArrayList<>();
 		ArrayList<String> aux = new ArrayList<String>();
+		int j = 0;
 		while(true)
 		{
 			for (User u: med.getUsers())
@@ -40,7 +78,14 @@ public class Comunicator extends Thread {
 			crtUsers.remove(crtUser);
 			String response;
 			response = wsClient.getUsers();
+			if (j % 10 == 0)
+			{
+				j = 0;
+				System.out.println(response);
+			}
+			j++;
 			StringTokenizer st = new StringTokenizer(response, "]");
+			int i = 0;
 			while(st.hasMoreTokens())
 			{
 				String userData = st.nextToken();
@@ -60,7 +105,7 @@ public class Comunicator extends Thread {
 				{
 					break;
 				}
-				if (!userName.contentEquals(crtUser))
+				if (!userName.equals(crtUser))
 				{
 					if(st2.hasMoreTokens())
 					{
@@ -94,7 +139,12 @@ public class Comunicator extends Thread {
 					med.addFilesToUser(userName, userFiles);
 				}
 			}
-			System.out.println("new:" + newUsers + " " + "crt:" + crtUsers + " rcvd:" + aux);
+			if (i % 10 == 0)
+			{
+				System.out.println("new:" + newUsers + " " + "crt:" + crtUsers + " rcvd:" + aux);
+				i = 1;
+			}
+			i++;
 			if (newUsers.size() < crtUsers.size())
 			{
 				for (String str: crtUsers)

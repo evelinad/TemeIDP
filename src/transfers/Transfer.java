@@ -60,6 +60,11 @@ public class Transfer extends AbstractTransfer {
 			this.type = new String("Uploading");
 
 	}
+	
+	public String getFileName()
+	{
+		return file;
+	}
 
 	public void updateProgress(long chunk) {
 		downloaded += chunk;

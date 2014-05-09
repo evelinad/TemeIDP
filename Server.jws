@@ -57,7 +57,7 @@ public class Server {
 	    String result = "";
         for(String user: userFiles.keySet())
         {
-            result+="["+user+"|"+userServerPort.get(user)+"|"+userFiles.get(user).toString().replace("[","").replace("]","").replace(",","|").replace(" ","")+"]";
+            result+="["+user+"|"+userServerPort.get(user)+"|"+userIP.get(user)+"|"+userFiles.get(user).toString().replace("[","").replace("]","").replace(",","|").replace(" ","")+"]";
         }
         return result;
     }
@@ -161,6 +161,10 @@ public class Server {
 	{
 		userFiles.remove(name);
 		userServerPort.remove(name);
+<<<<<<< HEAD
+		userIP.remove(name);
+=======
+>>>>>>> branch 'tema3' of https://github.com/evelinad/TemeIDP.git
 		
 	}
 }

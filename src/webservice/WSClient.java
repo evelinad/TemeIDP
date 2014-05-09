@@ -11,8 +11,9 @@ import java.net.*;
 public class WSClient {
 	private URL endpoint ;
 	private Service service = new Service();
-	private Call echoCall ;	
-	private static final String address= "http://192.168.0.43:8080/axis/Server.jws"; 
+	private Call echoCall ;
+	private static final String address= "http://localhost:8080/axis/Server.jws";
+	//private static final String address= "http://192.168.0.43:8080/axis/Server.jws"; 
 
 	
 	public WSClient() {
@@ -44,6 +45,7 @@ public class WSClient {
 		String request;
 		echoCall.setOperationName(new QName("login")); // operation name
 		request = userName + "|"+serverPort+"|"+files.toString().replace("[","").replace("]","").replace(",","|").replace(" ","");
+		System.out.println(request);
 		Object[] params = new Object[] { request }; // operation parameters
 		
 		try {
