@@ -4,21 +4,21 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import org.apache.log4j.Logger;
+
 import users.User;
 import core.Mediator;
-import core.UserArrayList;
 
 public class Comunicator extends Thread {
 	
-	Mediator med;
-	String crtUser;
-	UserArrayList users;
-	WSClient wsClient;
+	private Mediator med;
+	private String crtUser;
+	private WSClient wsClient;
+	private Logger log = Logger.getLogger(Comunicator.class);
 	
 	public Comunicator(Mediator med, String userName) {
 		this.med = med;
 		crtUser = userName;
-		users = med.getUsers();
 		wsClient = new WSClient();
 	}
 	
@@ -60,6 +60,7 @@ public class Comunicator extends Thread {
 
 	@Override
 	public void run() {
+		log.info("started web service communication");
 		ArrayList<String> crtUsers = new ArrayList<>();
 		/*for (User u: med.getUsers())
 		{
@@ -77,6 +78,7 @@ public class Comunicator extends Thread {
 			}
 			crtUsers.remove(crtUser);
 			String response;
+			log.info("getting users' info from service");
 			response = wsClient.getUsers();
 			if (j % 10 == 0)
 			{
@@ -132,7 +134,8 @@ public class Comunicator extends Thread {
 					if (!crtUsers.contains(userName))
 					{
 						med.addUserToModel(userName);
-						med.addUser(new User(userName,Integer.parseInt(port), IP));	
+						med.addUser(new User(userName,Integer.parseInt(port), IP));
+						log.info("added user " + userName);
 					}
 					newUsers.add(userName);
 					//System.out.println(userFiles);
@@ -152,6 +155,7 @@ public class Comunicator extends Thread {
 					if(!newUsers.contains(str))
 					{
 						med.removeUser(str);
+						log.info("removed user " + str);
 					}
 				}
 			}

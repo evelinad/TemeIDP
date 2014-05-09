@@ -1,5 +1,6 @@
 package webservice;
 import org.apache.axis.client.*;
+import org.apache.log4j.Logger;
 
 import javax.xml.namespace.*;
 import javax.xml.rpc.ServiceException;
@@ -13,7 +14,8 @@ public class WSClient {
 	private Service service = new Service();
 	private Call echoCall ;
 	private static final String address= "http://localhost:8080/axis/Server.jws";
-	//private static final String address= "http://192.168.0.43:8080/axis/Server.jws"; 
+	//private static final String address= "http://192.168.0.43:8080/axis/Server.jws";
+	private Logger log = Logger.getLogger(WSClient.class);
 
 	
 	public WSClient() {
@@ -31,6 +33,7 @@ public class WSClient {
 			e.printStackTrace();
 		}			
 		echoCall.setTargetEndpointAddress(endpoint);
+		log.info("created connection to service");
 		
 	}
 	
@@ -41,6 +44,7 @@ public class WSClient {
 	}
 	public String login(String userName, String serverPort, LinkedList<String> files)
 	{
+		log.info("logging in to service");
 		String result;
 		String request;
 		echoCall.setOperationName(new QName("login")); // operation name
@@ -61,6 +65,7 @@ public class WSClient {
 	
 	public  void logout(String userName)
 	{
+		log.info("logout");
 		String request;
 		echoCall.setOperationName(new QName("login")); // operation name
 		request = userName;
@@ -76,7 +81,7 @@ public class WSClient {
 	
 	public void addFile(String userName, String file)
 	{
-		
+		log.info("adding file " + file + " to list on service");
 		echoCall.setOperationName(new QName("addFile")); // operation name
 		Object[] params = new Object[] { userName, file }; // operation parameters
 		
@@ -89,6 +94,7 @@ public class WSClient {
 	}
 	public void removeFile(String userName, String file)
 	{
+		log.info("removing file " + file + " from list on service");
 		echoCall.setOperationName(new QName("removeFile")); // operation name
 		Object[] params = new Object[] { userName, file }; // operation parameters
 		
@@ -101,6 +107,7 @@ public class WSClient {
 	}
 	public String getUsers()
 	{
+		log.info("getting users and their info from service");
 		String result;
 		echoCall.setOperationName(new QName("getUsers")); // operation name
 		Object[] params = new Object[] {  }; // operation parameters
