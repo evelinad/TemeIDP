@@ -165,6 +165,10 @@ public class Mediator {
 	
 	public void addFilesToUser(String userName, ArrayList<String> arrayList) {
 		users.getUser(userName).addFiles(arrayList);
+		if (userName.equals(stateMgr.getFromValue()))
+		{
+			addFilesToModel(userName);
+		}
 	}
 	
 	public ArrayList<String> getFilesFromUser(String userName)
