@@ -1,7 +1,10 @@
-TemeIDP
+TemeIDP 
 =======
 
-Tema 1 
+Dumitrescu Evelina 
+Serban Walter
+
+Tema 3
 IDP Arhitectura si interfata proiect
 
 1.Mediul de dezvoltare
@@ -85,5 +88,5 @@ IDP Arhitectura si interfata proiect
 3.Git
 ======
     Pentru version control, am folosit git.
-    Versiunea pentru tema 1 este pe branchul tema1:
-    https://github.com/evelinad/TemeIDP/tree/tema1
+    Versiunea pentru tema 3 este pe branchul tema3:
+    https://github.com/evelinad/TemeIDP/tree/tema3
