@@ -69,7 +69,10 @@ public class Transfer extends AbstractTransfer {
 	public void updateProgress(long chunk) {
 		downloaded += chunk;
 		LOGGER.info("Received " + chunk + " bytes");
-		progress = (long) ((double) downloaded / (double) fileSize * (double) 100);
+		if(fileSize == 0)
+			progress = 100;
+		else
+			progress = (long) ((double) downloaded / (double) fileSize * (double) 100);
 		if (progress == 100) {
 			progress = 100;
 			state = COMPLETED;

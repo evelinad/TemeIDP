@@ -22,41 +22,6 @@ public class Comunicator extends Thread {
 		wsClient = new WSClient();
 	}
 	
-	public void setFilesForUser() {
-		File folder = new File("downloads" + "/" + crtUser);
-		ArrayList<String> files = new ArrayList<>();
-		ArrayList<String> transfers = med.getActiveTransfers();
-	    for (File fileEntry : folder.listFiles()) {
-	        if (fileEntry.isDirectory()) {
-	        } else {
-	        	if (transfers.contains(fileEntry.getName()))
-	        	{
-		            files.add(fileEntry.getName());	        		
-	        	}
-	        }
-	    }
-	    ArrayList<String> crtFiles = med.getFilesFromUser(crtUser);
-	    if (crtFiles.size() < files.size())
-	    {
-	    	for(String s: files)
-	    	{
-	    		if(!crtFiles.contains(s))
-	    		{
-	    			med.addFileToCurrentUser(s);
-	    		}
-	    	}
-	    }
-	    else
-	    {
-	    	for (String s: crtFiles)
-	    	{
-	    		if(!files.contains(s))
-	    		{
-	    			med.removeFileFromCurrentUser(s);
-	    		}
-	    	}
-	    }
-	}
 
 	@Override
 	public void run() {
