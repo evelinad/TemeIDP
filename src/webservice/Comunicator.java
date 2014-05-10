@@ -22,16 +22,16 @@ public class Comunicator extends Thread {
 		wsClient = new WSClient();
 	}
 	
+	
+	/*
+	 * function for periodically polling info about other users
+	 * 
+	 * */
 
 	@Override
 	public void run() {
 		log.info("started web service communication");
 		ArrayList<String> crtUsers = new ArrayList<>();
-		/*for (User u: med.getUsers())
-		{
-			crtUsers.add(u.getName());
-		}
-		crtUsers.remove(crtUser);*/
 		ArrayList<String> newUsers = new ArrayList<>();
 		ArrayList<String> aux = new ArrayList<String>();
 		int j = 0;
@@ -56,9 +56,7 @@ public class Comunicator extends Thread {
 			while(st.hasMoreTokens())
 			{
 				String userData = st.nextToken();
-				//System.out.println(userData);
 				userData = userData.replace("[", "");
-				//System.out.println(userData);
 				StringTokenizer st2  = new StringTokenizer(userData, "|");
 				String userName = "";
 				String port  = "";
@@ -103,7 +101,6 @@ public class Comunicator extends Thread {
 						log.info("added user " + userName);
 					}
 					newUsers.add(userName);
-					//System.out.println(userFiles);
 					med.addFilesToUser(userName, userFiles);
 				}
 			}
@@ -124,9 +121,6 @@ public class Comunicator extends Thread {
 					}
 				}
 			}
-			/*aux = crtUsers;
-			crtUsers = newUsers;
-			newUsers = aux;*/
 			newUsers.clear();
 			crtUsers.clear();
 			aux.clear();
