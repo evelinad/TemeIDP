@@ -24,7 +24,7 @@ public class Test extends SwingWorker<Integer, Integer> {
 	private final int UPDATE_FILELIST = 2;
 	private final int ADD_FILE = 0;
 	private final int RM_FILE = 1;
-	private final int MAX_USERS = 5;
+	private final int MAX_USERS = 5; 
 	ArrayList<User> offline_users = new ArrayList<User>();
 	ArrayList<User> online_users = new ArrayList<User>();
 	ArrayList<String> fl = new ArrayList<>();
